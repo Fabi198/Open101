@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "390538285396",
+    "project_id": "open101-8ca98",
+    "storage_bucket": "open101-8ca98.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390538285396:android:73c9e4d9c458bb2e90b8c1",
+        "android_client_info": {
+          "package_name": "com.example.open101"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "390538285396-pqtpvrb1l5nfrq096nl05j3kk4l2v9q8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfhQBLcCQn1v6xAoZNtnwXv-5TPG9tTyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390538285396-pqtpvrb1l5nfrq096nl05j3kk4l2v9q8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

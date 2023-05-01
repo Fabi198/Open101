@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/thumbnail_rs"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="50dp"
+        android:contentDescription="@string/todo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/season_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="56dp"
+        android:text="@string/season"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/thumbnail_rs" />
+
+    <TextView
+        android:id="@+id/season_rs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="56dp"
+        android:text="testing"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/season_id"
+        app:layout_constraintTop_toBottomOf="@+id/thumbnail_rs" />
+
+    <TextView
+        android:id="@+id/episode_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/episode"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/season_id" />
+
+
+    <TextView
+        android:id="@+id/episode_rs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
+        android:text="testing"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/episode_id"
+        app:layout_constraintTop_toBottomOf="@+id/season_rs" />
+
+    <TextView
+        android:id="@+id/rating_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:layout_marginStart="184dp"
+        android:text="@string/rating"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/season_id"
+        app:layout_constraintTop_toBottomOf="@+id/thumbnail_rs" />
+
+
+    <TextView
+        android:id="@+id/rating_rs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="56dp"
+        android:text="testing"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/rating_id"
+        app:layout_constraintTop_toBottomOf="@+id/thumbnail_rs" />
+
+    <TextView
+        android:id="@+id/airDate_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/air_date"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/episode_id"
+        app:layout_constraintTop_toBottomOf="@+id/rating_id" />
+
+    <TextView
+        android:id="@+id/airDate_rs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/testing"
+        android:layout_marginStart="6dp"
+        app:layout_constraintStart_toEndOf="@+id/airDate_id"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/rating_rs"
+        tools:layout_editor_absoluteX="283dp" />
+
+    <TextView
+        android:id="@+id/name_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="60dp"
+        android:text="@string/name_episode"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/episode_id" />
+
+    <TextView
+        android:id="@+id/name_rs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:text="@string/testing"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/name_id"
+        app:layout_constraintTop_toBottomOf="@+id/episode_rs" />
+
+    <TextView
+        android:id="@+id/desc_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="60dp"
+        android:text="@string/description"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_id" />
+
+    <TextView
+        android:id="@+id/desc_rs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:maxWidth="300dp"
+        android:text="@string/testing"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/desc_id"
+        app:layout_constraintTop_toBottomOf="@+id/name_rs" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

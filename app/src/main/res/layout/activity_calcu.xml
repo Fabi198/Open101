@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbarCalcu"
+        android:background="@color/purple_700"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:text="@string/calcu"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_margin="16dp"
+        android:text="@string/putANumber"/>
+
+    <EditText
+        android:id="@+id/etNumero1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        tools:ignore="LabelFor,SpeakableTextPresentCheck,VisualLintTextFieldSize"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_margin="16dp"
+        android:text="@string/putANumber"/>
+
+    <EditText
+        android:id="@+id/etNumero2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        tools:ignore="LabelFor,SpeakableTextPresentCheck,VisualLintTextFieldSize"
+        android:importantForAutofill="no" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="32dp"
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnSumar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="25"
+            android:text="@string/plusButton"
+            android:textSize="20sp"
+            style="?android:attr/buttonBarButtonStyle"
+            tools:ignore="VisualLintButtonSize" />
+
+        <Button
+            android:id="@+id/btnRestar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="25"
+            android:text="@string/minButton"
+            android:textSize="20sp"
+            style="?android:attr/buttonBarButtonStyle"
+            tools:ignore="VisualLintButtonSize" />
+
+        <Button
+            android:id="@+id/btnMulti"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="25"
+            android:text="@string/multi"
+            android:textSize="20sp"
+            style="?android:attr/buttonBarButtonStyle"
+            tools:ignore="VisualLintButtonSize" />
+
+        <Button
+            android:id="@+id/btnDiv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="25"
+            android:text="@string/division"
+            android:textSize="20sp"
+            style="?android:attr/buttonBarButtonStyle"
+            tools:ignore="VisualLintButtonSize" />
+
+        <Button
+            android:id="@+id/btnPor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="25"
+            android:text="@string/percent"
+            android:textSize="20sp"
+            style="?android:attr/buttonBarButtonStyle"
+            tools:ignore="VisualLintButtonSize" />
+
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtResultado"
+        android:layout_marginTop="32dp"
+        android:layout_margin="16dp"
+        android:text="@string/result"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="20dp"
+        android:background="@color/white"
+        android:clickable="true"
+        app:backgroundTint="#FFFFFF"
+        app:srcCompat="@android:drawable/ic_notification_clear_all"
+        tools:ignore="RtlHardcoded,SpeakableTextPresentCheck"
+        android:contentDescription="@string/todo"
+        android:focusable="true" />
+
+</LinearLayout>

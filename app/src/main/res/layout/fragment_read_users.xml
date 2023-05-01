@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/roundercorners"
+    tools:context=".booksAgenda.menuFragments.ReadUsersFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:id="@+id/toolbarReadUsers"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            android:layout_height="wrap_content" >
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@drawable/baseline_person_24"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/todo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/usuarios"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/black"
+                android:layout_marginStart="16dp"
+                android:textSize="20sp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/salir"
+                android:id="@+id/btnOut"
+                android:textColor="@color/black"
+                style="?android:attr/buttonBarButtonStyle"
+                android:maxLines="1"
+                android:layout_marginStart="100dp"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:id="@+id/rvContacts"
+            tools:listitem="@layout/item_contacto"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+
+</FrameLayout>
