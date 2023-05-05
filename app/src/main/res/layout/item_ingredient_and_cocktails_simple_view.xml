@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_height="wrap_content"
+    tools:ignore="UseCompoundDrawables">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_marginStart="12dp"
+        android:id="@+id/ivIngredientSimplifyView"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/todo"
+        tools:src="@tools:sample/avatars"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textAllCaps="false"
+        android:maxWidth="80dp"
+        android:id="@+id/tvIngredientSimplifyView"
+        android:textStyle="bold"
+        android:layout_marginStart="50dp"/>
+
+</LinearLayout>

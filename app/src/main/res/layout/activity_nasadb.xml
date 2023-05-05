@@ -41,7 +41,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="get"
+            android:text="@string/get"
             android:id="@+id/btnGet"
             style="?android:attr/buttonBarButtonStyle"/>
 
@@ -53,7 +53,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="random images"
+            android:text="@string/random_images"
             android:id="@+id/btnGet_Part2"
             style="?android:attr/buttonBarButtonStyle"/>
 

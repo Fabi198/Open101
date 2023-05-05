@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="A"
+            android:textStyle="bold"
+            android:id="@+id/btnA"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="B"
+            android:textStyle="bold"
+            android:id="@+id/btnB"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="C"
+            android:textStyle="bold"
+            android:id="@+id/btnC"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="D"
+            android:textStyle="bold"
+            android:id="@+id/btnD"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="E"
+            android:textStyle="bold"
+            android:id="@+id/btnE"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="F"
+            android:textStyle="bold"
+            android:id="@+id/btnF"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="G"
+            android:textStyle="bold"
+            android:id="@+id/btnG"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="H"
+            android:textStyle="bold"
+            android:id="@+id/btnH"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="I"
+            android:textStyle="bold"
+            android:id="@+id/btnI"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="J"
+            android:textStyle="bold"
+            android:id="@+id/btnJ"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="K"
+            android:textStyle="bold"
+            android:id="@+id/btnK"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="L"
+            android:textStyle="bold"
+            android:id="@+id/btnL"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="M"
+            android:textStyle="bold"
+            android:id="@+id/btnM"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="N"
+            android:textStyle="bold"
+            android:id="@+id/btnN"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="O"
+            android:textStyle="bold"
+            android:id="@+id/btnO"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="P"
+            android:textStyle="bold"
+            android:id="@+id/btnP"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Q"
+            android:textStyle="bold"
+            android:id="@+id/btnQ"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="R"
+            android:textStyle="bold"
+            android:id="@+id/btnR"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="S"
+            android:textStyle="bold"
+            android:id="@+id/btnS"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="T"
+            android:textStyle="bold"
+            android:id="@+id/btnT"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="U"
+            android:textStyle="bold"
+            android:id="@+id/btnU"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="V"
+            android:textStyle="bold"
+            android:id="@+id/btnV"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="W"
+            android:textStyle="bold"
+            android:id="@+id/btnW"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="X"
+            android:textStyle="bold"
+            android:id="@+id/btnX"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Y"
+            android:textStyle="bold"
+            android:id="@+id/btnY"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_gravity="center_vertical"
+            android:rotation="90"
+            android:src="@drawable/baseline_remove_24"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Z"
+            android:textStyle="bold"
+            android:id="@+id/btnZ"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</LinearLayout>

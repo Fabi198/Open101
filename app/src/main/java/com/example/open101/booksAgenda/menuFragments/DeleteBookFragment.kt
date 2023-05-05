@@ -1,7 +1,6 @@
 package com.example.open101.booksAgenda.menuFragments
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,13 +13,11 @@ import com.example.open101.booksAgenda.adapters.BookEditAdapter
 import com.example.open101.booksAgenda.dbHelpers.DbBooks
 import com.example.open101.booksAgenda.entities.Book
 import com.example.open101.databinding.FragmentDeleteBookBinding
-import com.example.open101.fragments.FragmentListener
 
 
 class DeleteBookFragment : Fragment(R.layout.fragment_delete_book) {
 
     private lateinit var binding: FragmentDeleteBookBinding
-    private lateinit var listener: FragmentListener
     private lateinit var listaBooks: ArrayList<Book>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,13 +65,6 @@ class DeleteBookFragment : Fragment(R.layout.fragment_delete_book) {
             val intent = Intent()
             requireActivity().setResult(AppCompatActivity.RESULT_CANCELED, intent)
             requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-        }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if(context is FragmentListener){
-            listener = context
         }
     }
 

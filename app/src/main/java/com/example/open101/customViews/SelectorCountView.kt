@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.open101.R
 
-open class SelectorCountView @JvmOverloads constructor(context: Context, private val attrs: AttributeSet?= null, private var defStyleAttr: Int = 0): LinearLayout(context, attrs, defStyleAttr){
+class SelectorCountView @JvmOverloads constructor(context: Context, private val attrs: AttributeSet?= null, private var defStyleAttr: Int = 0): LinearLayout(context, attrs, defStyleAttr){
 
     private lateinit var imgAgregar: ImageButton
     private lateinit var imgRemover: ImageButton

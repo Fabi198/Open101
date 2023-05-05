@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/roundercorners"
+    android:background="@color/black"
     tools:context=".booksAgenda.menuFragments.EditFieldsFragment">
 
     <LinearLayout
@@ -23,7 +23,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:layout_marginBottom="6dp"
                 android:textStyle="bold"
                 android:layout_gravity="bottom"
@@ -36,8 +35,6 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
                 tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize"
                 android:importantForAutofill="no" />
 
@@ -52,7 +49,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:layout_marginBottom="6dp"
                 android:textStyle="bold"
                 android:layout_gravity="bottom"
@@ -65,8 +61,6 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
                 tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize"
                 android:importantForAutofill="no" />
 
@@ -81,7 +75,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:layout_marginBottom="6dp"
                 android:textStyle="bold"
                 android:layout_gravity="bottom"
@@ -94,8 +87,6 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="number"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
                 tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize"
                 android:importantForAutofill="no" />
 
@@ -110,7 +101,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:layout_marginBottom="6dp"
                 android:textStyle="bold"
                 android:layout_gravity="bottom"
@@ -123,8 +113,6 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
                 tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize"
                 android:importantForAutofill="no" />
 
@@ -139,7 +127,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:layout_marginBottom="6dp"
                 android:textStyle="bold"
                 android:layout_gravity="bottom"
@@ -152,8 +139,6 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="number"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
                 tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize"
                 android:importantForAutofill="no" />
 

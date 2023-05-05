@@ -130,4 +130,12 @@
     <string name="get_apod">Get APOD</string>
     <string name="alarms">Alarms</string>
     <string name="cocktail_ndb">cocktail\ndb</string>
+    <string name="popular_drinks">Popular Drinks</string>
+    <string name="ingredientes">Ingredientes:</string>
+    <string name="random_images">random images</string>
+    <string name="get">get</string>
+    <string name="abrir">Abrir</string>
+    <string name="cerrar">Cerrar</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="buscar_por_letra">Buscar por letra</string>
 </resources>

@@ -14,10 +14,10 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.open101.R
 import com.example.open101.databinding.ActivityFragment101Binding
 import com.example.open101.fragments.ButtonFragment
-import com.example.open101.fragments.FragmentListener
+import com.example.open101.fragments.FragmentNotiManager
 import com.example.open101.fragments.TextFragment
 
-class Fragment101 : AppCompatActivity(), FragmentListener {
+class Fragment101 : AppCompatActivity(), FragmentNotiManager {
 
     private lateinit var binding: ActivityFragment101Binding
     private val idChannel = "1"
@@ -50,24 +50,12 @@ class Fragment101 : AppCompatActivity(), FragmentListener {
     }
 
     @SuppressLint("MissingPermission")
-    override fun addBookResponse() {
+    override fun showNoti() {
         supportFragmentManager.beginTransaction().add(R.id.textFragmentContainer, TextFragment()).commit()
         createChannel("Default", "Notificaciones")
         val notification = createCustomNoti()
         val notiManager = NotificationManagerCompat.from(this)
         notiManager.notify(1, notification)
-    }
-
-    override fun editBookResponse() {
-
-    }
-
-    override fun deleteBookResponse() {
-
-    }
-
-    override fun onBackTerms() {
-
     }
 
 

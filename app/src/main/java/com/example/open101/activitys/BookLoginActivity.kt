@@ -14,10 +14,9 @@ import com.example.open101.booksAgenda.dbHelpers.DbContact
 import com.example.open101.booksAgenda.entities.BookContact
 import com.example.open101.booksAgenda.menuFragments.TermsAndCondFragment
 import com.example.open101.databinding.ActivityBookLoginBinding
-import com.example.open101.fragments.FragmentListener
 
 
-class BookLoginActivity : AppCompatActivity(), FragmentListener {
+class BookLoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBookLoginBinding
     private  var listContacts = ArrayList<BookContact>()
@@ -114,20 +113,13 @@ class BookLoginActivity : AppCompatActivity(), FragmentListener {
             binding.llButtons.visibility = View.VISIBLE
     }
 
-    override fun addBookResponse() {
-        TODO("Not yet implemented")
-    }
-
-    override fun editBookResponse() {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteBookResponse() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onBackTerms() {
-        allVisible()
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount >= 1) {
+            supportFragmentManager.popBackStack()
+        } else {
+            finish()
+        }
     }
 
 

@@ -9,12 +9,12 @@ import com.example.open101.databinding.FragmentButtonBinding
 
 class ButtonFragment : Fragment(R.layout.fragment_button) {
 
-    private lateinit var listener: FragmentListener
+    private lateinit var listener: FragmentNotiManager
     private lateinit var binding: FragmentButtonBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context is FragmentListener){
+        if(context is FragmentNotiManager){
             listener = context
         }
     }
@@ -24,7 +24,7 @@ class ButtonFragment : Fragment(R.layout.fragment_button) {
         binding = FragmentButtonBinding.bind(view)
 
         binding.btnShowContent.setOnClickListener {
-            listener.addBookResponse()
+            listener.showNoti()
         }
     }
 }

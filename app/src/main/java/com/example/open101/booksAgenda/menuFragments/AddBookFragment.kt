@@ -1,7 +1,6 @@
 package com.example.open101.booksAgenda.menuFragments
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,20 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.open101.R
 import com.example.open101.booksAgenda.dbHelpers.DbBooks
 import com.example.open101.databinding.FragmentAddBookBinding
-import com.example.open101.fragments.FragmentListener
 
 
 class AddBookFragment : Fragment(R.layout.fragment_add_book) {
 
-    private lateinit var listener: FragmentListener
-    private lateinit var binding: FragmentAddBookBinding
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if(context is FragmentListener){
-            listener = context
-        }
-    }
+    private lateinit var binding: FragmentAddBookBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

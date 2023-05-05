@@ -9,18 +9,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.open101.R
+import com.example.open101.booksAgenda.BookFragmentsManager
 import com.example.open101.booksAgenda.adapters.BookEditAdapter
 import com.example.open101.booksAgenda.dbHelpers.DbBooks
 import com.example.open101.booksAgenda.entities.Book
 import com.example.open101.databinding.FragmentEditBookBinding
-import com.example.open101.fragments.FragmentListener
 
 
 class EditBookFragment : Fragment(R.layout.fragment_edit_book) {
 
     private lateinit var binding: FragmentEditBookBinding
     private lateinit var listaBooks: ArrayList<Book>
-    private lateinit var listener: FragmentListener
+    private lateinit var listener: BookFragmentsManager
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +49,7 @@ class EditBookFragment : Fragment(R.layout.fragment_edit_book) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context is FragmentListener){
+        if(context is BookFragmentsManager){
             listener = context
         }
     }

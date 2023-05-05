@@ -21,4 +21,11 @@
         android:icon="@drawable/baseline_bookmark_remove_24"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/item_close_session"
+        android:title="@string/cerrar_sesion"
+        android:icon="@drawable/baseline_power_settings_new_24"
+        app:showAsAction="never"/>
+
+
 </menu>
