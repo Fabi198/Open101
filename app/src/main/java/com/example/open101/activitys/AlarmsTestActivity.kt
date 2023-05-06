@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.View
 import com.example.open101.alarms.AlarmReceiver
 import com.example.open101.databinding.ActivityAlarmsTestBinding
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
 class AlarmsTestActivity : AppCompatActivity() {
@@ -48,6 +50,18 @@ class AlarmsTestActivity : AppCompatActivity() {
         // No se puede llamar 2 veces a la misma alarma con metodos distintos
         alarmSetting(alarmManager, pendingIntent)
         exactAlarmSetting(alarmManager2, pendingIntent)
+
+        binding.tvTestingAlarms.setOnClickListener {
+            Snackbar.make(binding.clAlarms, "Hola", Snackbar.LENGTH_SHORT)
+                .setAction("Aceptar"){
+                    it.visibility = View.VISIBLE
+                }
+                .show()
+        }
+
+
+        binding.til.counterMaxLength = 14
+
     }
 
 

@@ -35,6 +35,7 @@ class DogList : AppCompatActivity() {
         binding.etBreed.setAdapter(adapter)
 
         binding.btnBreed.setOnClickListener {
+            hideKeyboard()
             if (binding.rvDogs.visibility == View.VISIBLE) {
                 binding.rvDogs.visibility = View.GONE
             }
@@ -76,7 +77,6 @@ class DogList : AppCompatActivity() {
                 }else{
                     showError()
                 }
-                hideKeyboard()
             }
         }
     }

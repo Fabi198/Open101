@@ -9,11 +9,16 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import com.example.open101.R
 import com.example.open101.databinding.ActivityServicesTestBinding
 import com.example.open101.services.MyBoundService
 import com.example.open101.services.MyIntentService
 import com.example.open101.services.MySecondBoundService
 import com.example.open101.services.MyService
+import com.example.open101.services.fragmets.BlankFragment
+import com.example.open101.services.fragmets.BlankFragment2
+import com.example.open101.services.fragmets.BlankFragment3
 
 class ServicesTestActivity : AppCompatActivity() {
 
@@ -50,10 +55,28 @@ class ServicesTestActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityServicesTestBinding
 
+    private val fm: FragmentManager by lazy { supportFragmentManager }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityServicesTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        fm.beginTransaction().replace(R.id.containerFragment, BlankFragment()).commit()
+
+        binding.bnv.setOnNavigationItemSelectedListener {
+            when (it.title) {
+                "Inicio" -> {fm.beginTransaction().replace(R.id.containerFragment, BlankFragment()).commit()}
+                "Favoritos" -> {fm.beginTransaction().replace(R.id.containerFragment, BlankFragment2()).commit()}
+                "Libros" -> {fm.beginTransaction().replace(R.id.containerFragment, BlankFragment3()).commit()}
+            }
+            true
+        }
+
+
+
+
+
 
 
         val intent1 = Intent(this, MyIntentService::class.java)

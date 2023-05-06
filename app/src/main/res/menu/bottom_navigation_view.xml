@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuHome"
+        android:title="Inicio"
+        android:icon="@drawable/baseline_power_settings_new_24"/>
+
+    <item
+        android:id="@+id/menuFavorites"
+        android:title="Favoritos"
+        android:icon="@drawable/baseline_access_alarm_24"/>
+
+    <item
+        android:id="@+id/menuBooks"
+        android:title="Libros"
+        android:icon="@drawable/baseline_book_24"/>
+
+</menu>
