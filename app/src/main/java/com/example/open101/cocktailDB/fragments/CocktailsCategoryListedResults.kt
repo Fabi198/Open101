@@ -1,60 +1,63 @@
 package com.example.open101.cocktailDB.fragments
 
-
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.open101.R
 import com.example.open101.cocktailDB.RetrofitCocktail
 import com.example.open101.cocktailDB.adapters.PopularCocktailsAdapter
-import com.example.open101.databinding.FragmentCocktailsListedResultsBinding
+import com.example.open101.databinding.FragmentCocktailsCategoryListedResultsBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CocktailsListedResults : Fragment(R.layout.fragment_cocktails_listed_results) {
+class CocktailsCategoryListedResults : Fragment(R.layout.fragment_cocktails_category_listed_results) {
 
-    private lateinit var binding: FragmentCocktailsListedResultsBinding
+    private lateinit var binding: FragmentCocktailsCategoryListedResultsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentCocktailsListedResultsBinding.bind(view)
+        binding = FragmentCocktailsCategoryListedResultsBinding.bind(view)
+        val category = arguments?.getString("Category", "No funco")
+        binding.cvCategoryText.text = category?.replace("_", " ")
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val letter = arguments?.getString("letter", "No funco")
-            val responseService = RetrofitCocktail.APICOCKTAILS.getPopularDrinks("search.php?f=$letter")
+            val responseService = RetrofitCocktail.APICOCKTAILS.getPopularDrinks("filter.php?c=$category")
             val cocktails = responseService.body()
             withContext(Dispatchers.Main) {
                 if (responseService.isSuccessful && cocktails?.Drinks != null) {
                     val adapter = PopularCocktailsAdapter(cocktails.Drinks) {
                         val bundle = Bundle()
                         bundle.putString("id", it)
-                        val popuFrag = PopularDrinksOnItemClicked()
+                        val popuFrag = CocktailFullView()
                         popuFrag.arguments = bundle
-                        requireActivity().supportFragmentManager.beginTransaction().add(
-                            binding.popularcocktailslistedContainer.id,
+                        requireActivity().supportFragmentManager.beginTransaction().replace(
+                            binding.cocktailsCategorylistedContainer.id,
                             popuFrag,
-                            "PopularDrinksOnItemClickedFragment"
+                            "CocktailsCategoryListedResultsFragment"
                         ).addToBackStack(null).commit()
                     }
-                    binding.rvCocktailsListedResults.layoutManager =
+                    binding.rvCocktailsCategoryListedResults.layoutManager =
                         GridLayoutManager(requireContext(), 4)
-                    binding.rvCocktailsListedResults.adapter = adapter
-                    binding.rvCocktailsListedResults.visibility = View.VISIBLE
+                    binding.rvCocktailsCategoryListedResults.adapter = adapter
+                    binding.rvCocktailsCategoryListedResults.visibility = View.VISIBLE
 
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "No hay cocktails que empiecen con $letter",
+                        "Error en la base de datos",
                         Toast.LENGTH_SHORT
                     ).show()
-                    requireActivity().supportFragmentManager.beginTransaction().remove(this@CocktailsListedResults).commit()
+                    @Suppress("DEPRECATION")
+                    requireActivity().onBackPressed()
                 }
             }
+
         }
+
 
     }
 

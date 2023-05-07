@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class PopularDrinksOnItemClicked : Fragment(R.layout.fragment_popular_drinks_on_item_clicked) {
+class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_clicked) {
 
     private lateinit var binding: FragmentPopularDrinksOnItemClickedBinding
 
@@ -28,6 +28,38 @@ class PopularDrinksOnItemClicked : Fragment(R.layout.fragment_popular_drinks_on_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentPopularDrinksOnItemClickedBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+
+        binding.tvGlass.setOnClickListener {
+            val bundle = Bundle()
+            val glass = binding.tvGlass.text.toString().replace(" ", "_")
+            bundle.putString("Glass", glass)
+            val listedGlass = CocktailsGlassListedResults()
+            listedGlass.arguments = bundle
+            requireActivity().supportFragmentManager.beginTransaction().replace(binding.popularcocktailslistedContainer.id, listedGlass, "ListedGlass").addToBackStack(null).commit()
+        }
+
+        binding.tvCategory.setOnClickListener {
+            val bundle = Bundle()
+            val category = binding.tvCategory.text.toString().replace(" ", "_")
+            bundle.putString("Category", category)
+            val listedCategory = CocktailsCategoryListedResults()
+            listedCategory.arguments = bundle
+            requireActivity().supportFragmentManager.beginTransaction().replace(binding.popularcocktailslistedContainer.id, listedCategory, "ListedCategory").addToBackStack(null).commit()
+        }
+
+        binding.tvAlcoholic.setOnClickListener {
+            val bundle = Bundle()
+            val alcoholic = binding.tvAlcoholic.text.toString().replace(" ", "_")
+            bundle.putString("Alcoholic", alcoholic)
+            val listedAlcoholic = CocktailsAlcoholicListedResults()
+            listedAlcoholic.arguments = bundle
+            requireActivity().supportFragmentManager.beginTransaction().replace(binding.popularcocktailslistedContainer.id, listedAlcoholic, "ListedAlcoholic").addToBackStack(null).commit()
+        }
+
+
+
+
+
 
         val id = arguments?.getString("id", "0")
         lifecycleScope.launch {
@@ -172,7 +204,18 @@ class PopularDrinksOnItemClicked : Fragment(R.layout.fragment_popular_drinks_on_
                         )
                         listIngredients.add(ingredient1)
                     }
-                    val adapter = PopularDrinksOnClickedAdapter(listIngredients)
+                    val adapter = PopularDrinksOnClickedAdapter(listIngredients) {
+                        val bundle = Bundle()
+                        bundle.putString("Ingredient", it)
+                        val popuFrag = IngredientFullView()
+                        popuFrag.arguments = bundle
+                        requireActivity().supportFragmentManager.beginTransaction().add(
+                            binding.popularcocktailslistedContainer.id,
+                            popuFrag,
+                            "IngredientFullViewFragment"
+                        ).addToBackStack(null).commit()
+                        binding.popularcocktailslistedContainer.visibility = View.VISIBLE
+                    }
                     binding.rvPopDrinkOnClicked.adapter = adapter
                 }
                 } else {
@@ -184,12 +227,6 @@ class PopularDrinksOnItemClicked : Fragment(R.layout.fragment_popular_drinks_on_
                 }
 
             }
-
-
-        binding.btnBack.setOnClickListener {
-            @Suppress("DEPRECATION")
-            requireActivity().onBackPressed()
-        }
     }
 
 

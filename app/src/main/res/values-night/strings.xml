@@ -138,4 +138,5 @@
     <string name="cerrar">Cerrar</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="buscar_por_letra">Buscar por letra</string>
+    <string name="se_puede_usar_en_distintos_cocktails">Se puede usar en distintos cocktails</string>
 </resources>

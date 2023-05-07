@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:textAllCaps="false"
-        android:maxWidth="80dp"
+        android:maxWidth="350dp"
         android:id="@+id/tvIngredientSimplifyView"
         android:textStyle="bold"
         android:layout_marginStart="50dp"/>

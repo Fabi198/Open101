@@ -77,7 +77,7 @@ class BookLoginActivity : AppCompatActivity() {
         }
 
         binding.tvTerms.setOnClickListener {
-            supportFragmentManager.beginTransaction().add(binding.termsContainer.id, TermsAndCondFragment(), "TermsAndCondFragment").commit()
+            supportFragmentManager.beginTransaction().add(binding.termsContainer.id, TermsAndCondFragment(), "TermsAndCondFragment").addToBackStack(null).commit()
             binding.termsContainer.visibility = View.VISIBLE
             allGone()
         }
@@ -117,6 +117,7 @@ class BookLoginActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount >= 1) {
             supportFragmentManager.popBackStack()
+            allVisible()
         } else {
             finish()
         }

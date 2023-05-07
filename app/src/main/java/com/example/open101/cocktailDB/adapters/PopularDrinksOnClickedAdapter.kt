@@ -10,16 +10,17 @@ import com.example.open101.cocktailDB.entities.IngredientSimplifyView
 import com.example.open101.databinding.ItemIngredientAndCocktailsSimpleViewBinding
 import com.squareup.picasso.Picasso
 
-class PopularDrinksOnClickedAdapter(private val listIngredients: ArrayList<IngredientSimplifyView>): RecyclerView.Adapter<PopularDrinksOnClickedAdapter.PopularDrinksOnClickedViewHolder>() {
+class PopularDrinksOnClickedAdapter(private val listIngredients: ArrayList<IngredientSimplifyView>, private val onClickItem: (String) -> Unit): RecyclerView.Adapter<PopularDrinksOnClickedAdapter.PopularDrinksOnClickedViewHolder>() {
 
 
     class PopularDrinksOnClickedViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val binding = ItemIngredientAndCocktailsSimpleViewBinding.bind(view)
 
         @SuppressLint("SetTextI18n")
-        fun bind(item: IngredientSimplifyView) {
+        fun bind(item: IngredientSimplifyView, onClickItem: (String) -> Unit) {
             Picasso.get().load(item.strImageSource).centerCrop().resize(100,100).into(binding.ivIngredientSimplifyView)
             binding.tvIngredientSimplifyView.text = "${item.strIngredient} ${item.strMeasure}"
+            itemView.setOnClickListener { onClickItem(item.strIngredient.toString()) }
         }
 
 
@@ -34,6 +35,6 @@ class PopularDrinksOnClickedAdapter(private val listIngredients: ArrayList<Ingre
     }
 
     override fun onBindViewHolder(holder: PopularDrinksOnClickedViewHolder, position: Int) {
-        holder.bind(listIngredients[position])
+        holder.bind(listIngredients[position], onClickItem)
     }
 }

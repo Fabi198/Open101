@@ -4,17 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.lifecycle.findViewTreeLifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import com.example.open101.R
-import com.example.open101.cocktailDB.fragments.CocktailsListedResults
-import com.example.open101.customViews.CantTops
-import com.example.open101.databinding.CustomviewAbcbrowserBinding
-import kotlinx.coroutines.launch
+import com.example.open101.cocktailDB.fragments.CocktailsLetterListedResults
 
 class ABCBrowserView @JvmOverloads constructor(context: Context, private val attrs: AttributeSet?= null, private var defStyleAttr: Int = 0): LinearLayout(context, attrs, defStyleAttr) {
 
@@ -102,8 +95,8 @@ class ABCBrowserView @JvmOverloads constructor(context: Context, private val att
         }
     }
 
-    fun throwFragment(letter: String): CocktailsListedResults {
-        val clr = CocktailsListedResults()
+    fun throwFragment(letter: String): CocktailsLetterListedResults {
+        val clr = CocktailsLetterListedResults()
         val bundle = Bundle()
         bundle.putString("letter", letter)
         clr.arguments = bundle
