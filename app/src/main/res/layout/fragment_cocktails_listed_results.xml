@@ -22,17 +22,17 @@
                     tools:listitem="@layout/item_popular_cocktails"
                     android:id="@+id/rvCocktailsListedResults"/>
 
-                <FrameLayout
-                    android:id="@+id/popularcocktailslistedContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+        <FrameLayout
+            android:id="@+id/popularcocktailslistedContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
 </FrameLayout>

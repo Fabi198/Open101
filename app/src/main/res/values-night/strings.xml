@@ -139,4 +139,13 @@
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="buscar_por_letra">Buscar por letra</string>
     <string name="se_puede_usar_en_distintos_cocktails">Se puede usar en distintos cocktails</string>
+    <string name="buscar_por_filtro">Buscar por filtro</string>
+    <string name="buscar_por_categoria">Buscar por categoria</string>
+    <string name="buscar_por_alcohol">Buscar por alcohol</string>
+    <string name="buscar_por_vaso">Buscar por vaso</string>
+    <string name="alcoholicos">Alcoholicos</string>
+    <string name="alcohol_opcional">Alcohol opcional</string>
+    <string name="no_alcoholicos">No Alcoholicos</string>
+    <string name="buscar_ingrediente_por_nombre">Buscar ingrediente por nombre</string>
+    <string name="buscar_cocktail_por_nombre">Buscar cocktail por nombre</string>
 </resources>

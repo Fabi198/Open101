@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.example.open101.R
 import com.example.open101.cocktailDB.fragments.CocktailsLetterListedResults
 
-class ABCBrowserView @JvmOverloads constructor(context: Context, private val attrs: AttributeSet?= null, private var defStyleAttr: Int = 0): LinearLayout(context, attrs, defStyleAttr) {
+class ABCBrowserView @JvmOverloads constructor(context: Context, attrs: AttributeSet?= null, defStyleAttr: Int = 0): LinearLayout(context, attrs, defStyleAttr) {
 
     lateinit var a: TextView
     lateinit var b: TextView
@@ -45,7 +45,6 @@ class ABCBrowserView @JvmOverloads constructor(context: Context, private val att
 
     init {
         View.inflate(context, R.layout.customview_abcbrowser, this)
-        initializeAttrs()
         setupUI()
         orientation = HORIZONTAL
     }
@@ -77,22 +76,6 @@ class ABCBrowserView @JvmOverloads constructor(context: Context, private val att
         x = findViewById(R.id.btnX)
         y = findViewById(R.id.btnY)
         z = findViewById(R.id.btnZ)
-
-
-
-
-    }
-
-    private fun initializeAttrs() {
-        attrs?.let {
-            val typedArray =
-                context.theme.obtainStyledAttributes(
-                    it,
-                    R.styleable.ABCBrowserView,
-                    defStyleAttr,
-                    0
-                )
-        }
     }
 
     fun throwFragment(letter: String): CocktailsLetterListedResults {

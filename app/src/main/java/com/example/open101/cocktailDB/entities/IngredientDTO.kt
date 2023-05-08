@@ -3,7 +3,7 @@ package com.example.open101.cocktailDB.entities
 import com.google.gson.annotations.SerializedName
 
 data class IngredientDTO (
-    @SerializedName("idIngredient") val idIntgredient : String?,
+    @SerializedName("idIngredient") val idIngredient : String?,
     @SerializedName("strIngredient") val strIngredient : String?,
     @SerializedName("strDescription") val strDescription : String?,
     @SerializedName("strType") val strType : String?,

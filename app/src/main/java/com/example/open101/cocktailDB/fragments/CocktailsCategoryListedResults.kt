@@ -25,7 +25,8 @@ class CocktailsCategoryListedResults : Fragment(R.layout.fragment_cocktails_cate
         binding.cvCategoryText.text = category?.replace("_", " ")
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val responseService = RetrofitCocktail.APICOCKTAILS.getPopularDrinks("filter.php?c=$category")
+            val responseService =
+                RetrofitCocktail.APICOCKTAILS.getPopularDrinks("filter.php?c=$category")
             val cocktails = responseService.body()
             withContext(Dispatchers.Main) {
                 if (responseService.isSuccessful && cocktails?.Drinks != null) {

@@ -16,7 +16,6 @@ class PopularCocktailsAdapter(private var listDrinks: List<DrinkDTO>, private va
         val binding = ItemPopularCocktailsBinding.bind(view)
 
         fun bind(item: DrinkDTO, onClickItem: (String) -> Unit) {
-            //Picasso.get().load(item.strDrinkThumb).resize(70, 70).into(binding.ivPopCocktail)
             Picasso.get().load(item.strDrinkThumb).centerCrop().resize(140, 140).into(binding.ivPopCocktail)
             binding.tvPopCocktail.text = item.strDrink
             itemView.setOnClickListener { onClickItem(item.idDrink.toString()) }

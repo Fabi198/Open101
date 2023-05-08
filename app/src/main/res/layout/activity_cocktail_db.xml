@@ -3,62 +3,281 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/viewRoot"
     android:layout_height="match_parent"
     tools:context=".activitys.CocktailDB">
 
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:id="@+id/toolbarCocktailDB"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/purple_700"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="wrap_content">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarCocktailDB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/ivCocktail"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:contentDescription="@string/todo"
-                android:src="@drawable/cocktaildb"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-        </androidx.appcompat.widget.Toolbar>
-
-        <TextView
-            android:id="@+id/tvPopularDrinks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/popular_drinks"
-            android:textAllCaps="false"
-            android:textStyle="italic|bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarCocktailDB" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPopularDrinks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPopularDrinks"
-            tools:listitem="@layout/item_popular_cocktails" />
-
-        <FrameLayout
-            android:id="@+id/popularcocktailsContainer"
-            android:layout_width="250dp"
-            android:layout_height="400dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+        <ImageView
+            android:id="@+id/ivCocktail"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/cocktaildb"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/tvPopularDrinks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/popular_drinks"
+        android:textAllCaps="false"
+        android:textStyle="italic|bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarCocktailDB" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPopularDrinks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPopularDrinks"
+        tools:listitem="@layout/item_popular_cocktails" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="32dp"
+        android:id="@+id/llnavigationByName"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/llnavigationSpinners">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/actvIngredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/buscar_ingrediente_por_nombre"
+                android:layout_marginStart="16dp"
+                android:minHeight="48dp"
+                app:layout_constraintBottom_toTopOf="@+id/actvCocktails"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="VisualLintTextFieldSize" />
+
+            <ImageButton
+                android:id="@+id/btnACTVIngredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/todo"
+                android:minHeight="48dp"
+                android:src="@drawable/baseline_search_24"
+                tools:ignore="DuplicateSpeakableTextCheck,ImageContrastCheck" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/actvCocktails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:hint="@string/buscar_cocktail_por_nombre"
+                android:minHeight="48dp"
+                app:layout_constraintBottom_toTopOf="@+id/llnavigationSpinners"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="VisualLintTextFieldSize" />
+
+            <ImageButton
+                android:id="@+id/btnACTVCocktails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/todo"
+                android:minHeight="48dp"
+                android:src="@drawable/baseline_search_24"
+                tools:ignore="ImageContrastCheck" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginBottom="32dp"
+        android:id="@+id/llnavigationSpinners"
+        app:layout_constraintBottom_toTopOf="@+id/tvBrowseByFilter"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:layout_weight="25"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvBrowseByGlass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buscar_por_vaso"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textStyle="bold|italic"
+                android:layout_gravity="center_horizontal" />
+
+            <Spinner
+                android:id="@+id/spinnerGlass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:layout_weight="25"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvBrowseByCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buscar_por_categoria"
+                android:textAlignment="center"
+                android:layout_gravity="center_horizontal"
+                android:textAllCaps="false"
+                android:textStyle="bold|italic"/>
+
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvBrowseByFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buscar_por_filtro"
+        android:textAllCaps="false"
+        android:layout_marginBottom="12dp"
+        android:textStyle="italic|bold"
+        app:layout_constraintBottom_toTopOf="@+id/llnavigationfilters"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/llnavigationfilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvBrowseByLetter">
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="50dp"
+            android:layout_weight="33"
+            android:layout_width="0dp"
+            app:cardElevation="20dp"
+            android:layout_marginEnd="8dp"
+            android:id="@+id/cvAlcoholicYes"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                tools:ignore="RtlCompat"
+                android:id="@+id/cvAlcoholicYesText"
+                android:textStyle="bold"
+                android:text="@string/alcoholicos"
+                android:textAllCaps="false"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="50dp"
+            android:layout_weight="33"
+            android:layout_width="0dp"
+            app:cardElevation="20dp"
+            android:id="@+id/cvAlcoholicOp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                tools:ignore="RtlCompat"
+                android:id="@+id/cvAlcoholicOpText"
+                android:textStyle="bold"
+                android:text="@string/alcohol_opcional"
+                android:textAllCaps="false"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="50dp"
+            android:layout_weight="33"
+            android:layout_width="0dp"
+            app:cardElevation="20dp"
+            android:layout_marginStart="8dp"
+            android:id="@+id/cvAlcoholicNo"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                tools:ignore="RtlCompat"
+                android:id="@+id/cvAlcoholicNoText"
+                android:textStyle="bold"
+                android:text="@string/no_alcoholicos"
+                android:textAllCaps="false"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvBrowseByLetter"
@@ -67,27 +286,26 @@
         android:text="@string/buscar_por_letra"
         android:textAllCaps="false"
         android:textStyle="italic|bold"
+        app:layout_constraintBottom_toTopOf="@+id/ABCBrowserView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/ABCBrowserView"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.open101.cocktailDB.customviews.ABCBrowserView
-            android:layout_width="wrap_content"
-            android:id="@+id/ABCBrowserView"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="wrap_content"/>
+    <com.example.open101.cocktailDB.customviews.ABCBrowserView
+        android:id="@+id/ABCBrowserView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="55dp"
-            android:visibility="gone"
-            android:id="@+id/cocktailsContainer"
-            android:layout_height="match_parent"/>
-
+    <FrameLayout
+        android:id="@+id/cocktailsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="55dp"
+        android:visibility="gone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
