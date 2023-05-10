@@ -65,26 +65,26 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
         lifecycleScope.launch {
             if (id != "0") {
                 val responseService = RetrofitCocktail.APICOCKTAILS.getPopularDrinks("lookup.php?i=$id")
-                val cocktail = responseService.body()!!.Drinks[0]
+                val cocktail = responseService.body()?.Drinks?.get(0)
                 withContext(Dispatchers.Main) {
                     val translator = TranslateService
-                    if (cocktail.strInstructionsES != null) {
+                    if (cocktail?.strInstructionsES != null) {
                         binding.tvDesc.text = "Instrucciones: ${cocktail.strInstructionsES}"
                     } else {
-                        cocktail.strInstructionsEN?.let {
+                        cocktail?.strInstructionsEN?.let {
                             translator.englishSpanishTranslator.translate(it).addOnSuccessListener { itES ->
                                 binding.tvDesc.text = "Instrucciones: $itES"
                             }
                         }
                     }
-                    Picasso.get().load(cocktail.strDrinkThumb).fit().into(binding.ivBackground)
-                    binding.tvTitleDrink.text = cocktail.strDrink
-                    binding.tvGlass.text = cocktail.strGlass
-                    binding.tvAlcoholic.text = cocktail.strAlcoholic
-                    binding.tvCategory.text = cocktail.strCategory
+                    Picasso.get().load(cocktail?.strDrinkThumb).fit().into(binding.ivBackground)
+                    binding.tvTitleDrink.text = cocktail?.strDrink
+                    binding.tvGlass.text = cocktail?.strGlass
+                    binding.tvAlcoholic.text = cocktail?.strAlcoholic
+                    binding.tvCategory.text = cocktail?.strCategory
                     binding.rvPopDrinkOnClicked.layoutManager = LinearLayoutManager(requireContext())
                     val listIngredients = ArrayList<IngredientSimplifyView>()
-                    if (cocktail.strIngredient1 != null) {
+                    if (cocktail?.strIngredient1 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient1,
                             cocktail.strMeasure1,
@@ -92,7 +92,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient2 != null) {
+                    if (cocktail?.strIngredient2 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient2,
                             cocktail.strMeasure2,
@@ -100,7 +100,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient3 != null) {
+                    if (cocktail?.strIngredient3 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient3,
                             cocktail.strMeasure3,
@@ -108,7 +108,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient4 != null) {
+                    if (cocktail?.strIngredient4 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient4,
                             cocktail.strMeasure4,
@@ -116,7 +116,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient5 != null) {
+                    if (cocktail?.strIngredient5 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient5,
                             cocktail.strMeasure5,
@@ -124,7 +124,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient6 != null) {
+                    if (cocktail?.strIngredient6 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient6,
                             cocktail.strMeasure6,
@@ -132,7 +132,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient7 != null) {
+                    if (cocktail?.strIngredient7 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient7,
                             cocktail.strMeasure7,
@@ -140,7 +140,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient8 != null) {
+                    if (cocktail?.strIngredient8 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient8,
                             cocktail.strMeasure8,
@@ -148,7 +148,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient9 != null) {
+                    if (cocktail?.strIngredient9 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient9,
                             cocktail.strMeasure9,
@@ -156,7 +156,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient10 != null) {
+                    if (cocktail?.strIngredient10 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient10,
                             cocktail.strMeasure10,
@@ -164,7 +164,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient11 != null) {
+                    if (cocktail?.strIngredient11 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient11,
                             cocktail.strMeasure11,
@@ -172,7 +172,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient12 != null) {
+                    if (cocktail?.strIngredient12 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient12,
                             cocktail.strMeasure12,
@@ -180,7 +180,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient13 != null) {
+                    if (cocktail?.strIngredient13 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient13,
                             cocktail.strMeasure13,
@@ -188,7 +188,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient14 != null) {
+                    if (cocktail?.strIngredient14 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient14,
                             cocktail.strMeasure14,
@@ -196,7 +196,7 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         )
                         listIngredients.add(ingredient1)
                     }
-                    if (cocktail.strIngredient15 != null) {
+                    if (cocktail?.strIngredient15 != null) {
                         val ingredient1 = IngredientSimplifyView(
                             cocktail.strIngredient15,
                             cocktail.strMeasure15,

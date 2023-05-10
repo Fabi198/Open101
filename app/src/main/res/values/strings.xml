@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Calcu</string>
     <string name="putANumber">Ingresar un numero</string>
     <string name="sum" translatable="false">+</string>
@@ -37,7 +37,7 @@
     <string name="edit_book">Editar libro</string>
     <string name="erase_book">Borrar libro</string>
     <string name="book_name_add">Nombre del libro:</string>
-    <string name="author_book_add">Autor del libro:</string>
+    <string name="author_book_add" tools:ignore="Typos">Autor del libro:</string>
     <string name="year_book_add">Año de publicación:</string>
     <string name="gender_book_add">Genero del libro:</string>
     <string name="units_available">Unidades disponibles:</string>
@@ -45,7 +45,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragmentText2">El objetivo de este laboratorio es aplicar los conceptos básicos vistos acerca de Fragmentos. Para ello se creará un nuevo proyecto. Se deberá crear una Activity que contenga dos fragmentos. Un fragmento se creará de manera estática, y el otro de manera dinámica. El “background” de cada fragmento tendrá un color distinto para diferenciarlos de manera evidente. El primer fragmento contendrá un botón centrado con el texto “MOSTRAR CONTENIDO”</string>
     <string name="escriba_su_nombre">Escriba su nombre</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="delete">Delete</string>
     <string name="refresh">Refresh</string>
     <string name="base_de_datos">Base de datos</string>
@@ -62,7 +62,7 @@
     <string name="salir_sin_guardar">Salir sin guardar</string>
     <string name="mis_libros">Mis libros</string>
     <string name="nombre_del_libro">Nombre del libro:</string>
-    <string name="autor_del_libro">Autor del libro:</string>
+    <string name="autor_del_libro" tools:ignore="Typos">Autor del libro:</string>
     <string name="salir">Salir</string>
     <string name="usuarios">Usuarios</string>
     <string name="crear_usuario">Crear usuario</string>
@@ -70,7 +70,7 @@
     <string name="name">Name:</string>
     <string name="powerstats">Powerstats:</string>
     <string name="intelligence">Intelligence:</string>
-    <string name="strenght">Strenght:</string>
+    <string name="strength">Strength:</string>
     <string name="speed">Speed:</string>
     <string name="durability">Durability:</string>
     <string name="power">Power:</string>
@@ -152,4 +152,11 @@
     <string name="no_alcoholicos">No Alcoholicos</string>
     <string name="buscar_ingrediente_por_nombre">Buscar ingrediente por nombre</string>
     <string name="buscar_cocktail_por_nombre">Buscar cocktail por nombre</string>
+    <string name="ml">= **** ml</string>
+    <string name="onzas">Onzas</string>
+    <string name="_1_oz_30ml">1 oz ≈ 30ml</string>
+    <string name="slice_rebanada">slice = Rebanada</string>
+    <string name="tbsp_tblsp_cucharada">tbsp/tblsp = Cucharada</string>
+    <string name="tsp_cucharada_de_te">tsp = Cucharada de te</string>
+    <string name="convertir_onzas_a_ml">Convertir onzas a ml</string>
 </resources>

@@ -194,7 +194,7 @@ class CocktailDB : AppCompatActivity() {
             val list = ArrayList<DrinkDTO>()
             for (i in 0..7) {
                 val responseService = RetrofitCocktail.APICOCKTAILS.getPopularDrinks("lookup.php?i=1100$i")
-                list.add(responseService.body()!!.Drinks[0])
+                responseService.body()?.Drinks?.get(0)?.let { list.add(it) }
             }
             withContext(Dispatchers.Main) {
                 val adapter = PopularCocktailsAdapter(list) {
