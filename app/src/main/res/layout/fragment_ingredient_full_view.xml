@@ -16,9 +16,7 @@
         android:contentDescription="@string/todo"
         tools:ignore="VisualLintBounds" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -111,22 +109,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/tvIngredientUsedAt"/>
 
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rvIngredientUsedAt"
                 app:layout_constraintTop_toBottomOf="@+id/tvIngredientUsedAt"
+                android:layout_marginTop="12dp"
                 tools:listitem="@layout/item_popular_cocktails"
-                android:layout_marginTop="10dp"/>
-
-
-
+                />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+
 
     <FrameLayout
         android:id="@+id/popularcocktailslistedContainer"

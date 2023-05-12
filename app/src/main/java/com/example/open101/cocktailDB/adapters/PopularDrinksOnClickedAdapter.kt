@@ -25,16 +25,16 @@ class PopularDrinksOnClickedAdapter(private val listIngredients: ArrayList<Ingre
             Picasso.get().load(item.strImageSource).centerCrop().resize(100,100).into(binding.ivIngredientSimplifyView)
             binding.tvIngredientSimplifyView.text = "${item.strIngredient} ${item.strMeasure}"
             itemView.setOnClickListener { onClickItem(item.strIngredient.toString()) }
-            binding.etCalculatorOz.isFocusableInTouchMode = true
-            binding.etCalculatorOz.requestFocus()
             binding.etCalculatorOz.setOnKeyListener(object : View.OnKeyListener {
                 override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
                     @Suppress("DEPRECATED_IDENTITY_EQUALS")
                     if (event.action === KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                        if (binding.etCalculatorOz.text.toString().isNotEmpty()) {
                         val result = (binding.etCalculatorOz.text.toString().toDouble() * 29.574)
                         val roundoff = (result * 100.0).roundToInt().toDouble() / 100.0
-                        binding.tvCalculatorOz.text = "$roundoff ml"
-                        binding.etCalculatorOz.setText("")
+                            binding.tvCalculatorOz.text = "$roundoff ml"
+                            binding.etCalculatorOz.setText("")
+                        }
                         return true
                     }
                     return false

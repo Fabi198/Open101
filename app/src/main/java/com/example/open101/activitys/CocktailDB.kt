@@ -176,6 +176,7 @@ class CocktailDB : AppCompatActivity() {
         binding.llnavigationSpinners.visibility = View.GONE
         binding.tvBrowseByFilter.visibility = View.GONE
         binding.llnavigationfilters.visibility = View.GONE
+        binding.llnavigationByName.visibility = View.GONE
     }
 
     private fun allVisible() {
@@ -186,6 +187,7 @@ class CocktailDB : AppCompatActivity() {
         binding.llnavigationSpinners.visibility = View.VISIBLE
         binding.tvBrowseByFilter.visibility = View.VISIBLE
         binding.llnavigationfilters.visibility = View.VISIBLE
+        binding.llnavigationByName.visibility = View.VISIBLE
     }
 
     private fun setPopularDrinks() {
