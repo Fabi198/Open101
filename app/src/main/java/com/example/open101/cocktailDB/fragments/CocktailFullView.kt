@@ -230,41 +230,4 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
     }
 
 
-
-    //Si alguna vez necesito redondear una imagen, este metodo no se puede hacer en el main thread
-    /*
-    private fun getRoundedCornerBitmap(bitmap: Bitmap, square: Boolean): Bitmap? {
-        var width = 0
-        var height = 0
-        if (square) {
-            if (bitmap.width < bitmap.height) {
-                width = bitmap.width
-                height = bitmap.width
-            } else {
-                width = bitmap.height
-                height = bitmap.height
-            }
-        } else {
-            height = bitmap.height
-            width = bitmap.width
-        }
-        val output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(output)
-        val color = -0xbdbdbe
-        val paint = Paint()
-        val rect = Rect(0, 0, width, height)
-        val rectF = RectF(rect)
-        val roundPx = 90f
-        paint.isAntiAlias = true
-        canvas.drawARGB(0, 0, 0, 0)
-        paint.color = color
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint)
-        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-        canvas.drawBitmap(bitmap, rect, rect, paint)
-        return output
-    }
-
-     */
-
-
 }
