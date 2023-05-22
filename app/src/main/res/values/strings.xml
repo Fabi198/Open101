@@ -1,5 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Calcu</string>
     <string name="putANumber">Ingresar un numero</string>
     <string name="sum" translatable="false">+</string>
     <string name="result">El resultado es:</string>
@@ -159,4 +158,190 @@
     <string name="tbsp_tblsp_cucharada">tbsp/tblsp = Cucharada</string>
     <string name="tsp_cucharada_de_te">tsp = Cucharada de te</string>
     <string name="convertir_onzas_a_ml">Convertir onzas a ml</string>
+    <string name="whatsapp">Whatsapp</string>
+    <string name="contacto">Contacto</string>
+    <string name="m_todos_de_pago">Métodos de pago</string>
+    <string name="m_todos_de_entrega">Métodos de entrega</string>
+    <string name="preguntas_frecuentes">Preguntas frecuentes</string>
+    <string name="quienes_somos">¿Quienes somos?</string>
+    <string name="datos_personales">Datos personales</string>
+    <string name="tus_direcciones">Tus direcciones</string>
+    <string name="tus_pedidos">Tus pedidos</string>
+    <string name="carrito_de_compras">Carrito de compras</string>
+    <string name="categorias">Categorias</string>
+    <string name="inicio">Inicio</string>
+    <string name="mallweb">Mallweb</string>
+    <string name="encontr_todo_lo_que_estas_buscando">¡Encontrá todo lo que estas buscando</string>
+    <string name="en">en </string>
+    <string name="tecnologia">tecnología!</string>
+    <string name="todas_las_categorias">TODAS LAS CATEGORIAS</string>
+    <string name="almacenamiento">Almacenamiento</string>
+    <string name="conectividad">Conectividad</string>
+    <string name="componentes_para_pc">Componentes para PC</string>
+    <string name="perifericos">Periféricos</string>
+    <string name="audio_y_video">Audio y Video</string>
+    <string name="impresion">Impresión</string>
+    <string name="computacion">Computación</string>
+    <string name="accesorios">Accesorios</string>
+    <string name="zona_gamer">Zona Gamer</string>
+    <string name="discos_solidos">Discos Sólidos</string>
+    <string name="discos_ssd">Discos SSD</string>
+    <string name="discos_sata_para_pc">Discos SATA para PC</string>
+    <string name="discos_sata_para_notebooks">Discos SATA para notebooks</string>
+    <string name="discos_ssd_externos">Discos SSD Externos</string>
+    <string name="pendrives">Pendrives</string>
+    <string name="memorias_sd">Memorias SD</string>
+    <string name="lunes_a_viernes_de_9_00_a_17_30">Lunes a Viernes de 9:00 a 17:30</string>
+    <string name="_1147022760"><a href="https://wa.me/5491147022760">1147022760</a></string>
+    <string name="impresoras">Impresoras</string>
+    <string name="multifuncion">Multifunción</string>
+    <string name="simple_funcion">Simple función</string>
+    <string name="laser">Láser</string>
+    <string name="inyecci_n_de_tinta">Inyección de tinta</string>
+    <string name="color">Color</string>
+    <string name="monocrom_tica">Monocromática</string>
+    <string name="ver_todos">Ver todos</string>
+    <string name="brother">Brother</string>
+    <string name="hp">HP</string>
+    <string name="pantum">Pantum</string>
+    <string name="epson">EPSON</string>
+    <string name="puedo_retirar">¿Puedo retirar?</string>
+    <string name="answerFAQ1">Si podés retirar, es necesario que aguardes la confirmación de la acreditación del pago y la Factura para que puedas pasar.</string>
+    <string name="faq2">¿Tienen local a la calle?</string>
+    <string name="ans2">No, no tenemos local a la calle, es solo punto de retiro de mercadería, por lo que es necesario que ya tengas un pedido/reserva confirmada antes de pasar.</string>
+    <string name="faq3">¿Están cerca de alguna estación de Subte?</string>
+    <string name="ans3">La estación más cercana está a 15 cuadras, Congreso de Tucumán de la línea D.</string>
+    <string name="faq4">¿Qué líneas de transporte público pasan cerca?</string>
+    <string name="ans4">Podés ver en detalle todas las líneas de transporte público aquí: </string>
+    <string name="faq5">¿Cómo son los métodos de pago?</string>
+    <string name="ans5">Por mercado pago, transferencia bancaria, depósito bancario. El Pago en efectivo en Sucursal únicamente con turno previo. NUEVO — AHORA12: en 12, 18 y 24 Cuotas Válido únicamente para pagar tarjetas de crédito Bancarias Visa / Mastercard / Cabal * Tenga en cuenta que la plataforma de pago con AHORA12 le solicitará validar su identidad para autorizar el pago. Siga los pasos que aquí le indiquen, donde las fotos/video sea nítida y la persona que valide sea la propietaria de la tarjeta que usó, de caso contrario, será rechazada la validación del pago y deberá realizar la compra nuevamente (se recomienda usar el navegador Chrome).</string>
+    <string name="faq6">¿Si elijo pagar el producto en sucursal o por transferencia/deposito cuanto tiempo queda reservado mi pedido?</string>
+    <string name="asn6">El pedido queda reservado hasta 48 horas, si el pedido se realiza un fin de semana, las horas cuentan a partir del día hábil siguiente.</string>
+    <string name="faq7">¿Puedo pagar en la Sucursal?</string>
+    <string name="ans7">Si, en efectivo en Sucursal con previa reserva del producto y asignación de turno a través medios de contacto para poder pasar.</string>
+    <string name="faq8">¿Hacen envíos?</string>
+    <string name="ans8">El tiempo de despacho podrá demorar entre 24 a 48hrs (días hábiles) dependiendo el destino y tiempo de acreditación de los pagos, esto se confirmará vía mail. Los Envíos Express están disponibles para CABA y Gran Buenos Aires, Otras Provincias a través de Correo Argentino u OCA. Para más información sobre nuestra politicas de entrega ir a:</string>
+    <string name="faq9">¿Tengo garantía?</string>
+    <string name="ans9">Cada producto cuenta con garantía oficial, especificada en la descripción del mismo.</string>
+    <!-- href tag is used to add link-->
+    <!-- link for ans4-->
+    <string name="linkAns4"><a href="http://bit.ly/2kYwpvc">http://bit.ly/2kYwpvc</a></string>
+    <string name="aqui">\nAQUI</string>
+    <string name="ansDelMet1">El valor y el plazo de envío varían según la dirección de entrega. ES PRIMORDIAL QUE INGRESES DATOS CORRECTOS ya que es tu responsabilidad informar donde debe llegar el producto. Nuestros productos se despachan dentro de las 24 hrs hábiles posteriores a la acreditación de tu pago. Todos los costos de envío que suceden por compras dentro de Mallweb.com.ar corren por cuenta exclusiva de nuestros clientes, excepto aclaración expresa en contrario (por ejemplo, en el caso de promociones vigentes)\n\nPara los Envíos Express 24 horas. Este servicio funciona para envío únicamente a:\nCABA, Vicente Lopez, Olivos, La Lucila, Florida, Villa Martelli, San Martin. (Gratis para pedidos de $8000 o más)\nPartido de San Fernando\nPartido de San Isidro\nPartido de Morón\nPartido de Hurlingham\nPartido de Ituzaingó\nPartido de La matanza\nPartido de General San Martín\nPartido de Tres de Febrero\nPartido de Avellaneda\nPartido de Lanús\nPartido de Lomas de Zamora\n\nEstos envíos se hacen los días hábiles de lunes a viernes para los pedidos con el pago acreditado antes de las 12hrs. del día de la compra. Siempre se tomará como punto de partida para el inicio del proceso del envío, la acreditación efectiva y verificada del pago completo de la compra. La empresa se reserva el derecho de pedir documentación respaldatoria o de realizar verificaciones adicionales cuando lo considere necesario. De igual forma, este servicio estará sujeto a las dimensiones del producto a enviar. Plazo de entrega 24 horas en días hábiles de Lunes a viernes.\nPara los Envíos durante la semana con día a confirmar:\nEste servicio funciona para envío únicamente para:\nPartidos de La Plata (Dí­a de entrega a confirmar)\n\n(El pago debe estar acreditado el dia anterior del envío indicado según su Zona)\n\nLos horarios de entrega para los envíos Express son entre las 15 a 21hrs, en caso de no poder entregar el repartidor deberá contactarse para reprogramar la entrega, en caso de no poder comunicarse, se Reprograma Automáticamente para el día siguiente hábil (excepto los que se entreguen en la Plata los cuales solo tienen entregas un dia a la semana a confirmar de acuerdo a su programación de la semana.)</string>
+    <string name="ansDelMet2">No tenemos local a la calle, es solo punto de retiro de mercadería y /o pago en efectivo con reserva y turno previo gestionado por cualquier de nuestros medios de contacto. Si abonaste con otro medio de pago, es necesario que aguardes la confirmación de la acreditación del pago y la Factura para que puedas pasar. Si podés retirar, es necesario que aguardes la confirmación de la acreditación del pago y la Factura para que puedas pasar.</string>
+    <string name="ansDelMet3">Las devoluciones se gestionan por email a: venta@mallweb.com.ar La misma debe ser dentro de los 10 dias de realizada la compra. También puedes ponerte en contacto por Whatsapp. El producto debe estar en las mismas condiciones en las que fue entregado, incluyendo todo el envoltorio interno, manuales y su caja. No aceptamos devoluciones de productos abiertos. Los reembolsos o notas de crédito quedan sujetos a verificación del estado de los productos tras su devolución.</string>
+    <string name="delMet3">Devoluciones</string>
+    <string name="delMet2">Punto de retiro</string>
+    <string name="delMet1">Envíos y entregas</string>
+    <string name="delMetSubTitle">Política de Envíos y Devoluciones: El tiempo de despacho <b>podrá demorar entre 24 a 48hrs (días hábiles)</b> dependiendo el destino, esto se confirmará vía mail.</string>
+    <string name="waw1">MallWeb es tu Ecommerce Tecno con stock real 100% online.</string>
+    <string name="wawAns1">Queremos brindarte una experiencia de compra diferente, en donde destacamos la atención personalizada, acompañándote desde el inicio hasta el final de tu compra. Te garantizamos el respaldo necesario para tu primer compra, porque confiamos en que vas a volver. Todos los productos que podés ver en la web, están listos para ser entregados, contamos con envío en el día* y a todo el país.</string>
+    <string name="waw2">¿Cómo empezamos?</string>
+    <string name="wawAns2">Llevamos 30 años de experiencia en ventas directas y decidimos enfocarnos al área que nos faltaba: Venta Online. Comenzamos únicamente a través de MercadoLibre en el 2016, hoy somos Mercado Líder Platinum, uno de los mejores del sitio y en donde hemos alcanzado más de 40.000 ventas. Esto nos llevó a desarrollar nuestro propio canal de venta online, para poder ofrecerte un servicio con seguimiento directo y único para vos, con mayor variedad de productos.</string>
+    <string name="waw3">Paso a paso en MallWeb</string>
+    <string name="wawAns3">Para empezar, una vez que ingresaste a la página podes navegar por las diferentes categorías y filtros para facilitar la búsqueda. Si ya sabes lo que querés comprar, tenemos un buscador que te puede ser útil para que lo encuentres más rápido. Cuando encontraste el o los productos que querés, los agregas al carrito de compra apretando el botón: Pedilo Ahora. Después, podés seguir viendo más productos o ir al carrito para continuar la compra.</string>
+    <string name="waw4">Adentro del carrito podés:</string>
+    <string name="wawAns4">- Cambiar las cantidades de los productos que seleccionaste.\n - Ver las opciones de envío o retiro ingresando tu código postal y elegí la que más te convenga.\n - Podes ingresar un código de promoción o descuento que se aplica antes de realizar la compra.\n - Calcular las cuotas de mercado pago u otras opciones (transferencia o depósito).</string>
+    <string name="waw5">Cuando apretás el botón:</string>
+    <string name="wawAns5" tools:ignore="Typos">Realizar compra, tenés que ingresar tu usuario y contraseña. Si todavía no te registraste, podés crearla en el momento y seguir con la compra. Una vez que hayas ingresado elegís el método de entrega: envío o retiro, continuas con el método de pago y das finalizar la compra.\n Te va a llegar un primer e-mail confirmándote que recibimos tu pedido. Una vez acreditado el pago te va a llegar un segundo mail con el código del pedido para que puedas retirarlo o hacer el seguimiento de tu compra.\n Si tenés alguna duda con respecto a la compra desde nuestra Web mallweb.com.ar podés comunicarte con nosotros por los siguientes canales disponibles:</string>
+    <string name="waw6">ATENCIÓN VENTAS FUERA DE LA WEB</string>
+    <string name="facebook">Facebook:</string>
+    <string name="link_face_mallweb_com_ar"><a href="https://www.facebook.com/mallweb.com.ar">/MallWeb.com.ar</a></string>
+    <string name="instagram">Instagram:</string>
+    <string name="link_insta_mallweb_com_ar"><a href="https://www.instagram.com/mallweb.com.ar/">/@MallWeb.com.ar</a></string>
+    <string name="telefonos">Teléfonos:</string>
+    <string name="_011_4702_2760_de_lunes_a_viernes_de_9_a_18hs"><a href="">011 4702–2760 (de lunes a viernes de 9 a 18hs)</a></string>
+    <string name="whatsapp_number_mallweb">Whatsapp:</string>
+    <string name="_5491147022760_de_lunes_a_viernes_de_9_a_18hs"><a href="https://wa.me/5491147022760">+5491147022760 (de lunes a viernes de 9 a 18hs)</a></string>
+    <string name="telegram">TELEGRAM:</string>
+    <string name="_541164765577_de_lunes_a_viernes_de_9_a_18hs"><a href="https://t.me/+541164765577">+541164765577 (de lunes a viernes de 9 a 18hs)</a></string>
+    <string name="_541164765577_de_lunes_a_viernes_de_9_a_18hs_whatsapp"><a href="https://wa.me/5491147022760">+541164765577 (de lunes a viernes de 9 a 18hs)</a></string>
+    <string name="e_mail">E-mail:</string>
+    <string name="venta_mallweb_com_ar_email"><a href="mailto:venta@mallweb.com.ar">venta@mallweb.com.ar</a></string>
+    <string name="waw7">CONSULTAR POR EL ESTADO DE TU PEDIDO EN LA WEB</string>
+    <string name="tel_fono_o_whatsapp">Teléfono o Whatsapp:</string>
+    <string name="para_consultas_por_compras_realizadas_desde_mercadolibre">Para consultas por compras realizadas desde MERCADOLIBRE</string>
+    <string name="ventas_mallweb_com_ar_email"><a href="mailto:ventas1@mallweb.com.ar" tools:ignore="Typos">ventas1@mallweb.com.ar</a></string>
+    <string name="atenci_n_post_venta_soporte_t_cnico_mallweb_mercadolibre">Atención Post Venta / Soporte Técnico Mallweb / Mercadolibre</string>
+    <string name="completar_formulario">Completar formulario:</string>
+    <string name="click_aqu"><a href="https://docs.google.com/forms/d/e/1FAIpQLSfsElr1brQbB8iMYUV9vS-imNqWdhCkVc6d3zzwdNyQKZg8EA/viewform">Click Aquí</a></string>
+    <string name="ingresar_con_google">\tIngresar con Google</string>
+    <string name="ingreso_manual">INGRESO MANUAL</string>
+    <string name="tu_contrase_a">Tu contraseña</string>
+    <string name="tu_email">Tu email</string>
+    <string name="perdiste_tu_contrase_a">¿PERDISTE TU CONTRASEÑA?</string>
+    <string name="no_ten_s_cuenta">¿No tenés cuenta?</string>
+    <string name="recuperar_contrase_a">RECUPERAR CONTRASEÑA</string>
+    <string name="escribe_el_email_asociado_a_tu_cuenta_para_recuperar_tu_contrase_a">Escribe el email asociado a tu cuenta para recuperar tu contraseña:</string>
+    <string name="ingresar">INGRESAR</string>
+    <string name="ya_ten_s_cuenta">¿Ya tenés cuenta?</string>
+    <string name="registrarme">REGISTRARME</string>
+    <string name="registro_manual">REGISTRO MANUAL</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="d_n_i">D.N.I.</string>
+    <string name="c_u_i_t">C.U.I.T.</string>
+    <string name="email">Email</string>
+    <string name="mi_carrito">MI CARRITO</string>
+    <string name="carrito_vac_o">Carrito vacío</string>
+    <string name="proximamente">Proximamente…</string>
+    <string name="seguinos">Seguinos!</string>
+    <string name="d_nde_estamos">¿Dónde estamos?</string>
+    <string name="n_ez_caba">Núñez, CABA.</string>
+    <string name="datos_bancarios">Datos bancarios</string>
+    <string name="santander_rio">Santander Rio</string>
+    <string name="titular">Titular:</string>
+    <string name="polytech_s_a">POLYTECH S.A.</string>
+    <string name="sombra_par_foto">SOMBRA.PAR.FOTO</string>
+    <string name="alias">ALIAS:</string>
+    <string name="_0720432020000000074386">0720432020000000074386</string>
+    <string name="cbu">CBU:</string>
+    <string name="_33643358749">33643358749</string>
+    <string name="_432_000743_8">432–000743/8</string>
+    <string name="cuenta_corriente">Cuenta Corriente:</string>
+    <string name="perif_ricos">Periféricos</string>
+    <string name="perif_ricos_para_pc">Periféricos para PC</string>
+    <string name="auriculares">Auriculares</string>
+    <string name="auriculares_con_micr_fono">Auriculares con micrófono</string>
+    <string name="teclados_y_mouses">Teclados y Mouses</string>
+    <string name="mouse_optico">Mouse Optico</string>
+    <string name="teclados">Teclados</string>
+    <string name="mouses">Mouses</string>
+    <string name="teclado_mouse">Teclado + Mouse</string>
+    <string name="tabletas_digitalizadoras">Tabletas Digitalizadoras</string>
+    <string name="camara_web">Camara Web</string>
+    <string name="placas_de_red">Placas de Red</string>
+    <string name="adaptadores_de_usb">Adaptadores de USB</string>
+    <string name="routers">Routers</string>
+    <string name="switches">Switches</string>
+    <string name="ups">UPS</string>
+    <string name="placa_de_video">Placa de video</string>
+    <string name="mother_para_intel">Mother para INTEL</string>
+    <string name="mother_para_amd">Mother para AMD</string>
+    <string name="microprocesadores_intel">Microprocesadores INTEL</string>
+    <string name="microprocesadores_amd">Microprocesadores AMD</string>
+    <string name="memorias_para_notebook">Memorias para Notebook</string>
+    <string name="memorias_para_pc">Memorias para PC</string>
+    <string name="fuentes_de_alimentaci_n">Fuentes de alimentación</string>
+    <string name="combos_actualizaci_n_pc">Combos actualización PC</string>
+    <string name="barra_de_sonido">Barra de sonido</string>
+    <string name="parlantes">Parlantes</string>
+    <string name="soportes">Soportes</string>
+    <string name="tv_lcd_led">TV LCD/LED</string>
+    <string name="notebooks">Notebooks</string>
+    <string name="monitores">Monitores</string>
+    <string name="repuestos">Repuestos</string>
+    <string name="baterias">Baterias</string>
+    <string name="base_para_notebook">Base para Notebook</string>
+    <string name="monitor_gamer">Monitor Gamer</string>
+    <string name="monitor_lcd_led">Monitor LCD/LED</string>
+    <string name="auricular_gamer">Auricular Gamer</string>
+    <string name="componentes_para_streaming">Componentes para Streaming</string>
+    <string name="gabinetes_gamer">Gabinetes Gamer</string>
+    <string name="mouse_gamer">Mouse Gamer</string>
+    <string name="pad_mouse_gamer">Pad Mouse Gamer</string>
+    <string name="silla_gamer">Silla Gamer</string>
+    <string name="volantes_y_joystick_gamer">Volantes y Joystick Gamer</string>
+    <string name="ingreso_rapido">INGRESO RAPIDO</string>
+
 </resources>

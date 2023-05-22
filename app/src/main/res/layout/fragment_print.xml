@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".mallweb.fragmentsSubAllCategories.PrintFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/tvImpresoras"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="32dp"
+            android:textAllCaps="false"
+            android:textColor="#FF0000"
+            android:fontFamily="@font/chakra_petch_regular"
+            android:text="@string/impresoras"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/tvImpresoras"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"
+            android:id="@+id/llprintercategorybottoms"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginStart="32dp"
+                android:orientation="horizontal"
+                android:layout_marginEnd="32dp"
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="25"
+                    app:layout_constraintTop_toBottomOf="@+id/tvImpresoras"
+                    app:cardBackgroundColor="#FF0000"
+                    app:cardElevation="2dp"
+                    android:id="@+id/cvMultiFunction"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintStart_toStartOf="@+id/tvImpresoras"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/multifuncion"
+                        android:fontFamily="@font/chakra_petch_semi_bold"
+                        android:maxWidth="170dp"
+                        android:paddingHorizontal="32dp"
+                        android:paddingVertical="12dp"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="25"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvImpresoras"
+                    app:cardBackgroundColor="#FF0000"
+                    app:cardElevation="2dp"
+                    android:id="@+id/cvSimpleFunction"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintStart_toStartOf="@+id/tvImpresoras"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxWidth="170dp"
+                        android:fontFamily="@font/chakra_petch_semi_bold"
+                        android:text="@string/simple_funcion"
+                        android:paddingHorizontal="32dp"
+                        android:paddingVertical="12dp"/>
+
+                </androidx.cardview.widget.CardView>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginStart="32dp"
+                android:orientation="horizontal"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content">
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="25"
+                    app:layout_constraintTop_toBottomOf="@+id/tvImpresoras"
+                    app:cardBackgroundColor="#FF0000"
+                    app:cardElevation="2dp"
+                    android:id="@+id/cvLaser"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintStart_toStartOf="@+id/tvImpresoras"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/laser"
+                        android:fontFamily="@font/chakra_petch_semi_bold"
+                        android:maxWidth="170dp"
+                        android:paddingHorizontal="32dp"
+                        android:paddingVertical="12dp"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="25"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvImpresoras"
+                    app:cardBackgroundColor="#FF0000"
+                    app:cardElevation="2dp"
+                    android:id="@+id/cvInjectionInk"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintStart_toStartOf="@+id/tvImpresoras"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxWidth="170dp"
+                        android:fontFamily="@font/chakra_petch_semi_bold"
+                        android:text="@string/inyecci_n_de_tinta"
+                        android:paddingHorizontal="32dp"
+                        android:paddingVertical="12dp"/>
+
+                </androidx.cardview.widget.CardView>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginStart="32dp"
+                android:orientation="horizontal"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content">
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="25"
+                    app:layout_constraintTop_toBottomOf="@+id/tvImpresoras"
+                    app:cardBackgroundColor="#FF0000"
+                    app:cardElevation="2dp"
+                    android:id="@+id/cvColor"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintStart_toStartOf="@+id/tvImpresoras"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/chakra_petch_semi_bold"
+                        android:text="@string/color"
+                        android:maxWidth="170dp"
+                        android:paddingHorizontal="32dp"
+                        android:paddingVertical="12dp"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="25"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvImpresoras"
+                    app:cardBackgroundColor="#FF0000"
+                    app:cardElevation="2dp"
+                    android:id="@+id/cvMonocromatic"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintStart_toStartOf="@+id/tvImpresoras"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxWidth="170dp"
+                        android:fontFamily="@font/chakra_petch_semi_bold"
+                        android:text="@string/monocrom_tica"
+                        android:paddingHorizontal="32dp"
+                        android:paddingVertical="12dp"/>
+
+                </androidx.cardview.widget.CardView>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/llprintercategorybottoms"
+            android:layout_marginTop="24dp"
+            android:clipToPadding="false"
+            android:paddingBottom="280dp"
+            android:layout_height="wrap_content"
+            tools:ignore="NestedScrolling">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="10dp"
+                    android:id="@+id/cvPrintersHP"
+                    app:cardBackgroundColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/llprintercategorybottoms"
+                    android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/hp"
+                            android:textColor="#FF0000"
+                            android:id="@+id/tvTitlePrintBrand"
+                            android:fontFamily="@font/chakra_petch_regular"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/btnSeeAll"
+                            app:layout_constraintBottom_toBottomOf="@+id/btnSeeAll"
+                            android:layout_margin="16dp"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:id="@+id/btnSeeAll"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:fontFamily="@font/chakra_petch_regular"
+                            android:text="@string/ver_todos"
+                            android:textAllCaps="false"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_height="wrap_content"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvTitlePrintBrand"
+                            android:layout_margin="8dp"
+                            android:id="@+id/rvHP"
+                            tools:listitem="@layout/item_mallweb_printers"
+                            android:layout_height="wrap_content"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="24dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="10dp"
+                    android:id="@+id/cvPrintersBrother"
+                    app:cardBackgroundColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/cvPrintersHP"
+                    android:layout_height="wrap_content">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/brother"
+                            android:textColor="#FF0000"
+                            android:id="@+id/tvTitlePrintBrand2"
+                            android:fontFamily="@font/chakra_petch_regular"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/btnSeeAll2"
+                            app:layout_constraintBottom_toBottomOf="@+id/btnSeeAll2"
+                            android:layout_margin="16dp"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:id="@+id/btnSeeAll2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:fontFamily="@font/chakra_petch_regular"
+                            android:text="@string/ver_todos"
+                            android:textAllCaps="false"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_height="wrap_content"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvTitlePrintBrand2"
+                            android:layout_margin="8dp"
+                            android:id="@+id/rvBrother"
+                            tools:listitem="@layout/item_mallweb_printers"
+                            android:layout_height="wrap_content"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="24dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="10dp"
+                    android:id="@+id/cvPrintersPantum"
+                    app:cardBackgroundColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/cvPrintersBrother"
+                    android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pantum"
+                            android:textColor="#FF0000"
+                            android:id="@+id/tvTitlePrintBrand3"
+                            android:fontFamily="@font/chakra_petch_regular"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/btnSeeAllBrother"
+                            app:layout_constraintBottom_toBottomOf="@+id/btnSeeAllBrother"
+                            android:layout_margin="16dp"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:id="@+id/btnSeeAllBrother"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:fontFamily="@font/chakra_petch_regular"
+                            android:text="@string/ver_todos"
+                            android:textAllCaps="false"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_height="wrap_content"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvTitlePrintBrand3"
+                            android:layout_margin="8dp"
+                            android:id="@+id/rvPantum"
+                            tools:listitem="@layout/item_mallweb_printers"
+                            android:layout_height="wrap_content"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="24dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="10dp"
+                    android:id="@+id/cvPrintersEPSON"
+                    app:cardBackgroundColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/cvPrintersPantum"
+                    android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/epson"
+                            android:textColor="#FF0000"
+                            android:id="@+id/tvTitlePrintBrand4"
+                            android:fontFamily="@font/chakra_petch_regular"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/btnSeeAllBrother4"
+                            app:layout_constraintBottom_toBottomOf="@+id/btnSeeAllBrother4"
+                            android:layout_margin="16dp"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:id="@+id/btnSeeAllBrother4"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:fontFamily="@font/chakra_petch_regular"
+                            android:text="@string/ver_todos"
+                            android:textAllCaps="false"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_height="wrap_content"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvTitlePrintBrand4"
+                            android:layout_margin="8dp"
+                            android:id="@+id/rvEPSON"
+                            tools:listitem="@layout/item_mallweb_printers"
+                            android:layout_height="wrap_content"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</ScrollView>

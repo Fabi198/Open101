@@ -15,6 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Open101"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_Api" />
+
+        <activity
+            android:name=".activitys.MallWeb"
+            android:exported="false" />
         <activity
             android:name=".activitys.CocktailDB"
             android:exported="false" />

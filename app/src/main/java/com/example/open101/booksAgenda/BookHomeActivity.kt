@@ -2,10 +2,9 @@ package com.example.open101.booksAgenda
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.open101.R
@@ -18,7 +17,6 @@ import com.example.open101.booksAgenda.menuFragments.EditBookFragment
 import com.example.open101.booksAgenda.menuFragments.EditFieldsFragment
 import com.example.open101.databinding.ActivityBookHomeBinding
 import com.example.open101.fragments.*
-import com.google.android.material.navigation.NavigationView
 
 
 class BookHomeActivity: AppCompatActivity(), BookFragmentsManager {
@@ -34,6 +32,7 @@ class BookHomeActivity: AppCompatActivity(), BookFragmentsManager {
     }
 
     private fun setupUI() {
+        val animFrag: Animation = AnimationUtils.loadAnimation(this, R.anim.left_in)
         dbBooks = DbBooks(this)
         val adapter = BookAdapter(dbBooks.showBooks())
         binding.rvBooks.adapter = adapter
@@ -57,6 +56,7 @@ class BookHomeActivity: AppCompatActivity(), BookFragmentsManager {
                         .addToBackStack(null)
                         .commit()
                     binding.bookContainer.visibility = View.VISIBLE
+                    binding.bookContainer.startAnimation(animFrag)
                 }
                 R.id.item_edit_book -> {
                     supportFragmentManager.beginTransaction()
@@ -64,6 +64,7 @@ class BookHomeActivity: AppCompatActivity(), BookFragmentsManager {
                         .addToBackStack(null)
                         .commit()
                     binding.bookContainer.visibility = View.VISIBLE
+                    binding.bookContainer.startAnimation(animFrag)
                 }
                 R.id.item_delete_book -> {
                     supportFragmentManager.beginTransaction()
@@ -71,9 +72,11 @@ class BookHomeActivity: AppCompatActivity(), BookFragmentsManager {
                         .addToBackStack(null)
                         .commit()
                     binding.bookContainer.visibility = View.VISIBLE
+                    binding.bookContainer.startAnimation(animFrag)
                 }
                 R.id.item_close_session -> {
                     startActivity(Intent(this, BookLoginActivity::class.java))
+                    overridePendingTransition(R.anim.right_in, R.anim.fade_out)
                     finish()
                 }
             }
@@ -92,10 +95,14 @@ class BookHomeActivity: AppCompatActivity(), BookFragmentsManager {
     }
 
     override fun editBookResponse() {
+        val animSecondFrag: Animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
         supportFragmentManager.beginTransaction().replace(binding.bookContainer.id, EditFieldsFragment(), "EditFieldsFragment").addToBackStack(null).commit()
+        binding.bookContainer.startAnimation(animSecondFrag)
     }
 
     override fun deleteBookResponse() {
+        val animSecondFrag: Animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
         supportFragmentManager.beginTransaction().replace(binding.bookContainer.id, DeleteBookFragment(), "DeleteBookFragment").addToBackStack(null).commit()
+        binding.bookContainer.startAnimation(animSecondFrag)
     }
 }

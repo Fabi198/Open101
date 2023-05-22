@@ -56,11 +56,6 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
             requireActivity().supportFragmentManager.beginTransaction().replace(binding.popularcocktailslistedContainer.id, listedAlcoholic, "ListedAlcoholic").addToBackStack(null).commit()
         }
 
-
-
-
-
-
         val id = arguments?.getString("id", "0")
         lifecycleScope.launch {
             if (id != "0") {
@@ -225,7 +220,6 @@ class CocktailFullView : Fragment(R.layout.fragment_popular_drinks_on_item_click
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-
             }
     }
 

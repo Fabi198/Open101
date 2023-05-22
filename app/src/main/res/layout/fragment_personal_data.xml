@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mallweb.fragmentsDrawerMenu.PersonalDataFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAllCaps="false"
+        android:textColor="@color/red"
+        android:textSize="24sp"
+        android:fontFamily="@font/chakra_petch_bold_italic"
+        android:text="@string/proximamente"/>
+
+</FrameLayout>

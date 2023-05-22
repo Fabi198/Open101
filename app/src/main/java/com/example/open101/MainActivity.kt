@@ -17,79 +17,23 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarMain)
         supportActionBar?.title = null
         setupButtons()
-
-
     }
 
     private fun setupButtons() {
-        binding.btnTC.setOnClickListener {
-            val intent = Intent(this, Temperaturecalculator::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnCalcu.setOnClickListener {
-            val intent = Intent(this, Calcu::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnDoggy.setOnClickListener {
-            val intent = Intent(this, DogList::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnArticles.setOnClickListener {
-            val intent = Intent(this, ArticulosActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnBooks.setOnClickListener {
-            val intent = Intent(this, BookLoginActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnSuper.setOnClickListener {
-            val intent = Intent(this, Superhero::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnFragments.setOnClickListener {
-            val intent = Intent(this, Fragment101::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnUserDB.setOnClickListener {
-            val intent = Intent(this, UserDB::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnServices.setOnClickListener {
-            val intent = Intent(this, ServicesTestActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnBroad.setOnClickListener {
-            val intent = Intent(this, BroadcastActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnSimpsonsDB.setOnClickListener {
-            val intent = Intent(this, SimpsonsDB::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnNASADB.setOnClickListener {
-            val intent = Intent(this, NasaDB::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnAlarms.setOnClickListener {
-            val intent = Intent(this, AlarmsTestActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnCockDB.setOnClickListener {
-            val intent = Intent(this, CocktailDB::class.java)
-            startActivity(intent)
-        }
+        binding.btnTC.setOnClickListener { startActivity(Intent(this, Temperaturecalculator::class.java)) }
+        binding.btnCalcu.setOnClickListener { startActivity(Intent(this, Calcu::class.java)) }
+        binding.btnDoggy.setOnClickListener { startActivity(Intent(this, DogList::class.java)) }
+        binding.btnArticles.setOnClickListener { startActivity(Intent(this, ArticulosActivity::class.java)) }
+        binding.btnBooks.setOnClickListener { startActivity(Intent(this, BookLoginActivity::class.java)) }
+        binding.btnSuper.setOnClickListener { startActivity(Intent(this, Superhero::class.java)) }
+        binding.btnFragments.setOnClickListener { startActivity(Intent(this, Fragment101::class.java)) }
+        binding.btnUserDB.setOnClickListener { startActivity(Intent(this, UserDB::class.java)) }
+        binding.btnServices.setOnClickListener { startActivity(Intent(this, ServicesTestActivity::class.java)) }
+        binding.btnBroad.setOnClickListener { startActivity(Intent(this, BroadcastActivity::class.java)) }
+        binding.btnSimpsonsDB.setOnClickListener { startActivity(Intent(this, SimpsonsDB::class.java)) }
+        binding.btnNASADB.setOnClickListener { startActivity(Intent(this, NasaDB::class.java)) }
+        binding.btnAlarms.setOnClickListener { startActivity(Intent(this, AlarmsTestActivity::class.java)) }
+        binding.btnCockDB.setOnClickListener { startActivity(Intent(this, CocktailDB::class.java)) }
+        binding.btnMallweb.setOnClickListener { startActivity(Intent(this, MallWeb::class.java)) }
     }
 }

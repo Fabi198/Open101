@@ -64,8 +64,8 @@ class BookLoginActivity : AppCompatActivity() {
                         if (binding.cbRemember.isChecked) {
                             saveUser(binding.etUser.text.toString())
                         }
-                        val intent = Intent(this@BookLoginActivity, BookHomeActivity::class.java)
-                        startActivity(intent)
+                        startActivity(Intent(this, BookHomeActivity::class.java))
+                        overridePendingTransition(R.anim.right_in, R.anim.fade_out)
                         finish()
                     }
                 }

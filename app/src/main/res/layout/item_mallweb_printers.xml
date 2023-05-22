@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    tools:ignore="UseCompoundDrawables">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/ivPrintImage"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/todo"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvPrintTitle"
+        android:textColor="@color/black"
+        android:fontFamily="@font/chakra_petch_medium"
+        android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>

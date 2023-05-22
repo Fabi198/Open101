@@ -29,7 +29,7 @@
             android:textSize="16sp"
             android:drawablePadding="8dp"
             android:layout_weight="25"
-            app:drawableStartCompat="@drawable/baseline_person_24"
+            app:drawableStartCompat="@drawable/baseline_person_violet_24"
             android:layout_height="wrap_content"
             tools:text="Autor" />
 

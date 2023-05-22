@@ -66,6 +66,21 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="VisualLintButtonSize" />
 
+        <Button
+            android:id="@+id/btnMallweb"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="25"
+            android:layout_gravity="center"
+            android:text="@string/mallweb"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="VisualLintButtonSize" />
+
     </LinearLayout>
 
     <LinearLayout
