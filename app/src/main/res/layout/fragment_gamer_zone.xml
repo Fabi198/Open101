@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="24dp"
+            android:id="@+id/btnAuricularGamer"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/auricular_gamer"
             android:textAllCaps="false"
@@ -69,6 +70,7 @@
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/componentes_para_streaming"
             android:textAllCaps="false"
+            android:id="@+id/btnComponentesStreaming"
             android:textSize="20sp" />
 
         <ImageView
@@ -89,6 +91,7 @@
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/gabinetes_gamer"
             android:textAllCaps="false"
+            android:id="@+id/btnGabinetesGamer"
             android:textSize="20sp" />
 
         <ImageView
@@ -108,6 +111,7 @@
             android:layout_marginTop="24dp"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/mouse_gamer"
+            android:id="@+id/btnMouseGamer"
             android:textAllCaps="false"
             android:textSize="20sp" />
 
@@ -128,6 +132,7 @@
             android:layout_marginTop="24dp"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/pad_mouse_gamer"
+            android:id="@+id/btnPadMouseGamer"
             android:textAllCaps="false"
             android:textSize="20sp" />
 
@@ -148,6 +153,7 @@
             android:layout_marginTop="24dp"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/silla_gamer"
+            android:id="@+id/btnSillaGamer"
             android:textAllCaps="false"
             android:textSize="20sp" />
 
@@ -169,6 +175,7 @@
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/volantes_y_joystick_gamer"
             android:textAllCaps="false"
+            android:id="@+id/btnVolantesGamer"
             android:textSize="20sp" />
 
         <ImageView

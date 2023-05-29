@@ -19,11 +19,30 @@ android {
     }
 
     buildTypes {
-        release {
+        debug{
+            debuggable true
             minifyEnabled false
+            buildConfigField "boolean", "SHOW_BTN_LOGIN", "true"
+        }
+
+        release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "version"
+    productFlavors {
+        freeVersion {
+            buildConfigField "boolean", "IS_FREE_VERSION", "true"
+            // applicationIdSuffix ".free"
+        }
+        premiumVersion{
+            buildConfigField "boolean", "IS_FREE_VERSION", "false"
+            // applicationIdSuffix ".premium"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -40,7 +59,7 @@ android {
 dependencies {
 
 
-    implementation 'com.google.firebase:firebase-analytics:21.2.2'
+    implementation 'com.google.firebase:firebase-analytics:21.3.0'
     implementation 'com.google.firebase:firebase-auth:22.0.0'
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation "com.google.android.gms:play-services-maps:18.1.0"

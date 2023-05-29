@@ -48,6 +48,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="48dp"
         android:textAllCaps="false"
+        android:id="@+id/btnBarraDeSonido"
         android:fontFamily="@font/chakra_petch_medium"
         android:text="@string/barra_de_sonido"/>
 
@@ -68,6 +69,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="48dp"
         android:textAllCaps="false"
+        android:id="@+id/btnParlantes"
         android:fontFamily="@font/chakra_petch_medium"
         android:text="@string/parlantes"/>
 
@@ -88,6 +90,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="48dp"
         android:textAllCaps="false"
+        android:id="@+id/btnSoportes"
         android:fontFamily="@font/chakra_petch_medium"
         android:text="@string/soportes"/>
 
@@ -108,6 +111,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="48dp"
         android:textAllCaps="false"
+        android:id="@+id/btnTVLCDLED"
         android:fontFamily="@font/chakra_petch_medium"
         android:text="@string/tv_lcd_led"/>
 

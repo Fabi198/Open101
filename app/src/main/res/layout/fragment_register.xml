@@ -33,7 +33,7 @@
             android:fontFamily="@font/chakra_petch_medium"
             android:autofillHints="text"
             android:inputType="textPersonName"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
         <EditText
             android:layout_width="match_parent"
@@ -47,7 +47,7 @@
             android:fontFamily="@font/chakra_petch_medium"
             android:autofillHints="text"
             android:inputType="textPersonName"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
         <EditText
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
             android:fontFamily="@font/chakra_petch_medium"
             android:autofillHints="number"
             android:inputType="number"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
         <EditText
             android:layout_width="match_parent"
@@ -75,7 +75,7 @@
             android:fontFamily="@font/chakra_petch_medium"
             android:autofillHints="number"
             android:inputType="number"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
         <EditText
             android:layout_width="match_parent"
@@ -89,7 +89,7 @@
             android:fontFamily="@font/chakra_petch_medium"
             android:autofillHints="emailAddress"
             android:inputType="textEmailAddress"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
         <EditText
             android:layout_width="match_parent"
@@ -103,17 +103,18 @@
             android:autofillHints="password"
             android:hint="@string/tu_contrase_a"
             android:inputType="textPassword"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
 
         <Button
+            android:id="@+id/btnReg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/red"
-            android:id="@+id/btnReg"
-            android:layout_gravity="center_horizontal"
             android:text="@string/registrarme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            tools:ignore="TextContrastCheck" />
 
         <LinearLayout
             android:layout_width="wrap_content"

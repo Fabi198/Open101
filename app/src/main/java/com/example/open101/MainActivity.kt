@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.open101.activitys.*
 import com.example.open101.databinding.ActivityMainBinding
+import com.example.open101.mallweb.db.DbMallwebHelper
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarMain)
         supportActionBar?.title = null
         setupButtons()
+        val db = DbMallwebHelper(this)
+        db.readableDatabase
     }
 
     private fun setupButtons() {

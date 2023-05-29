@@ -48,6 +48,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:textAllCaps="false"
+            android:id="@+id/btnDiscosSSD"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/discos_ssd"/>
 
@@ -68,8 +69,9 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:textAllCaps="false"
+            android:id="@+id/btnDiscosSATA"
             android:fontFamily="@font/chakra_petch_medium"
-            android:text="@string/discos_sata_para_pc"/>
+            android:text="@string/discos_sata"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -88,8 +90,9 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:textAllCaps="false"
+            android:id="@+id/btnDiscosExternos"
             android:fontFamily="@font/chakra_petch_medium"
-            android:text="@string/discos_sata_para_notebooks"/>
+            android:text="@string/discos_externos"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -108,26 +111,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:textAllCaps="false"
-            android:fontFamily="@font/chakra_petch_medium"
-            android:text="@string/discos_ssd_externos"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:contentDescription="@string/todo"
-            android:layout_height="2dp"
-            android:background="@color/gray"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:src="@android:drawable/divider_horizontal_bright" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="48dp"
-            android:textAllCaps="false"
+            android:id="@+id/btnPendrives"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/pendrives"/>
 
@@ -148,6 +132,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:textAllCaps="false"
+            android:id="@+id/btnMemoriasSD"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/memorias_sd"/>
 

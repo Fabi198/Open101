@@ -30,6 +30,9 @@ class AllCategoriesFragment: Fragment(R.layout.fragment_all_categories) {
 
     private fun showFragment(id: Int?, fragment: Fragment) {
         if (id != null) {
+            val bundle = Bundle()
+            bundle.putInt("ContainerID", id)
+            fragment.arguments = bundle
             requireActivity()
                 .supportFragmentManager
                 .beginTransaction()

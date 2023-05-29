@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.example.open101.R
 import com.example.open101.databinding.FragmentRegisterBinding
+import com.example.open101.mallweb.db.DbMallweb
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -27,6 +28,12 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(binding.etEmail.text.toString(), binding.etPass.text.toString())
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
+                            val dbMallweb = DbMallweb(requireContext())
+                            dbMallweb.createBasicClient(binding.etEmail.text.toString(),
+                            binding.etName.text.toString(),
+                            binding.etLastName.text.toString(),
+                            binding.etDNI.text.toString(),
+                            binding.etCUIT.text.toString())
                             showAlertSuccess()
                             requireActivity().supportFragmentManager.popBackStack()
                         } else {

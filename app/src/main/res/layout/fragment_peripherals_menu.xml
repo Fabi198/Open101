@@ -48,6 +48,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:textAllCaps="false"
+            android:id="@+id/btnAuriculares"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/auriculares"/>
 
@@ -68,6 +69,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:textAllCaps="false"
+            android:id="@+id/btnAuricularesConMicrofono"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/auriculares_con_micr_fono"/>
 
@@ -108,26 +110,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:textAllCaps="false"
-            android:fontFamily="@font/chakra_petch_medium"
-            android:text="@string/mouse_optico"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:contentDescription="@string/todo"
-            android:layout_height="2dp"
-            android:background="@color/gray"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:src="@android:drawable/divider_horizontal_bright" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="48dp"
-            android:textAllCaps="false"
+            android:id="@+id/btnTeclado"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/teclados"/>
 
@@ -148,8 +131,9 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:textAllCaps="false"
+            android:id="@+id/btnTecladoInalambrico"
             android:fontFamily="@font/chakra_petch_medium"
-            android:text="@string/mouses"/>
+            android:text="@string/teclado_inal_mbrico"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -168,6 +152,49 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:textAllCaps="false"
+            android:id="@+id/btnMouseOptico"
+            android:fontFamily="@font/chakra_petch_medium"
+            android:text="@string/mouse_optico"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:contentDescription="@string/todo"
+            android:layout_height="2dp"
+            android:background="@color/gray"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@android:drawable/divider_horizontal_bright" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="48dp"
+            android:textAllCaps="false"
+            android:id="@+id/btnMouse"
+            android:fontFamily="@font/chakra_petch_medium"
+            android:text="@string/mouse_inal_mbrico"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:contentDescription="@string/todo"
+            android:layout_height="2dp"
+            android:background="@color/gray"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@android:drawable/divider_horizontal_bright" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="48dp"
+            android:textAllCaps="false"
+            android:id="@+id/btnTecladoMouse"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/teclado_mouse"/>
 
@@ -208,6 +235,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:textAllCaps="false"
+            android:id="@+id/btnTabletas"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/tabletas_digitalizadoras"/>
 
@@ -248,6 +276,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:textAllCaps="false"
+            android:id="@+id/btnCamaraWeb"
             android:fontFamily="@font/chakra_petch_medium"
             android:text="@string/camara_web"/>
 

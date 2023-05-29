@@ -4,10 +4,14 @@ package com.example.open101.activitys
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -18,10 +22,15 @@ import com.example.open101.databinding.ActivityMallWebBinding
 import com.example.open101.mallweb.adapters.NewBannersAdapter
 import com.example.open101.mallweb.adapters.RoundBottomsAdapter
 import com.example.open101.mallweb.auth.AuthFragment
+import com.example.open101.mallweb.db.DbMallweb
+import com.example.open101.mallweb.fragments.BrandsFragment
+import com.example.open101.mallweb.fragments.FeaturedBrands
 import com.example.open101.mallweb.fragmentsDrawerMenu.*
 import com.example.open101.mallweb.fragmentsSubAllCategories.*
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
+import java.util.*
+
 
 @Suppress("DEPRECATION")
 class MallWeb : AppCompatActivity() {
@@ -30,6 +39,7 @@ class MallWeb : AppCompatActivity() {
     private lateinit var animFadeOut: Animation
     private lateinit var animFadeIn: Animation
     private lateinit var animFrag: Animation
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +52,26 @@ class MallWeb : AppCompatActivity() {
         setupBannersRV()
         setShoppingCartButtonToolbar()
         setMyAccountButtonToolbar()
+        setSearchText()
+    }
+
+    private fun setSearchText() {
+        binding.etSearch.setOnEditorActionListener(OnEditorActionListener { _, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.action == KeyEvent.ACTION_DOWN || keyEvent.action == KeyEvent.KEYCODE_ENTER) {
+                showFragment(FeaturedBrands(), name = binding.etSearch.text.toString(), searchString = binding.etSearch.text.toString().lowercase())
+                binding.etSearch.setText("")
+                hideKeyboard()
+                return@OnEditorActionListener true
+            }
+            false
+        })
+        binding.btnSearch.setOnClickListener {
+            if (binding.etSearch.text.isNotEmpty()) {
+                showFragment(FeaturedBrands(), name = binding.etSearch.text.toString(), searchString = binding.etSearch.text.toString().lowercase())
+                hideKeyboard()
+                binding.etSearch.setText("")
+            }
+        }
     }
 
     private fun session(): Boolean {
@@ -79,6 +109,8 @@ class MallWeb : AppCompatActivity() {
         binding.rvRoundBottoms.startAnimation(animFadeIn)
         binding.rvBanners.visibility = View.VISIBLE
         binding.rvBanners.startAnimation(animFadeIn)
+        binding.cvSearch.visibility = View.VISIBLE
+        binding.cvSearch.startAnimation(animFadeIn)
     }
 
     private fun allGone() {
@@ -91,6 +123,8 @@ class MallWeb : AppCompatActivity() {
         binding.rvRoundBottoms.startAnimation(animFadeOut)
         binding.rvBanners.visibility = View.GONE
         binding.rvBanners.startAnimation(animFadeOut)
+        binding.cvSearch.visibility = View.GONE
+        binding.cvSearch.startAnimation(animFadeOut)
     }
 
     private fun setupDrawerNavigationBar() {
@@ -115,58 +149,18 @@ class MallWeb : AppCompatActivity() {
         drawerToggle.drawerArrowDrawable.color = resources.getColor(R.color.red)
         binding.nvLateralMallweb.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.item_home -> {
-                    refresh()
-                }
-                R.id.item_categories -> {
-                    showFragment(AllCategoriesFragment())
-                }
-                R.id.item_shop_container -> {
-                    if (session()) {
-                        showFragment(ShoppingCartFragment())
-                    } else {
-                        showFragment(AuthFragment())
-                    }
-                }
-                R.id.item_your_orders -> {
-                    if (session()) {
-                        showFragment(PersonalDataFragment())
-                    } else {
-                        showFragment(AuthFragment())
-                    }
-                }
-                R.id.item_your_directions -> {
-                    if (session()) {
-                        showFragment(PersonalDataFragment())
-                    } else {
-                        showFragment(AuthFragment())
-                    }
-                }
-                R.id.item_personal_data -> {
-                    if (session()) {
-                        showFragment(PersonalDataFragment())
-                    } else {
-                        showFragment(AuthFragment())
-                    }
-                }
-                R.id.item_who_are_we -> {
-                    showFragment(WhoAreWeFragment())
-                }
-                R.id.item_faq -> {
-                    showFragment(FAQFragment())
-                }
-                R.id.item_deliver_method -> {
-                    showFragment(DeliverMethodsFragment())
-                }
-                R.id.item_payment_method -> {
-                    showFragment(BankDataFragment())
-                }
-                R.id.item_contact -> {
-                    showFragment(ContactUsFragment())
-                }
-                R.id.item_close_mallweb_session -> {
-                    signOut()
-                }
+                R.id.item_home -> { refresh() }
+                R.id.item_categories -> { showFragment(AllCategoriesFragment()) }
+                R.id.item_shop_container -> { if (session()) { showFragment(ShoppingCartFragment()) } else { showFragment(AuthFragment()) } }
+                R.id.item_your_orders -> { if (session()) { showFragment(PersonalDataFragment()) } else { showFragment(AuthFragment()) } }
+                R.id.item_your_directions -> { if (session()) { showFragment(PersonalDataFragment()) } else { showFragment(AuthFragment()) } }
+                R.id.item_personal_data -> { if (session()) { showFragment(PersonalDataFragment()) } else { showFragment(AuthFragment()) } }
+                R.id.item_who_are_we -> { showFragment(WhoAreWeFragment()) }
+                R.id.item_faq -> { showFragment(FAQFragment()) }
+                R.id.item_deliver_method -> { showFragment(DeliverMethodsFragment()) }
+                R.id.item_payment_method -> { showFragment(BankDataFragment()) }
+                R.id.item_contact -> { showFragment(ContactUsFragment()) }
+                R.id.item_close_mallweb_session -> { signOut() }
             }
             binding.dlMallweb.closeDrawers()
             true
@@ -204,6 +198,7 @@ class MallWeb : AppCompatActivity() {
     }
 
     private fun setupBannersRV() {
+        val dbMallWeb = DbMallweb(this)
         binding.rvBanners.layoutManager = LinearLayoutManager(this)
         binding.rvBanners.adapter = NewBannersAdapter {
             when(it) {
@@ -212,18 +207,24 @@ class MallWeb : AppCompatActivity() {
                 "Comunidad" -> {showFragment(ContactUsFragment())}
                 "Zona Gamer" -> {showFragment(GamerZoneFragment())}
                 "Promociones" -> {showFragment(PromosFragment())}
-                "Corsair" -> {showFragment(FeaturedBrands())}
-                "Logitech" -> {showFragment(FeaturedBrands())}
-                "Seagate" -> {showFragment(FeaturedBrands())}
-                "Computación" -> {showFragment(NotebooksFragment())}
-                "Comp. PC" -> {showFragment(ComponentsFragment())}
-                "Almacenamiento" -> {showFragment(StorageMenu())}
-                "Periféricos" -> {showFragment(PeripheralsMenu())}
-                "Conectividad" -> {showFragment(ConnectivityFragment())}
-                "Impresión" -> {showFragment(PrintFragment())}
-                "Audio y Video" -> {showFragment(AudioAndVideoFragment())}
+                "Corsair" -> {showFragment(BrandsFragment(), "CORSAIR", dbMallWeb.queryForCategoryCant(9), 9)}
+                "Logitech" -> {showFragment(BrandsFragment(), "LOGITECH", dbMallWeb.queryForCategoryCant(27), 27)}
+                "Seagate" -> {showFragment(BrandsFragment(), "SEAGATE", dbMallWeb.queryForCategoryCant(37), 37)}
+                "Computación" -> {showFragment(BrandsFragment(), "NOTEBOOKS", setArrayCategory(arrayOf(30,31,29,28)))}
+                "Comp. PC" -> {showFragment(BrandsFragment(), "COMPONENTES PARA PC", setArrayCategory(arrayOf(9,10,11,12,13,14,15,16,17)))}
+                "Almacenamiento" -> { showFragment(BrandsFragment(), "ALMACENAMIENTO", setArrayCategory(arrayOf(1, 2, 3, 4)))}
+                "Periféricos" -> {showFragment(BrandsFragment(), "PERIFÉRICOS", setArrayCategory(arrayOf(32,33,36,38,35,36,39,37,34)))}
+                "Conectividad" -> {showFragment(BrandsFragment(), "CONECTIVIDAD", setArrayCategory(arrayOf(19,18,21,20)))}
+                "Impresión" -> {showFragment(BrandsFragment(), "IMPRESIÓN", setArrayCategory(arrayOf(22,23,24,25)))}
+                "Audio y Video" -> {showFragment(BrandsFragment(), "AUDIO Y VIDEO", setArrayCategory(arrayOf(5,6,7,8)))}
             }
         }
+    }
+
+    private fun setArrayCategory(i: Array<Int>): ArrayList<Int> {
+        val idCArray = ArrayList<Int>()
+        i.forEach { idCArray.add(it) }
+        return idCArray
     }
 
     private fun setShoppingCartButtonToolbar() {
@@ -244,9 +245,13 @@ class MallWeb : AppCompatActivity() {
         }
     }
 
-    private fun showFragment(fragment: Fragment) {
+    private fun showFragment(fragment: Fragment, name: String ?= null, idCArray: ArrayList<Int> ?= null, idBrand: Int ?= null, searchString: String ?= null) {
         val bundle = Bundle()
         bundle.putInt("ContainerID", binding.mallwebHomeContainer.id)
+        if (name != null) { bundle.putString("NameCategory", name) }
+        if (idCArray != null) { bundle.putIntegerArrayList("IDCategoryArray", idCArray) }
+        if (idBrand != null) { bundle.putInt("IdBrand", idBrand) }
+        if (searchString != null) { bundle.putString("Search", searchString) }
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction()
             .replace(binding.mallwebHomeContainer.id, fragment, fragment.tag)
@@ -255,5 +260,10 @@ class MallWeb : AppCompatActivity() {
         allGone()
         binding.mallwebHomeContainer.visibility = View.VISIBLE
         binding.mallwebHomeContainer.startAnimation(animFrag)
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.dlMallweb.windowToken, 0)
     }
 }

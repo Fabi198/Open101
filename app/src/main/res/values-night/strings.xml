@@ -183,9 +183,8 @@
     <string name="zona_gamer">Zona Gamer</string>
     <string name="discos_solidos">Discos Sólidos</string>
     <string name="discos_ssd">Discos SSD</string>
-    <string name="discos_sata_para_pc">Discos SATA para PC</string>
-    <string name="discos_sata_para_notebooks">Discos SATA para notebooks</string>
-    <string name="discos_ssd_externos">Discos SSD Externos</string>
+    <string name="discos_sata">Discos SATA</string>
+    <string name="discos_externos">Discos Externos</string>
     <string name="pendrives">Pendrives</string>
     <string name="memorias_sd">Memorias SD</string>
     <string name="lunes_a_viernes_de_9_00_a_17_30">Lunes a Viernes de 9:00 a 17:30</string>
@@ -339,5 +338,32 @@
     <string name="silla_gamer">Silla Gamer</string>
     <string name="volantes_y_joystick_gamer">Volantes y Joystick Gamer</string>
     <string name="ingreso_rapido">INGRESO RAPIDO</string>
+    <string name="que_est_s_buscando">¿Que estás buscando?</string>
+    <string name="mouse_inal_mbrico">Mouse Inalámbrico</string>
+    <string name="teclado_inal_mbrico">Teclado Inalámbrico</string>
+    <string name="mi_cuenta">Mi Cuenta</string>
+    <string name="mis_pedidos">Mis Pedidos</string>
+    <string name="mis_datos">Mis Datos</string>
+    <string name="abandonados">Abandonados</string>
+    <string name="id_cliente">ID Cliente:</string>
+    <string name="hint_apellido">Apellido:</string>
+    <string name="tel_fono">Teléfono:</string>
+    <string name="cod_area">Cod. Area:</string>
+    <string name="_15">15</string>
+    <string name="n_mero">Número:</string>
+    <string name="hint_d_n_i">D.N.I.:</string>
+    <string name="hint_c_u_i_t">C.U.I.T.:</string>
+    <string name="quiero_factura_a">Quiero Factura A:</string>
+    <string name="no">No</string>
+    <string name="actualizar_perfil">Actualizar Perfil</string>
+    <string name="direcci_n_de_env_o">Dirección de envío</string>
+    <string name="la_direcci_n_de_env_o_s_lo_podr_s_modificarla_en_el_momento_de_realizar_el_pedido" tools:ignore="Typos">* La dirección de envío sólo podrás modificarla en el momento de realizar el pedido.</string>
+    <string name="hint_calle">Calle:</string>
+    <string name="hint_altura">Altura:</string>
+    <string name="hint_piso">Piso:</string>
+    <string name="hint_puerta">Puerta:</string>
+    <string name="hint_cod_postal">Cod. postal:</string>
+    <string name="hint_provincia">Provincia:</string>
+    <string name="hint_localidad">Localidad:</string>
 
 </resources>

@@ -49,6 +49,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="48dp"
         android:textAllCaps="false"
+        android:id="@+id/btnNotebooks"
         android:fontFamily="@font/chakra_petch_medium"
         android:text="@string/notebooks"/>
 
@@ -70,6 +71,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="48dp"
         android:textAllCaps="false"
+        android:id="@+id/btnRepuestos"
         android:fontFamily="@font/chakra_petch_medium"
         android:text="@string/repuestos"/>
 
@@ -91,6 +93,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="48dp"
         android:textAllCaps="false"
+        android:id="@+id/btnBaterias"
         android:fontFamily="@font/chakra_petch_medium"
         android:text="@string/baterias"/>
 
@@ -112,6 +115,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="48dp"
         android:textAllCaps="false"
+        android:id="@+id/btnBaseNotebooks"
         android:fontFamily="@font/chakra_petch_medium"
         android:text="@string/base_para_notebook"/>
 
