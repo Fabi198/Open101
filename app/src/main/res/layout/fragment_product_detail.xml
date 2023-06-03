@@ -27,7 +27,6 @@
                 android:layout_margin="8dp"
                 android:background="@null"
                 android:contentDescription="@string/todo"
-                android:src="@drawable/baseline_heart_broken_24"
                 tools:ignore="DuplicateSpeakableTextCheck,ImageContrastCheck" />
 
             <ImageView

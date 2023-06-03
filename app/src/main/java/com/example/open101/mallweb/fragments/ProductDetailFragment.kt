@@ -24,6 +24,9 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
         val id = arguments?.getInt("ContainerID")
         val idProduct = arguments?.getInt("IDProduct")
         val dbMallWeb = DbMallweb(requireContext())
+        setupUI()
+
+
         if (idProduct != null) {
             val product = dbMallWeb.queryForProduct(idProduct)
             val brand = dbMallWeb.queryForBrand(product.idBrand)
@@ -50,6 +53,21 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
 
 
 
+
+    }
+
+    private fun setupUI() {
+        var favorite = false
+        Picasso.get().load(R.drawable.mallweb_icon_favorite_empty).fit().into(binding.btnFavorites)
+        binding.btnFavorites.setOnClickListener {
+            favorite = if (!favorite) {
+                Picasso.get().load(R.drawable.mallweb_icon_favorite_full).fit().into(binding.btnFavorites)
+                true
+            } else {
+                Picasso.get().load(R.drawable.mallweb_icon_favorite_empty).fit().into(binding.btnFavorites)
+                false
+            }
+        }
         Picasso.get().load(R.drawable.mallweb_icono_shared_facebook).fit().into(binding.btnSharedFacebook)
         binding.btnSharedFacebook.setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.mallweb.com.ar"))) }
         Picasso.get().load(R.drawable.mallweb_icono_shared_whatsapp).fit().into(binding.btnSharedWhatsapp)
