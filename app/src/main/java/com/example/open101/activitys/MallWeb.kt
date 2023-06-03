@@ -23,8 +23,8 @@ import com.example.open101.mallweb.adapters.NewBannersAdapter
 import com.example.open101.mallweb.adapters.RoundBottomsAdapter
 import com.example.open101.mallweb.auth.AuthFragment
 import com.example.open101.mallweb.db.DbMallweb
-import com.example.open101.mallweb.fragments.BrandsFragment
-import com.example.open101.mallweb.fragments.FeaturedBrands
+import com.example.open101.mallweb.fragments.CategoryFragment
+import com.example.open101.mallweb.fragments.SubCategoryFragment
 import com.example.open101.mallweb.fragmentsDrawerMenu.*
 import com.example.open101.mallweb.fragmentsSubAllCategories.*
 import com.google.firebase.auth.FirebaseAuth
@@ -58,7 +58,7 @@ class MallWeb : AppCompatActivity() {
     private fun setSearchText() {
         binding.etSearch.setOnEditorActionListener(OnEditorActionListener { _, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.action == KeyEvent.ACTION_DOWN || keyEvent.action == KeyEvent.KEYCODE_ENTER) {
-                showFragment(FeaturedBrands(), name = binding.etSearch.text.toString(), searchString = binding.etSearch.text.toString().lowercase())
+                showFragment(CategoryFragment(), name = binding.etSearch.text.toString(), searchString = binding.etSearch.text.toString().lowercase())
                 binding.etSearch.setText("")
                 hideKeyboard()
                 return@OnEditorActionListener true
@@ -67,7 +67,7 @@ class MallWeb : AppCompatActivity() {
         })
         binding.btnSearch.setOnClickListener {
             if (binding.etSearch.text.isNotEmpty()) {
-                showFragment(FeaturedBrands(), name = binding.etSearch.text.toString(), searchString = binding.etSearch.text.toString().lowercase())
+                showFragment(CategoryFragment(), name = binding.etSearch.text.toString(), searchString = binding.etSearch.text.toString().lowercase())
                 hideKeyboard()
                 binding.etSearch.setText("")
             }
@@ -203,20 +203,20 @@ class MallWeb : AppCompatActivity() {
         binding.rvBanners.adapter = NewBannersAdapter {
             when(it) {
                 "Mi Cuenta" -> {showFragment(PersonalDataFragment())}
-                "Marcas Destacadas" -> {showFragment(FeaturedBrands())}
+                "Marcas Destacadas" -> {showFragment(CategoryFragment())}
                 "Comunidad" -> {showFragment(ContactUsFragment())}
                 "Zona Gamer" -> {showFragment(GamerZoneFragment())}
-                "Promociones" -> {showFragment(PromosFragment())}
-                "Corsair" -> {showFragment(BrandsFragment(), "CORSAIR", dbMallWeb.queryForCategoryCant(9), 9)}
-                "Logitech" -> {showFragment(BrandsFragment(), "LOGITECH", dbMallWeb.queryForCategoryCant(27), 27)}
-                "Seagate" -> {showFragment(BrandsFragment(), "SEAGATE", dbMallWeb.queryForCategoryCant(37), 37)}
-                "Computación" -> {showFragment(BrandsFragment(), "NOTEBOOKS", setArrayCategory(arrayOf(30,31,29,28)))}
-                "Comp. PC" -> {showFragment(BrandsFragment(), "COMPONENTES PARA PC", setArrayCategory(arrayOf(9,10,11,12,13,14,15,16,17)))}
-                "Almacenamiento" -> { showFragment(BrandsFragment(), "ALMACENAMIENTO", setArrayCategory(arrayOf(1, 2, 3, 4)))}
-                "Periféricos" -> {showFragment(BrandsFragment(), "PERIFÉRICOS", setArrayCategory(arrayOf(32,33,36,38,35,36,39,37,34)))}
-                "Conectividad" -> {showFragment(BrandsFragment(), "CONECTIVIDAD", setArrayCategory(arrayOf(19,18,21,20)))}
-                "Impresión" -> {showFragment(BrandsFragment(), "IMPRESIÓN", setArrayCategory(arrayOf(22,23,24,25)))}
-                "Audio y Video" -> {showFragment(BrandsFragment(), "AUDIO Y VIDEO", setArrayCategory(arrayOf(5,6,7,8)))}
+                "Promociones" -> {showFragment(CategoryFragment())}
+                "Corsair" -> {showFragment(SubCategoryFragment(), "CORSAIR", dbMallWeb.queryForCategoryCant(9), 9)}
+                "Logitech" -> {showFragment(SubCategoryFragment(), "LOGITECH", dbMallWeb.queryForCategoryCant(27), 27)}
+                "Seagate" -> {showFragment(SubCategoryFragment(), "SEAGATE", dbMallWeb.queryForCategoryCant(37), 37)}
+                "Computación" -> {showFragment(SubCategoryFragment(), "NOTEBOOKS", setArrayCategory(arrayOf(30,31,29,28)))}
+                "Comp. PC" -> {showFragment(SubCategoryFragment(), "COMPONENTES PARA PC", setArrayCategory(arrayOf(9,10,11,12,13,14,15,16,17)))}
+                "Almacenamiento" -> { showFragment(SubCategoryFragment(), "ALMACENAMIENTO", setArrayCategory(arrayOf(1, 2, 3, 4)))}
+                "Periféricos" -> {showFragment(SubCategoryFragment(), "PERIFÉRICOS", setArrayCategory(arrayOf(32,33,36,38,35,36,39,37,34)))}
+                "Conectividad" -> {showFragment(SubCategoryFragment(), "CONECTIVIDAD", setArrayCategory(arrayOf(19,18,21,20)))}
+                "Impresión" -> {showFragment(SubCategoryFragment(), "IMPRESIÓN", setArrayCategory(arrayOf(22,23,24,25)))}
+                "Audio y Video" -> {showFragment(SubCategoryFragment(), "AUDIO Y VIDEO", setArrayCategory(arrayOf(5,6,7,8)))}
             }
         }
     }
@@ -245,7 +245,7 @@ class MallWeb : AppCompatActivity() {
         }
     }
 
-    private fun showFragment(fragment: Fragment, name: String ?= null, idCArray: ArrayList<Int> ?= null, idBrand: Int ?= null, searchString: String ?= null) {
+    fun showFragment(fragment: Fragment, name: String ?= null, idCArray: ArrayList<Int> ?= null, idBrand: Int ?= null, searchString: String ?= null) {
         val bundle = Bundle()
         bundle.putInt("ContainerID", binding.mallwebHomeContainer.id)
         if (name != null) { bundle.putString("NameCategory", name) }

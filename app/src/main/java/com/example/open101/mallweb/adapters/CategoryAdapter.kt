@@ -10,17 +10,17 @@ import com.example.open101.R
 import com.example.open101.databinding.ItemMallwebProductsRecyclerviewBinding
 import com.example.open101.mallweb.db.DbMallweb
 
-class SubCategorysAdapter(private val listSubCategorys: ArrayList<Int>, private val context: Context, private val onClickItem: (Int) -> Unit): RecyclerView.Adapter<SubCategorysAdapter.SubCategorysViewHolder>() {
+class CategoryAdapter(private val listSubCategorys: ArrayList<Int>, private val context: Context, private val onClickItem: (Int) -> Unit, private val onProductClicked: (Int) -> Unit): RecyclerView.Adapter<CategoryAdapter.SubCategorysViewHolder>() {
 
 
 
     class SubCategorysViewHolder (view: View): RecyclerView.ViewHolder(view) {
         val binding = ItemMallwebProductsRecyclerviewBinding.bind(view)
 
-        fun bind(i: Int, onClickItem: (Int) -> Unit, context: Context) {
+        fun bind(i: Int, onClickItem: (Int) -> Unit, context: Context, onProductClicked: (Int) -> Unit) {
             val dbMallweb = DbMallweb(context)
             val c = dbMallweb.queryForSubCategory(i)
-            val adapter = ProductAdapter(dbMallweb.queryForSubCategoryProducts(c.id))
+            val adapter = ProductAdapter(dbMallweb.queryForSubCategoryProducts(c.id)) {onProductClicked(it)}
             binding.tvTitleBrand.text = c.name
             if (binding.btnSeeAll.visibility == View.VISIBLE) {
                 binding.btnSeeAll.setOnClickListener { onClickItem(c.id) }
@@ -39,6 +39,6 @@ class SubCategorysAdapter(private val listSubCategorys: ArrayList<Int>, private 
     }
 
     override fun onBindViewHolder(holder: SubCategorysViewHolder, position: Int) {
-        holder.bind(listSubCategorys[position], onClickItem, context)
+        holder.bind(listSubCategorys[position], onClickItem, context, onProductClicked)
     }
 }

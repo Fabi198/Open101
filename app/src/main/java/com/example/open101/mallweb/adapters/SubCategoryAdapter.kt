@@ -10,20 +10,21 @@ import com.example.open101.R
 import com.example.open101.databinding.ItemMallwebProductsRecyclerviewBinding
 import com.example.open101.mallweb.db.DbMallweb
 
-class BrandsAdapter(
+class SubCategoryAdapter(
     private val listBrandsArray: ArrayList<Int>,
     private val idCategory: Int,
-    private val context: Context
-): RecyclerView.Adapter<BrandsAdapter.BrandsViewHolder>() {
+    private val context: Context,
+    private val onClickItem: (Int) -> Unit
+): RecyclerView.Adapter<SubCategoryAdapter.BrandsViewHolder>() {
 
 
     class BrandsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemMallwebProductsRecyclerviewBinding.bind(view)
 
-        fun bind(iB: Int, iC: Int, context: Context) {
+        fun bind(iB: Int, iC: Int, context: Context, onClickItem: (Int) -> Unit) {
             val dbMallweb = DbMallweb(context)
             val b = dbMallweb.queryForBrand(iB)
-            val adapter = ProductAdapter(dbMallweb.queryForProductsByBrandAndCategory(iB, iC))
+            val adapter = ProductAdapter(dbMallweb.queryForProductsByBrandAndCategory(iB, iC)) { onClickItem(it) }
             binding.btnSeeAll.visibility = View.INVISIBLE
             binding.tvTitleBrand.text = b.name
             binding.rvBrand.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -43,6 +44,6 @@ class BrandsAdapter(
     }
 
     override fun onBindViewHolder(holder: BrandsViewHolder, position: Int) {
-        holder.bind(listBrandsArray[position], idCategory, context)
+        holder.bind(listBrandsArray[position], idCategory, context, onClickItem)
     }
 }

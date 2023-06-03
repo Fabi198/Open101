@@ -365,5 +365,16 @@
     <string name="hint_cod_postal">Cod. postal:</string>
     <string name="hint_provincia">Provincia:</string>
     <string name="hint_localidad">Localidad:</string>
+    <string name="las_im_genes_se_exhiben_con_fines_ilustrativos">* Las imágenes se exhiben con fines ilustrativos.</string>
+    <string name="precio_nespecial">Precio \nespecial</string>
+    <string name="hint_cantidad">Cantidad:</string>
+    <string name="comprar">Comprar</string>
+    <string name="calcular_env_o">¡CALCULAR ENVÍO!</string>
+    <string name="retir_en_mallweb">Retirá en MallWeb</string>
+    <string name="garant_a_36_meses">Garantía 36 meses</string>
+    <string name="compartir">COMPARTIR:</string>
+    <string name="env_os_a_todo_el_pais">Envíos a todo el pais</string>
+    <string name="en_stock">EN STOCK</string>
+    <string name="_1">1</string>
 
 </resources>

@@ -6,8 +6,9 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.open101.R
 import com.example.open101.databinding.FragmentPrintBinding
-import com.example.open101.mallweb.adapters.SubCategorysAdapter
-import com.example.open101.mallweb.fragments.FeaturedBrands
+import com.example.open101.mallweb.adapters.CategoryAdapter
+import com.example.open101.mallweb.fragments.CategoryFragment
+import com.example.open101.mallweb.fragments.ProductDetailFragment
 import java.util.ArrayList
 
 
@@ -23,18 +24,41 @@ class PrintFragment : Fragment(R.layout.fragment_print) {
         val idCArray = setArrayCategory(arrayOf(22, 23, 24, 25))
 
         binding.rvPrinters.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvPrinters.adapter = SubCategorysAdapter(idCArray, requireContext()) {
+        binding.rvPrinters.adapter = CategoryAdapter(idCArray, requireContext(), {
             showFragment(id, it)
-        }
+        }, {
+            showProductFragment(id, it)
+        })
 
     }
 
     private fun showFragment(id: Int?, i: Int) {
         if (id != null) {
-            val fragment = FeaturedBrands()
+            val fragment = CategoryFragment()
             val bundle = Bundle()
             bundle.putInt("ContainerID", id)
             bundle.putInt("IDCategory", i)
+            fragment.arguments = bundle
+            requireActivity()
+                .supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(
+                    R.anim.right_in,
+                    R.anim.left_out,
+                    R.anim.right_in,
+                    R.anim.left_out)
+                .replace(id, fragment, fragment.tag)
+                .addToBackStack(fragment.tag)
+                .commit()
+        }
+    }
+
+    private fun showProductFragment(id: Int?, i: Int) {
+        if (id != null) {
+            val fragment = ProductDetailFragment()
+            val bundle = Bundle()
+            bundle.putInt("ContainerID", id)
+            bundle.putInt("IDProduct", i)
             fragment.arguments = bundle
             requireActivity()
                 .supportFragmentManager

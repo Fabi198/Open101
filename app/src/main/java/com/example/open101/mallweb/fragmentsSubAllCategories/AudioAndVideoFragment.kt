@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import com.example.open101.R
 import com.example.open101.databinding.FragmentAudioAndVideoBinding
-import com.example.open101.mallweb.fragments.FeaturedBrands
+import com.example.open101.mallweb.fragments.CategoryFragment
 
 
 class AudioAndVideoFragment : Fragment(R.layout.fragment_audio_and_video) {
@@ -26,7 +26,7 @@ class AudioAndVideoFragment : Fragment(R.layout.fragment_audio_and_video) {
 
     private fun showFragment(id: Int?, i: Int, name: String) {
         if (id != null) {
-            val fragment = FeaturedBrands()
+            val fragment = CategoryFragment()
             val bundle = Bundle()
             bundle.putInt("ContainerID", id)
             bundle.putInt("IDCategory", i)

@@ -10,20 +10,21 @@ import com.example.open101.databinding.ItemMallwebPrintersBinding
 import com.example.open101.mallweb.entities.Product
 import com.squareup.picasso.Picasso
 
-class ProductAdapter(private val listProduct: ArrayList<Product>): RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+class ProductAdapter(private val listProduct: ArrayList<Product>, private val onClickItem: (Int) -> Unit): RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
 
     class ProductViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val binding = ItemMallwebPrintersBinding.bind(view)
 
         @SuppressLint("SetTextI18n")
-        fun bind(i: Product) {
+        fun bind(i: Product, onClickItem: (Int) -> Unit) {
             val s = "$"
             if (i.image != 0) {
                 Picasso.get().load(i.image).fit().into(binding.ivPrintImage)
             }
             binding.tvPrintTitle.text = i.name
             binding.tvPrice.text = "U${s}S ${i.price}"
+            binding.cvProduct.setOnClickListener { onClickItem(i.id) }
         }
     }
 
@@ -36,6 +37,6 @@ class ProductAdapter(private val listProduct: ArrayList<Product>): RecyclerView.
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        holder.bind(listProduct[position])
+        holder.bind(listProduct[position], onClickItem)
     }
 }

@@ -50,15 +50,16 @@
                 android:src="@drawable/mallweb_sociallogo_mail"/>
 
             <TextView
+                android:id="@+id/tvContactMail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:layout_gravity="center_vertical"
-                android:id="@+id/tvContactMail"
                 android:layout_marginStart="16dp"
-                android:textAllCaps="false"
                 android:fontFamily="@font/chakra_petch_semi_bold"
-                android:text="@string/venta_mallweb_com_ar_email"/>
+                android:text="@string/venta_mallweb_com_ar_email"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
 
@@ -78,28 +79,30 @@
                 android:src="@drawable/mallweb_sociallogo_whatsapp"/>
 
             <TextView
+                android:id="@+id/tvContactCellphone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:layout_gravity="center_vertical"
-                android:id="@+id/tvContactCellphone"
                 android:layout_marginStart="16dp"
-                android:textAllCaps="false"
                 android:fontFamily="@font/chakra_petch_semi_bold"
-                android:text="@string/_1147022760"/>
+                android:text="@string/_1147022760"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
 
 
         <ImageView
             android:layout_width="match_parent"
-            android:contentDescription="@string/todo"
             android:layout_height="4dp"
-            android:background="@color/gray"
-            android:layout_marginTop="24dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:src="@android:drawable/divider_horizontal_bright" />
+            android:background="@color/gray"
+            android:contentDescription="@string/todo"
+            android:src="@android:drawable/divider_horizontal_bright"
+            tools:ignore="ImageContrastCheck" />
 
 
         <TextView
@@ -150,13 +153,14 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:contentDescription="@string/todo"
             android:layout_height="4dp"
-            android:background="@color/gray"
-            android:layout_marginTop="24dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:src="@android:drawable/divider_horizontal_bright" />
+            android:background="@color/gray"
+            android:contentDescription="@string/todo"
+            android:src="@android:drawable/divider_horizontal_bright"
+            tools:ignore="ImageContrastCheck" />
 
 
         <TextView
@@ -169,6 +173,7 @@
             android:textColor="#FF0000"
             android:fontFamily="@font/chakra_petch_regular"
             android:text="@string/d_nde_estamos"/>
+
 
 
 
@@ -187,6 +192,7 @@
 
 
         </FrameLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -218,7 +224,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+        <ImageView
+            android:id="@+id/btnAFIP"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/mallweb_qr_afip"
+            tools:ignore="ImageContrastCheck" />
 
     </LinearLayout>
 

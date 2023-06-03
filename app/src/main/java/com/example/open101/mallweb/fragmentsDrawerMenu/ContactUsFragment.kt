@@ -36,6 +36,7 @@ class ContactUsFragment : Fragment(R.layout.fragment_contact_us), OnMapReadyCall
         binding.btnInstagram.setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/mallweb.com.ar/"))) }
         binding.btnFacebook.setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/mallweb.com.ar"))) }
         binding.btnYoutube.setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/c/MallWebArgentina"))) }
+        binding.btnAFIP.setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://qr.afip.gob.ar/?qr=AukXbT4tGNymPpOCAbsFnA,,"))) }
         val fragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         fragment.getMapAsync(this)
     }

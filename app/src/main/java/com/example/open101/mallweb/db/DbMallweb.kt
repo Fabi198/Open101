@@ -122,6 +122,25 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         return idBrandArray
     }
 
+    fun queryForProduct(i: Int): Product {
+        val product = Product()
+        setDatabase()
+        val cursorProduct: Cursor = setDatabase().rawQuery("SELECT * FROM products WHERE idProduct = '$i'", null)
+        if (cursorProduct.moveToFirst()) {
+            product.id = cursorProduct.getInt(0)
+            product.codFab = cursorProduct.getString(1)
+            product.name = cursorProduct.getString(2)
+            product.idCategory = cursorProduct.getInt(3)
+            product.idBrand = cursorProduct.getInt(4)
+            product.stock = cursorProduct.getInt(5)
+            product.price = cursorProduct.getDouble(6)
+            product.image = cursorProduct.getInt(7)
+        }
+        setDatabase().close()
+        cursorProduct.close()
+        return product
+    }
+
     fun queryForBrandCant(i: Int): ArrayList<Int> {
         val idBrandArray = ArrayList<Int>()
         setDatabase()
@@ -151,11 +170,12 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
     fun queryForBrand(i: Int): Brand {
         setDatabase()
         val brand = Brand()
-        val cursorBrand: Cursor = setDatabase().rawQuery("SELECT * FROM brands WHERE idBrand = $i", null)
+        val cursorBrand: Cursor = setDatabase().rawQuery("SELECT * FROM brands WHERE idBrand = '$i'", null)
         if (cursorBrand.moveToFirst()) {
             do {
                 brand.id = cursorBrand.getInt(0)
                 brand.name = cursorBrand.getString(1)
+                brand.image = cursorBrand.getInt(2)
             } while (cursorBrand.moveToNext())
         }
         cursorBrand.close()

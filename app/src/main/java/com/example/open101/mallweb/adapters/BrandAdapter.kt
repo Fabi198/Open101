@@ -13,7 +13,8 @@ import com.example.open101.mallweb.db.DbMallweb
 class BrandAdapter(
     private val listSubCategorys: ArrayList<Int>,
     private val idBrand: Int,
-    private val context: Context
+    private val context: Context,
+    private val onClickItem: (Int) -> Unit
 ): RecyclerView.Adapter<BrandAdapter.BrandViewHolder>() {
 
 
@@ -21,10 +22,10 @@ class BrandAdapter(
     class BrandViewHolder (view: View): RecyclerView.ViewHolder(view) {
         val binding = ItemMallwebProductsRecyclerviewBinding.bind(view)
 
-        fun bind(iC: Int, context: Context, idBrand: Int) {
+        fun bind(iC: Int, context: Context, idBrand: Int, onClickItem: (Int) -> Unit) {
             val dbMallweb = DbMallweb(context)
             val c = dbMallweb.queryForSubCategory(iC)
-            val adapter = ProductAdapter(dbMallweb.queryForProductsByBrandAndCategory(idBrand, iC))
+            val adapter = ProductAdapter(dbMallweb.queryForProductsByBrandAndCategory(idBrand, iC)) {onClickItem(it)}
             binding.tvTitleBrand.text = c.name
             binding.btnSeeAll.visibility = View.INVISIBLE
             binding.rvBrand.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -41,6 +42,6 @@ class BrandAdapter(
     }
 
     override fun onBindViewHolder(holder: BrandViewHolder, position: Int) {
-        holder.bind(listSubCategorys[position], context, idBrand)
+        holder.bind(listSubCategorys[position], context, idBrand, onClickItem)
     }
 }

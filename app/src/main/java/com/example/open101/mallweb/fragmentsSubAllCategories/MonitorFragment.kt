@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import com.example.open101.R
 import com.example.open101.databinding.FragmentMonitorBinding
-import com.example.open101.mallweb.fragments.FeaturedBrands
+import com.example.open101.mallweb.fragments.CategoryFragment
 
 
 class MonitorFragment : Fragment(R.layout.fragment_monitor) {
@@ -23,7 +23,7 @@ class MonitorFragment : Fragment(R.layout.fragment_monitor) {
 
     private fun showFragment(id: Int?, i: Int, name: String) {
         if (id != null) {
-            val fragment = FeaturedBrands()
+            val fragment = CategoryFragment()
             val bundle = Bundle()
             bundle.putInt("ContainerID", id)
             bundle.putInt("IDCategory", i)

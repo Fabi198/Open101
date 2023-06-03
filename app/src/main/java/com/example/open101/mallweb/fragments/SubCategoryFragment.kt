@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.open101.R
 import com.example.open101.databinding.FragmentBrandsBinding
 import com.example.open101.mallweb.adapters.BrandAdapter
-import com.example.open101.mallweb.adapters.SubCategorysAdapter
+import com.example.open101.mallweb.adapters.CategoryAdapter
 
 
-class BrandsFragment : Fragment(R.layout.fragment_brands) {
+class SubCategoryFragment : Fragment(R.layout.fragment_brands) {
 
     private lateinit var binding: FragmentBrandsBinding
 
@@ -28,15 +28,19 @@ class BrandsFragment : Fragment(R.layout.fragment_brands) {
         if (name != null && idCArray != null) {
             binding.tvTitleCategory.text = name
             binding.rvCategory.layoutManager = LinearLayoutManager(requireContext())
-            binding.rvCategory.adapter = SubCategorysAdapter(idCArray, requireContext()) {
+            binding.rvCategory.adapter = CategoryAdapter(idCArray, requireContext(), {
                 showFragment(id, it)
-            }
+            }, {
+                showProductFragment(id, it)
+            })
         }
 
         if (name != null && idCArray != null && (idBrand != null && idBrand > 0)) {
             binding.tvTitleCategory.text = name
             binding.rvCategory.layoutManager = LinearLayoutManager(requireContext())
-            binding.rvCategory.adapter = BrandAdapter(idCArray, idBrand, requireContext())
+            binding.rvCategory.adapter = BrandAdapter(idCArray, idBrand, requireContext()) {
+                showProductFragment(id, it)
+            }
         }
 
 
@@ -46,10 +50,31 @@ class BrandsFragment : Fragment(R.layout.fragment_brands) {
 
     private fun showFragment(id: Int?, i: Int) {
         if (id != null) {
-            val fragment = FeaturedBrands()
+            val fragment = CategoryFragment()
             val bundle = Bundle()
             bundle.putInt("ContainerID", id)
             bundle.putInt("IDCategory", i)
+            fragment.arguments = bundle
+            requireActivity()
+                .supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(
+                    R.anim.right_in,
+                    R.anim.left_out,
+                    R.anim.right_in,
+                    R.anim.left_out)
+                .replace(id, fragment, fragment.tag)
+                .addToBackStack(fragment.tag)
+                .commit()
+        }
+    }
+
+    private fun showProductFragment(id: Int?, i: Int) {
+        if (id != null) {
+            val fragment = ProductDetailFragment()
+            val bundle = Bundle()
+            bundle.putInt("ContainerID", id)
+            bundle.putInt("IDProduct", i)
             fragment.arguments = bundle
             requireActivity()
                 .supportFragmentManager
