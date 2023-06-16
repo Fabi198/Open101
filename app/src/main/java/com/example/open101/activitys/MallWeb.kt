@@ -47,6 +47,7 @@ class MallWeb : AppCompatActivity() {
         setContentView(binding.root)
 
 
+
         setupDrawerNavigationBar()
         setupRoundBottoms()
         setupBannersRV()
@@ -54,6 +55,8 @@ class MallWeb : AppCompatActivity() {
         setMyAccountButtonToolbar()
         setSearchText()
     }
+
+
 
     private fun setSearchText() {
         binding.etSearch.setOnEditorActionListener(OnEditorActionListener { _, actionId, keyEvent ->
@@ -151,7 +154,7 @@ class MallWeb : AppCompatActivity() {
             when (it.itemId) {
                 R.id.item_home -> { refresh() }
                 R.id.item_categories -> { showFragment(AllCategoriesFragment()) }
-                R.id.item_shop_container -> { if (session()) { showFragment(ShoppingCartFragment()) } else { showFragment(AuthFragment()) } }
+                R.id.item_shop_container -> { if (session()) { showFragment(ShoppingCartFragmentStep1()) } else { showFragment(AuthFragment()) } }
                 R.id.item_your_orders -> { if (session()) { showFragment(PersonalDataFragment()) } else { showFragment(AuthFragment()) } }
                 R.id.item_your_directions -> { if (session()) { showFragment(PersonalDataFragment()) } else { showFragment(AuthFragment()) } }
                 R.id.item_personal_data -> { if (session()) { showFragment(PersonalDataFragment()) } else { showFragment(AuthFragment()) } }
@@ -202,11 +205,11 @@ class MallWeb : AppCompatActivity() {
         binding.rvBanners.layoutManager = LinearLayoutManager(this)
         binding.rvBanners.adapter = NewBannersAdapter {
             when(it) {
-                "Mi Cuenta" -> {showFragment(PersonalDataFragment())}
+                "Mi Cuenta" -> {if (session()) { showFragment(PersonalDataFragment()) } else { showFragment(AuthFragment())} }
                 "Marcas Destacadas" -> {showFragment(CategoryFragment())}
                 "Comunidad" -> {showFragment(ContactUsFragment())}
                 "Zona Gamer" -> {showFragment(GamerZoneFragment())}
-                "Promociones" -> {showFragment(CategoryFragment())}
+                "Promociones" -> {showFragment(PromosFragment())}
                 "Corsair" -> {showFragment(SubCategoryFragment(), "CORSAIR", dbMallWeb.queryForCategoryCant(9), 9)}
                 "Logitech" -> {showFragment(SubCategoryFragment(), "LOGITECH", dbMallWeb.queryForCategoryCant(27), 27)}
                 "Seagate" -> {showFragment(SubCategoryFragment(), "SEAGATE", dbMallWeb.queryForCategoryCant(37), 37)}
@@ -231,7 +234,12 @@ class MallWeb : AppCompatActivity() {
         animFrag = AnimationUtils.loadAnimation(this, R.anim.left_in)
         binding.btnShoppingCartToolbar.setOnClickListener {
             if (session()) {
-                showFragment(ShoppingCartFragment())
+                val prefs: SharedPreferences = getSharedPreferences("MY PREF", MODE_PRIVATE)
+                val email = prefs.getString("email", null)
+                if (email != null) {
+                    val dbMallweb = DbMallweb(this)
+                    showFragment(ShoppingCartFragmentStep1(), idClient = dbMallweb.queryForClient(email).id)
+                }
             } else {
                 showFragment(AuthFragment())
             }
@@ -245,13 +253,14 @@ class MallWeb : AppCompatActivity() {
         }
     }
 
-    fun showFragment(fragment: Fragment, name: String ?= null, idCArray: ArrayList<Int> ?= null, idBrand: Int ?= null, searchString: String ?= null) {
+    fun showFragment(fragment: Fragment, name: String ?= null, idCArray: ArrayList<Int> ?= null, idBrand: Int ?= null, searchString: String ?= null, idClient: Int ?= null) {
         val bundle = Bundle()
         bundle.putInt("ContainerID", binding.mallwebHomeContainer.id)
         if (name != null) { bundle.putString("NameCategory", name) }
         if (idCArray != null) { bundle.putIntegerArrayList("IDCategoryArray", idCArray) }
         if (idBrand != null) { bundle.putInt("IdBrand", idBrand) }
         if (searchString != null) { bundle.putString("Search", searchString) }
+        if (idClient != null) {bundle.putInt("IdClient", idClient)}
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction()
             .replace(binding.mallwebHomeContainer.id, fragment, fragment.tag)

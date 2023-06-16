@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.open101.R
 import com.example.open101.databinding.ItemMallwebPrintersBinding
-import com.example.open101.mallweb.entities.Product
+import com.example.open101.mallweb.entities.dbEntities.Product
 import com.squareup.picasso.Picasso
 
 class ProductAdapter(private val listProduct: ArrayList<Product>, private val onClickItem: (Int) -> Unit): RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {

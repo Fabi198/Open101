@@ -20,6 +20,7 @@ import com.example.open101.services.fragmets.BlankFragment
 import com.example.open101.services.fragmets.BlankFragment2
 import com.example.open101.services.fragmets.BlankFragment3
 
+@Suppress("DEPRECATION")
 class ServicesTestActivity : AppCompatActivity() {
 
 

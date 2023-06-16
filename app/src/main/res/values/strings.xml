@@ -380,5 +380,36 @@
     <string name="env_os_a_todo_el_pais">Envíos a todo el pais</string>
     <string name="en_stock">EN STOCK</string>
     <string name="_1">1</string>
+    <string name="el_producto_fue_agregado_correctamente">El producto fue agregado correctamente.</string>
+    <string name="luego_en_el_carrito_pod_s_agregar_m_s_cantidad">Luego, en el carrito, podés agregar más cantidad</string>
+    <string name="ir_al_carrito">IR AL CARRITO</string>
+    <string name="comprar_m_s">COMPRAR MÁS</string>
+    <string name="cantidad">Cantidad</string>
+    <string name="en_efectivo">En efectivo</string>
+    <string name="calcular_costo_de_env_o">Calcular costo de envío</string>
+    <string name="ingresa_tu_c_digo_postal">Ingresa tu código postal</string>
+    <string name="ej_1651">Ej: 1651</string>
+    <string name="calcular_env_o_btn">¡CALCULAR ENVÍO!</string>
+    <string name="gratis">Gratis</string>
+    <string name="de_1_a_2_d_as">(DE 1 A 2 DÍAS)</string>
+    <string name="carg_tu_codigo_postal_o_hace_click_en_retirar_en_el_local">Cargá tu codigo postal o hace click en retirar en el local</string>
+    <string name="c_digo_cup_n">Código cupón</string>
+    <string name="continuar">CONTINUAR</string>
+    <string name="aplicar_cup_n">APLICAR CUPÓN</string>
+    <string name="calcular_env_o_min">Calcular envío</string>
+    <string name="subtotal">Subtotal:</string>
+    <string name="costo_de_env_o">Costo de envío:</string>
+    <string name="total">Total:</string>
+    <string name="retirar_en_el_local">Retirar en el local</string>
+    <string name="continuar_con_el_env_o">Continuar con el envío</string>
+    <string name="checkout">Checkout</string>
+    <string name="completa_tus_datos_y_luego_hac_click_en_la_forma_de_pago_que_prefieras">Completa tus datos y luego hacé click en la forma de pago que prefieras</string>
+    <string name="direcci_n_de_facturaci_n">Dirección de facturación</string>
+    <string name="solicito_factura_a">Solicito factura A</string>
+    <string name="solicito_factura_consumidor_final">Solicito factura Consumidor Final</string>
+    <string name="condici_n_frente_al_iva">Condición frente al IVA:</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="guardar_direcci_n_es">Guardar dirección/es</string>
+    <string name="no_encuentro_mi_localidad">No encuentro mi localidad</string>
 
 </resources>

@@ -5,12 +5,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.open101.R
 import com.example.open101.activitys.MallWeb
 import com.example.open101.databinding.FragmentAuthBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -23,6 +25,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private lateinit var binding: FragmentAuthBinding
     private val idGOOGLESIGNIN = 100
     private val provider = ProviderType()
+    private lateinit var clientGoogle: GoogleSignInClient
 
 
 
@@ -76,6 +79,13 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         }
 
         binding.btnGoogle.setOnClickListener {
+            val options = GoogleSignInOptions.Builder().requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+            clientGoogle = GoogleSignIn.getClient(requireActivity(), options)
+            val intent = clientGoogle.signInIntent
+            startActivityForResult(intent, 10001)
+            /*
             val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -84,7 +94,9 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             val googleClient = GoogleSignIn.getClient(requireActivity(), googleConf)
             googleClient.signOut()
             startActivityForResult(googleClient.signInIntent, idGOOGLESIGNIN)
+            */
         }
+
 
         binding.btnLostPassword.setOnClickListener {
             if (id2 != null) {
@@ -105,6 +117,26 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == idGOOGLESIGNIN) {
+            val providerName = provider.GOOGLE
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            val account = task.getResult(ApiException::class.java)
+            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+            FirebaseAuth.getInstance().signInWithCredential(credential)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        saveData(account.email ?: "", providerName)
+                    } else {
+                        Toast.makeText(requireContext(), task.exception?.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+        }
+    }
+
+    /*
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -136,6 +168,8 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
         }
     }
+
+     */
 
 
 

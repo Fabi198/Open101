@@ -11,10 +11,10 @@ import com.example.open101.R
 
 class SelectorCountView @JvmOverloads constructor(context: Context, private val attrs: AttributeSet?= null, private var defStyleAttr: Int = 0): LinearLayout(context, attrs, defStyleAttr){
 
-    private lateinit var imgAgregar: ImageButton
-    private lateinit var imgRemover: ImageButton
+    lateinit var imgAgregar: ImageButton
+    lateinit var imgRemover: ImageButton
     private lateinit var txtNumber: TextView
-    var test = ""
+    var text = ""
     private var cantMax = CantTops.CANTIDAD_MAXIMA
     private var cantMin = CantTops.CANTIDAD_MINIMA
 
@@ -23,7 +23,8 @@ class SelectorCountView @JvmOverloads constructor(context: Context, private val 
         View.inflate(context, R.layout.customview_selectorcount, this)
         initializeAttrs()
         setupUI()
-        setupClickListeners()
+        addOnClicked()
+        remOnClicked()
         orientation = HORIZONTAL
     }
 
@@ -45,22 +46,25 @@ class SelectorCountView @JvmOverloads constructor(context: Context, private val 
         }
     }
 
-    private fun setupClickListeners() {
+    private fun addOnClicked() {
         imgAgregar.setOnClickListener{plus()}
+    }
+
+    private fun remOnClicked() {
         imgRemover.setOnClickListener {minus()}
     }
 
     @SuppressLint("SetTextI18n")
-    private fun plus() {
+    fun plus() {
         txtNumber.text = (txtNumber.text.toString().toInt()+1).toString()
-        test = (txtNumber.text.toString().toInt()).toString()
+        text = (txtNumber.text.toString().toInt()).toString()
         checkQuantity()
     }
 
     @SuppressLint("SetTextI18n")
-    private fun minus() {
+    fun minus() {
         txtNumber.text = (txtNumber.text.toString().toInt()-1).toString()
-        test = (txtNumber.text.toString().toInt()).toString()
+        text = (txtNumber.text.toString().toInt()).toString()
         checkQuantity()
     }
 
@@ -78,12 +82,21 @@ class SelectorCountView @JvmOverloads constructor(context: Context, private val 
     private fun setupUI() {
         imgAgregar = findViewById(R.id.imgAgregar)
         imgRemover = findViewById(R.id.imgRemover)
-        imgRemover.isEnabled = false
+        if (text == "0" && txtNumber.text == "0") { imgRemover.isEnabled = false }
         txtNumber = findViewById(R.id.txtNumber)
     }
 
     fun clearText() {
         txtNumber.text = "0"
+    }
+
+    fun getText(): Int {
+        return Integer.parseInt(txtNumber.text.toString())
+    }
+
+    fun setText(number: Int) {
+        text = number.toString()
+        txtNumber.text = number.toString()
     }
 
 

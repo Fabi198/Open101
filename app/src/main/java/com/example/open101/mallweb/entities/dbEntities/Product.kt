@@ -1,4 +1,4 @@
-package com.example.open101.mallweb.entities
+package com.example.open101.mallweb.entities.dbEntities
 
 
 data class Product (

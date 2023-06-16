@@ -1,4 +1,4 @@
-package com.example.open101.mallweb.entities
+package com.example.open101.mallweb.entities.dbEntities
 
 data class Client (
     var id: Int = 0,
@@ -10,5 +10,6 @@ data class Client (
     var numCelular: String = "",
     var dni: String = "",
     var cuit: String = "",
-    var wantABill: String = ""
+    var wantABill: String = "",
+    var ivaCondition: String = ""
         )

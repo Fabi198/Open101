@@ -10,7 +10,9 @@
     <color name="gray">#42000000</color>
     <color name="red">#FF0000</color>
     <color name="green">#4C8821</color>
+    <color name="greenLight">#4CAF50</color>
     <color name="grayLight">#8A8989</color>
     <color name="graySuperLight">#C8C5C5</color>
     <color name="redDark">#800404</color>
+    <color name="aquamarina">#00BCD4</color>
 </resources>

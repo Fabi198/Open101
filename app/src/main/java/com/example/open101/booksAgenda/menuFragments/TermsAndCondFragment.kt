@@ -7,6 +7,7 @@ import com.example.open101.R
 import com.example.open101.databinding.FragmentTermsAndCondBinding
 
 
+@Suppress("DEPRECATION")
 class TermsAndCondFragment : Fragment(R.layout.fragment_terms_and_cond) {
 
     private lateinit var binding: FragmentTermsAndCondBinding

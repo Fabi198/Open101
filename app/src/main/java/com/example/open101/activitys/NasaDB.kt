@@ -37,7 +37,7 @@ class NasaDB : AppCompatActivity(), BackListener {
 
     private fun openAPODCountFragment() {
         val bundle = Bundle()
-        bundle.putString("Count", binding.scvNASA.test)
+        bundle.putString("Count", binding.scvNASA.text)
         val apod = APODCountFragment()
         apod.arguments = bundle
         binding.scvNASA.clearText()

@@ -175,7 +175,16 @@ class PersonalDataFragment : Fragment(R.layout.fragment_personal_data) {
 
         val dpd = DatePickerDialog(requireContext(), 0,
             { _, year, month, dayOfMonth ->
-               val fecha = "$dayOfMonth/${month+1}/$year"
+                lateinit var fecha: String
+                if ((month+1) in 0..9 && dayOfMonth in 10..31) {
+                    fecha = "$year-0${month+1}-$dayOfMonth"
+                } else if ((month+1) in 0..9 && dayOfMonth in 0..9) {
+                    fecha = "$year-0${month+1}-0$dayOfMonth"
+                } else if ((month+1) in 10..12 && dayOfMonth in 0..9) {
+                    fecha = "$year-${month+1}-0$dayOfMonth"
+                } else if ((month+1) in 10..12 && dayOfMonth in 10..31) {
+                    fecha = "$year-${month+1}-$dayOfMonth"
+                }
                 binding.dateBirthClient.setText(fecha)
             }, yearGetter, monthGetter, dayGetter)
         dpd.show()
