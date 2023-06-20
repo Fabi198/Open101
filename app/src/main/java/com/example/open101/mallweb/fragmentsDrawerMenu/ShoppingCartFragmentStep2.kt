@@ -98,17 +98,6 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
             }
         }
     }
-    private fun getArrayForAdapter(postalCode: String): ArrayList<String> {
-        dbMallweb = DbMallweb(requireContext())
-        val list: ArrayList<String> = dbMallweb.getProvinceForSpinner(postalCode)
-        if (list.size == 0) { Toast.makeText(requireContext(), "No existe el codigo postal", Toast.LENGTH_SHORT).show() }
-        return list
-    }
-    private fun getAdapterForSpinner(postalCode: String): ArrayAdapter<String> {
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, getArrayForAdapter(postalCode))
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        return adapter
-    }
     private fun setKnownProvinceSpinner(spinner: Spinner, province_name: String) {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayOf(province_name))
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -134,20 +123,31 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) { spinner.selectedItem.toString() }
         }
     }
+    private fun getArrayForAdapterProvinceSpinner(postalCode: String): ArrayList<String> {
+        dbMallweb = DbMallweb(requireContext())
+        val list: ArrayList<String> = dbMallweb.getProvinceForSpinner(postalCode)
+        if (list.size == 0) { Toast.makeText(requireContext(), "No existe el codigo postal", Toast.LENGTH_SHORT).show() }
+        return list
+    }
+    private fun getAdapterForProvinceSpinner(postalCode: String): ArrayAdapter<String> {
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, getArrayForAdapterProvinceSpinner(postalCode))
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        return adapter
+    }
     private fun setSpinnerProvince(postalCode: String, spinner: Spinner) {
-        spinner.adapter = getAdapterForSpinner(postalCode)
+        spinner.adapter = getAdapterForProvinceSpinner(postalCode)
         spinner.setSelection(0)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) { if (spinner == binding.spinnerProvinceBillAddress) { setLocalitySpinner(binding.spinnerLocalityBillAddress, postalCode, spinner.selectedItem.toString()) } else if (spinner == binding.spinnerProvinceShippingAddress) { setLocalitySpinner(binding.spinnerLocalityShippingAddress, postalCode, spinner.selectedItem.toString()) } }
         }
     }
-    private fun getArrayForAdapterLocality(postalCode: String, province_name: String): ArrayList<String> {
+    private fun getArrayForAdapterLocalitySpinner(postalCode: String, province_name: String): ArrayList<String> {
         dbMallweb = DbMallweb(requireContext())
         return dbMallweb.getCitysForSpinner(postalCode, province_name)
     }
     private fun setAdapterForLocalitySpinner(postalCode: String, province_name: String): ArrayAdapter<String> {
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, getArrayForAdapterLocality(postalCode, province_name))
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, getArrayForAdapterLocalitySpinner(postalCode, province_name))
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         return adapter
     }
@@ -175,120 +175,15 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
             }
         }
     }
-    private fun createShippingAddress(id: Int): Long {
-        return dbMallweb.createShippingAddress(
-            id,
-            binding.streetShippingAddress.text.toString(),
-            binding.heightShippingAddress.text.toString(),
-            binding.floorShippingAddress.text.toString(),
-            binding.doorShippingAddress.text.toString(),
-            binding.postalCodeShippingAddress.text.toString(),
-            binding.spinnerProvinceShippingAddress.selectedItem.toString(),
-            binding.localityShippingAddress.text.toString()
-        )
-    }
-    private fun editShippingAddress(id: Int): Boolean {
-        return dbMallweb.editShippingAddress(
-            id,
-            binding.streetShippingAddress.text.toString(),
-            binding.heightShippingAddress.text.toString(),
-            binding.floorShippingAddress.text.toString(),
-            binding.doorShippingAddress.text.toString(),
-            binding.postalCodeShippingAddress.text.toString(),
-            binding.spinnerProvinceShippingAddress.selectedItem.toString(),
-            binding.localityShippingAddress.text.toString()
-        )
-    }
-    private fun createBillAddress(id: Int): Long {
-        return dbMallweb.createBillAddress(
-            id,
-            binding.streetBillAddress.text.toString(),
-            binding.heightBillAddress.text.toString(),
-            binding.floorBillAddress.text.toString(),
-            binding.doorBillAddress.text.toString(),
-            binding.postalCodeBillAddress.text.toString(),
-            binding.spinnerProvinceBillAddress.selectedItem.toString(),
-            binding.localityBillAddress.text.toString()
-        )
-    }
-    private fun editBillAddress(id: Int): Boolean {
-        return dbMallweb.editBillAddress(
-            id,
-            binding.streetBillAddress.text.toString(),
-            binding.heightBillAddress.text.toString(),
-            binding.floorBillAddress.text.toString(),
-            binding.doorBillAddress.text.toString(),
-            binding.postalCodeBillAddress.text.toString(),
-            binding.spinnerProvinceBillAddress.selectedItem.toString(),
-            binding.localityBillAddress.text.toString()
-        )
-    }
-    private fun editClientBillANo(id: Int): Boolean {
-        return dbMallweb.editClient(
-            id,
-            binding.nameClient.text.toString(),
-            binding.lastnameClient.text.toString(),
-            binding.dateBirthClient.text.toString(),
-            binding.codAreaNumber.text.toString(),
-            binding.numberCellphoneMallwebClient.text.toString(),
-            binding.dniClientMallweb.text.toString(),
-            binding.cuitClientMallweb.text.toString(),
-            "no",
-        )
-    }
-    private fun editClientBillAYes(id: Int): Boolean {
-        return dbMallweb.editClient(
-            id,
-            binding.nameClient.text.toString(),
-            binding.lastnameClient.text.toString(),
-            binding.dateBirthClient.text.toString(),
-            binding.codAreaNumber.text.toString(),
-            binding.numberCellphoneMallwebClient.text.toString(),
-            binding.dniClientMallweb.text.toString(),
-            binding.cuitClientMallweb.text.toString(),
-            "si",
-            binding.spinnerIVACondition.selectedItem.toString()
-        )
-    }
-    private fun fillBillAddress(idClient: Int) {
-        with(dbMallweb.queryForBillAddress(idClient)) {
-            binding.streetBillAddress.setText(street)
-            binding.heightBillAddress.setText(number)
-            binding.floorBillAddress.setText(floor)
-            binding.doorBillAddress.setText(door)
-            binding.postalCodeBillAddress.setText(postalCode)
-            setKnownProvinceSpinner(binding.spinnerProvinceBillAddress, province)
-            setKnownLocalitySpinner(binding.spinnerLocalityBillAddress, locality)
-            binding.cbLocalityBillNotFound.setOnClickListener { notFoundBillLocality() }
-        }
-    }
-    private fun fillShippingAddress(idClient: Int) {
-        with(dbMallweb.queryForShippingAddress(idClient)) {
-            binding.streetShippingAddress.setText(street)
-            binding.heightShippingAddress.setText(number)
-            binding.floorShippingAddress.setText(floor)
-            binding.doorShippingAddress.setText(door)
-            binding.postalCodeShippingAddress.setText(postalCode)
-            setKnownProvinceSpinner(binding.spinnerProvinceShippingAddress, province)
-            setKnownLocalitySpinner(binding.spinnerLocalityShippingAddress, locality)
-            binding.cbLocalityShippingNotFound.setOnClickListener { notFoundShippingLocality() }
-        }
-    }
-    private fun fillClientData(client: Client) {
-        with(client) {
-            binding.idclient.text = id.toString()
-            binding.emailClient.text = email
-            binding.nameClient.setText(name)
-            binding.lastnameClient.setText(lastName)
-            binding.dateBirthClient.setText(birthday)
-            binding.codAreaNumber.setText(codArea)
-            binding.numberCellphoneMallwebClient.setText(numCelular)
-            binding.dniClientMallweb.setText(dni)
-            binding.cuitClientMallweb.setText(cuit)
-            if (wantABill.lowercase() == "si" && ivaCondition != "") { setBillBoolean(wantABill, ivaCondition) } else if (wantABill.lowercase() == "no" || wantABill.lowercase() == "si") { setBillBoolean(wantABill) }
-            binding.dateBirthClient.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) { openCalendar(); binding.dateBirthClient.setOnClickListener { openCalendar() } } }
-        }
-    }
+    private fun createShippingAddress(id: Int): Long { return dbMallweb.createShippingAddress(id, binding.streetShippingAddress.text.toString(), binding.heightShippingAddress.text.toString(), binding.floorShippingAddress.text.toString(), binding.doorShippingAddress.text.toString(), binding.postalCodeShippingAddress.text.toString(), binding.spinnerProvinceShippingAddress.selectedItem.toString(), binding.localityShippingAddress.text.toString()) }
+    private fun editShippingAddress(id: Int): Boolean { return dbMallweb.editShippingAddress(id, binding.streetShippingAddress.text.toString(), binding.heightShippingAddress.text.toString(), binding.floorShippingAddress.text.toString(), binding.doorShippingAddress.text.toString(), binding.postalCodeShippingAddress.text.toString(), binding.spinnerProvinceShippingAddress.selectedItem.toString(), binding.localityShippingAddress.text.toString()) }
+    private fun createBillAddress(id: Int): Long { return dbMallweb.createBillAddress(id, binding.streetBillAddress.text.toString(), binding.heightBillAddress.text.toString(), binding.floorBillAddress.text.toString(), binding.doorBillAddress.text.toString(), binding.postalCodeBillAddress.text.toString(), binding.spinnerProvinceBillAddress.selectedItem.toString(), binding.localityBillAddress.text.toString()) }
+    private fun editBillAddress(id: Int): Boolean { return dbMallweb.editBillAddress(id, binding.streetBillAddress.text.toString(), binding.heightBillAddress.text.toString(), binding.floorBillAddress.text.toString(), binding.doorBillAddress.text.toString(), binding.postalCodeBillAddress.text.toString(), binding.spinnerProvinceBillAddress.selectedItem.toString(), binding.localityBillAddress.text.toString()) }
+    private fun editClientBillANo(id: Int): Boolean { return dbMallweb.editClient(id, binding.nameClient.text.toString(), binding.lastnameClient.text.toString(), binding.dateBirthClient.text.toString(), binding.codAreaNumber.text.toString(), binding.numberCellphoneMallwebClient.text.toString(), binding.dniClientMallweb.text.toString(), binding.cuitClientMallweb.text.toString(), "no") }
+    private fun editClientBillAYes(id: Int): Boolean { return dbMallweb.editClient(id, binding.nameClient.text.toString(), binding.lastnameClient.text.toString(), binding.dateBirthClient.text.toString(), binding.codAreaNumber.text.toString(), binding.numberCellphoneMallwebClient.text.toString(), binding.dniClientMallweb.text.toString(), binding.cuitClientMallweb.text.toString(), "si", binding.spinnerIVACondition.selectedItem.toString()) }
+    private fun fillBillAddress(idClient: Int) { with(dbMallweb.queryForBillAddress(idClient)) { binding.streetBillAddress.setText(street); binding.heightBillAddress.setText(number); binding.floorBillAddress.setText(floor); binding.doorBillAddress.setText(door); binding.postalCodeBillAddress.setText(postalCode); setKnownProvinceSpinner(binding.spinnerProvinceBillAddress, province); setKnownLocalitySpinner(binding.spinnerLocalityBillAddress, locality); binding.cbLocalityBillNotFound.setOnClickListener { notFoundBillLocality() } } }
+    private fun fillShippingAddress(idClient: Int) { with(dbMallweb.queryForShippingAddress(idClient)) { binding.streetShippingAddress.setText(street); binding.heightShippingAddress.setText(number); binding.floorShippingAddress.setText(floor); binding.doorShippingAddress.setText(door); binding.postalCodeShippingAddress.setText(postalCode); setKnownProvinceSpinner(binding.spinnerProvinceShippingAddress, province); setKnownLocalitySpinner(binding.spinnerLocalityShippingAddress, locality); binding.cbLocalityShippingNotFound.setOnClickListener { notFoundShippingLocality() } } }
+    private fun fillClientData(client: Client) { with(client) { binding.idclient.text = id.toString(); binding.emailClient.text = email; binding.nameClient.setText(name); binding.lastnameClient.setText(lastName); binding.dateBirthClient.setText(birthday); binding.codAreaNumber.setText(codArea); binding.numberCellphoneMallwebClient.setText(numCelular); binding.dniClientMallweb.setText(dni); binding.cuitClientMallweb.setText(cuit); if (wantABill.lowercase() == "si" && ivaCondition != "") { setBillBoolean(wantABill, ivaCondition) } else if (wantABill.lowercase() == "no" || wantABill.lowercase() == "si") { setBillBoolean(wantABill) }; binding.dateBirthClient.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) { openCalendar(); binding.dateBirthClient.setOnClickListener { openCalendar() } } } } }
     private fun setBillCheckers() {
         binding.cbWantABillNO.setOnClickListener { if (binding.cbWantABillNO.isChecked) { binding.cbWantABillYES.isChecked = false; if (binding.llwantBillA.visibility == View.VISIBLE) { binding.llwantBillA.visibility = View.GONE } } }
         binding.cbWantABillYES.setOnClickListener { if (binding.cbWantABillYES.isChecked) { binding.cbWantABillNO.isChecked = false; binding.llwantBillA.visibility = View.VISIBLE; if (binding.cuitClientMallweb.text.toString().isNotEmpty()) { binding.cuit2ClientMallweb.text = binding.cuitClientMallweb.text } } }
@@ -334,19 +229,7 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
-    private fun setIVAConditions(): Array<String> {
-        return arrayOf(
-            "Seleccione",
-            "Inscripto",
-            "Excento",
-            "Consumidor finál",
-            "Monotributo",
-            "No categorizado"
-        )
-    }
-    private fun hideKeyboard() {
-        val imm = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(binding.svSCFStep2.windowToken, 0)
-    }
+    private fun setIVAConditions(): Array<String> { return arrayOf("Seleccione", "Inscripto", "Excento", "Consumidor finál", "Monotributo", "No categorizado") }
+    private fun hideKeyboard() { val imm = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager; imm.hideSoftInputFromWindow(binding.svSCFStep2.windowToken, 0) }
 
 }
