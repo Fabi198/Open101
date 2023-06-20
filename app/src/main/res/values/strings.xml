@@ -411,5 +411,19 @@
     <string name="actualizar">Actualizar</string>
     <string name="guardar_direcci_n_es">Guardar dirección/es</string>
     <string name="no_encuentro_mi_localidad">No encuentro mi localidad</string>
+    <string name="gratis_">¡Gratis!</string>
+    <string name="plan_cuotas_displayed">Ahora 12 de $15245.11 (PTF182941.3595)\nAhora 18 de $11798.57 (PTF212374.2585)\nAhora 24 de $10174.89 (PTF244197.45)</string>
+    <string name="en_sucursal">En sucursal</string>
+    <string name="pagar_en_efectivo">Pagar en efectivo</string>
+    <string name="transferencia">Transferencia</string>
+    <string name="pagar_con">Pagar con</string>
+    <string name="pagar_con_mercado_pago">Pagar con Mercado Pago</string>
+    <string name="master_card">Master Card</string>
+    <string name="visa">VISA</string>
+    <string name="cabal">Cabal</string>
+    <string name="formas_de_pago">Formas de pago</string>
+    <string name="ver_planes">Ver planes</string>
+    <string name="pagar_con_los_planes_ahora">Pagar con los planes ahora</string>
+    <string name="order_39549">Order #39549</string>
 
 </resources>

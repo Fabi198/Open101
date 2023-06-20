@@ -4,7 +4,6 @@ package com.example.open101.mallweb.fragmentsDrawerMenu
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.open101.R
@@ -48,7 +47,6 @@ class ShoppingCartFragmentStep1 : Fragment(R.layout.fragment_shopping_cart_step_
                 binding.rvItemsShopCart.layoutManager = LinearLayoutManager(requireContext())
                 binding.rvItemsShopCart.adapter = adapter
                 binding.btnTakeAway.setOnClickListener {
-                    createOrder()
                     if (createOrder()) {
                         showFragment(ShoppingCartFragmentStep2(), id)
                     }
@@ -83,7 +81,6 @@ class ShoppingCartFragmentStep1 : Fragment(R.layout.fragment_shopping_cart_step_
         binding.btnSetPostalCode.setOnClickListener {
             if (binding.etPostalCode.text.toString().isNotEmpty()) {
                 val postalCode = Integer.parseInt(binding.etPostalCode.text.toString())
-                Toast.makeText(requireContext(), dbMallweb.getCity(binding.etPostalCode.text.toString()).name, Toast.LENGTH_SHORT).show()
                 binding.etPostalCode.text.clear()
                 binding.tvShippingCostDisplayed.setTextColor(resources.getColor(R.color.greenLight))
                 binding.tvShippingCostDisplayed.text = "¡Gratis!"

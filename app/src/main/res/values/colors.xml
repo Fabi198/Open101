@@ -15,4 +15,8 @@
     <color name="graySuperLight">#C8C5C5</color>
     <color name="redDark">#800404</color>
     <color name="aquamarina">#00BCD4</color>
+    <color name="blue">#009EE3</color>
+    <color name="violet">#6D6BAF</color>
+    <color name="ahora12">#31BAEC</color>
+    <color name="fafafa">#FAFAFA</color>
 </resources>
