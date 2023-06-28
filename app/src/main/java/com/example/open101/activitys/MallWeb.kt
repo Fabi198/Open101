@@ -48,6 +48,7 @@ class MallWeb : AppCompatActivity() {
 
 
 
+
         setupDrawerNavigationBar()
         setupRoundBottoms()
         setupBannersRV()
@@ -139,6 +140,7 @@ class MallWeb : AppCompatActivity() {
         setSupportActionBar(binding.toolbarMallwebHome)
         supportActionBar?.title = null
         Picasso.get().load(R.drawable.mallweb_logo).centerCrop().resize(600, 200).into(binding.ivToolbarMallwebHome)
+        binding.ivToolbarMallwebHome.setOnClickListener { refresh() }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val drawerToggle = ActionBarDrawerToggle(
             this,
@@ -154,10 +156,9 @@ class MallWeb : AppCompatActivity() {
             when (it.itemId) {
                 R.id.item_home -> { refresh() }
                 R.id.item_categories -> { showFragment(AllCategoriesFragment()) }
-                R.id.item_shop_container -> { if (session()) { showFragment(ShoppingCartFragmentStep1()) } else { showFragment(AuthFragment()) } }
-                R.id.item_your_orders -> { if (session()) { showFragment(PersonalDataFragment()) } else { showFragment(AuthFragment()) } }
-                R.id.item_your_directions -> { if (session()) { showFragment(PersonalDataFragment()) } else { showFragment(AuthFragment()) } }
-                R.id.item_personal_data -> { if (session()) { showFragment(PersonalDataFragment()) } else { showFragment(AuthFragment()) } }
+                R.id.item_shop_container -> { if (session()) { showFragmentStep1() } else { showFragment(AuthFragment()) } }
+                R.id.item_your_orders -> { if (session()) { showFragment(AccountFragment()) } else { showFragment(AuthFragment()) } }
+                R.id.item_personal_data -> { if (session()) { showFragment(AccountFragment()) } else { showFragment(AuthFragment()) } }
                 R.id.item_who_are_we -> { showFragment(WhoAreWeFragment()) }
                 R.id.item_faq -> { showFragment(FAQFragment()) }
                 R.id.item_deliver_method -> { showFragment(DeliverMethodsFragment()) }
@@ -205,7 +206,7 @@ class MallWeb : AppCompatActivity() {
         binding.rvBanners.layoutManager = LinearLayoutManager(this)
         binding.rvBanners.adapter = NewBannersAdapter {
             when(it) {
-                "Mi Cuenta" -> {if (session()) { showFragment(PersonalDataFragment()) } else { showFragment(AuthFragment())} }
+                "Mi Cuenta" -> {if (session()) { showFragment(AccountFragment()) } else { showFragment(AuthFragment())} }
                 "Marcas Destacadas" -> {showFragment(CategoryFragment())}
                 "Comunidad" -> {showFragment(ContactUsFragment())}
                 "Zona Gamer" -> {showFragment(GamerZoneFragment())}
@@ -234,22 +235,26 @@ class MallWeb : AppCompatActivity() {
         animFrag = AnimationUtils.loadAnimation(this, R.anim.left_in)
         binding.btnShoppingCartToolbar.setOnClickListener {
             if (session()) {
-                val prefs: SharedPreferences = getSharedPreferences("MY PREF", MODE_PRIVATE)
-                val email = prefs.getString("email", null)
-                if (email != null) {
-                    val dbMallweb = DbMallweb(this)
-                    showFragment(ShoppingCartFragmentStep1(), idClient = dbMallweb.queryForClient(email).id)
-                }
+                showFragmentStep1()
             } else {
                 showFragment(AuthFragment())
             }
         }
     }
 
+    private fun showFragmentStep1() {
+        val prefs: SharedPreferences = getSharedPreferences("MY PREF", MODE_PRIVATE)
+        val email = prefs.getString("email", null)
+        if (email != null) {
+            val dbMallweb = DbMallweb(this)
+            showFragment(ShoppingCartFragmentStep1(), idClient = dbMallweb.queryForClient(email).id)
+        }
+    }
+
     private fun setMyAccountButtonToolbar() {
         animFrag = AnimationUtils.loadAnimation(this, R.anim.left_in)
         binding.btnMyAccount.setOnClickListener {
-            showFragment(PersonalDataFragment())
+            showFragment(AccountFragment())
         }
     }
 

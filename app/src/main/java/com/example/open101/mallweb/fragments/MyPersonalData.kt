@@ -1,4 +1,4 @@
-package com.example.open101.mallweb.fragmentsDrawerMenu
+package com.example.open101.mallweb.fragments
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -10,99 +10,26 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.open101.R
-import com.example.open101.databinding.FragmentPersonalDataBinding
+import com.example.open101.databinding.FragmentMyPersonalDataBinding
 import com.example.open101.mallweb.db.DbMallweb
 import java.util.*
 
-@Suppress("DEPRECATION")
-class PersonalDataFragment : Fragment(R.layout.fragment_personal_data) {
 
-    private lateinit var binding: FragmentPersonalDataBinding
-    private var flagData = true
-    private var flagOrders = true
-    private var flagOrdersCancelled = true
-    private lateinit var dbMallweb: DbMallweb
+class MyPersonalData : Fragment(R.layout.fragment_my_personal_data) {
+
+    private lateinit var binding: FragmentMyPersonalDataBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentPersonalDataBinding.bind(view)
-        // val id = arguments?.getInt("ContainerID")
+        binding = FragmentMyPersonalDataBinding.bind(view)
 
 
-
-        binding.cvMyData.setOnClickListener {
-            if (flagData) {
-                if (!flagOrders) {setGoneMyOrders()}
-                if (!flagOrdersCancelled) {setGoneMyCancelledOrders()}
-                setVisibleMyData()
-            } else {
-                setGoneMyData()
-            }
-        }
-
-
-        binding.cvMyOrders.setOnClickListener {
-            if (flagOrders) {
-                if (!flagData) {setGoneMyData()}
-                if (!flagOrdersCancelled) {setGoneMyCancelledOrders()}
-                setVisibleMyOrders()
-            } else {
-                setGoneMyOrders()
-            }
-        }
-
-
-        binding.cvMyCancelledOrders.setOnClickListener {
-            if (flagOrdersCancelled) {
-                if (!flagData) {setGoneMyData()}
-                if (!flagOrders) {setGoneMyOrders()}
-                setVisibleMyCancelledOrders()
-            } else {
-                setGoneMyCancelledOrders()
-            }
-        }
-
-    }
-
-    private fun setVisibleMyData() {
-        binding.cvMyData.setCardBackgroundColor(resources.getColor(R.color.red))
-        binding.cvMyDataDisplayed.visibility = View.VISIBLE
         setClientData()
-        flagData = false
-    }
 
-    private fun setGoneMyData() {
-        binding.cvMyData.setCardBackgroundColor(resources.getColor(R.color.black))
-        binding.cvMyDataDisplayed.visibility = View.GONE
-        flagData = true
-    }
-
-    private fun setVisibleMyOrders() {
-        binding.cvMyOrders.setCardBackgroundColor(resources.getColor(R.color.red))
-        binding.tvOrders.visibility = View.VISIBLE
-        flagOrders = false
-    }
-
-    private fun setGoneMyOrders() {
-        binding.cvMyOrders.setCardBackgroundColor(resources.getColor(R.color.black))
-        binding.tvOrders.visibility = View.GONE
-        flagOrders = true
-    }
-
-    private fun setVisibleMyCancelledOrders() {
-        binding.cvMyCancelledOrders.setCardBackgroundColor(resources.getColor(R.color.red))
-        binding.tvOrdersAbbandoned.visibility = View.VISIBLE
-        flagOrdersCancelled = false
-    }
-
-    private fun setGoneMyCancelledOrders() {
-        binding.cvMyCancelledOrders.setCardBackgroundColor(resources.getColor(R.color.black))
-        binding.tvOrdersAbbandoned.visibility = View.GONE
-        flagOrdersCancelled = true
     }
 
     private fun setClientData() {
-        dbMallweb = DbMallweb(requireContext())
+        val dbMallweb = DbMallweb(requireContext())
         val prefs: SharedPreferences = requireActivity().getSharedPreferences("MY PREF", AppCompatActivity.MODE_PRIVATE)
         val email = prefs.getString("email", null)
         if (email != null) {
@@ -117,6 +44,17 @@ class PersonalDataFragment : Fragment(R.layout.fragment_personal_data) {
             binding.dniClientMallweb.setText(client.dni)
             binding.cuitClientMallweb.setText(client.cuit)
             binding.wantABillClientMallweb.setText(client.wantABill)
+            if (dbMallweb.queryForShippingAddress(client.id).idClient > 0) {
+                with(dbMallweb.queryForShippingAddress(client.id)) {
+                    binding.streetShippingClientMallweb.text = street
+                    binding.heightShippingClientMallweb.text = number
+                    binding.floorShippingClientMallweb.text = floor
+                    binding.doorShippingClientMallweb.text = door
+                    binding.postalCodeShippingClientMallweb.text = postalCode
+                    binding.provinceShippingClientMallweb.text = province
+                    binding.localityShippingClientMallweb.text = locality
+                }
+            }
         }
 
 
@@ -138,8 +76,6 @@ class PersonalDataFragment : Fragment(R.layout.fragment_personal_data) {
                         binding.wantABillClientMallweb.text.toString()
                     )) {
                     showAlertSuccess()
-                    setGoneMyData()
-                    setVisibleMyData()
                 } else {
                     showAlertError()
                 }
@@ -192,7 +128,7 @@ class PersonalDataFragment : Fragment(R.layout.fragment_personal_data) {
 
     private fun hideKeyboard() {
         val imm = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(binding.llPersonalDataMain.windowToken, 0)
+        imm.hideSoftInputFromWindow(binding.svMyPersonalData.windowToken, 0)
     }
 
     private fun showAlertSuccess() {

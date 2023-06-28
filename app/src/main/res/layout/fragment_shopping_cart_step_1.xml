@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/svSCFStep1"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".mallweb.fragmentsDrawerMenu.ShoppingCartFragmentStep1">
 
@@ -163,7 +164,7 @@
 
                     <EditText
                         android:id="@+id/etCuponCode"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:background="@null"
@@ -256,7 +257,7 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:background="@null"
                         android:id="@+id/etPostalCode"
                         android:hint="@string/hint_cod_postal"

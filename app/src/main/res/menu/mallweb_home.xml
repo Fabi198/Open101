@@ -23,11 +23,6 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/item_your_directions"
-        android:title="@string/tus_direcciones"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/item_personal_data"
         android:title="@string/datos_personales"
         app:showAsAction="never" />

@@ -18,7 +18,7 @@ import java.util.*
 class AlarmsTestActivity : AppCompatActivity() {
 
 
-    // NO OLVIDAR DECLARAR EN EL MANIFEST: <receiver android:name="*********"/>
+    // NO OLVIDAR DECLARAR EN EL MANIFEST: <receiver android:name="-la clase Receiver de la alarma-"/>
 
     /*
         Alarmas de paso de tiempo (Por ejemplo: Dentro de 1 hora/minuto/segundo):
@@ -44,7 +44,6 @@ class AlarmsTestActivity : AppCompatActivity() {
 
         val intent = Intent(this, AlarmReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
-
 
 
         // No se puede llamar 2 veces a la misma alarma con metodos distintos

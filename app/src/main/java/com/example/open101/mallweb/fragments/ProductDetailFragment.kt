@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -55,7 +56,9 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
             }
             binding.tvTitleProductDetail.text = product.name
             val dollar = "$"
-            binding.tvPriceProductDetail.text = "U${dollar}S ${product.price}"
+            binding.tvListPrice.text = "U${dollar}S ${String.format("%.2f", product.price + ((product.price/100) * 5))}"
+            binding.tvListPrice.apply { paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG }
+            binding.tvPriceProductDetail.text = "U${dollar}S ${String.format("%.2f", product.price)}"
         }
 
 
@@ -136,7 +139,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
             if (session()) {
                 binding.pbBtnShop.visibility = View.VISIBLE
                 if (getUserID() > 0 && idProduct != null && Integer.parseInt(binding.cantProductDetail.text.toString()) <= dbMallweb.queryForProduct(idProduct).stock) {
-                    val result = dbMallweb.addToShoppingCart(getUserID(), idProduct, Integer.parseInt(binding.cantProductDetail.text.toString()))
+                    val result = dbMallweb.addProductToShoppingCart(getUserID(), idProduct, Integer.parseInt(binding.cantProductDetail.text.toString()))
                     if (result) {
                         binding.pbBtnShop.visibility = View.GONE
                         binding.cvShoppingCardView.visibility = View.VISIBLE

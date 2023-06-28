@@ -425,5 +425,24 @@
     <string name="ver_planes">Ver planes</string>
     <string name="pagar_con_los_planes_ahora">Pagar con los planes ahora</string>
     <string name="order_39549">Order #39549</string>
+    <string name="order">ORDEN</string>
+    <string name="n_orden">N° Orden</string>
+    <string name="fecha">Fecha</string>
+    <string name="total_">Total</string>
+    <string name="estado">Estado</string>
+    <string name="env_o">Envío</string>
+    <string name="n">N°</string>
+    <string name="utilizar_la_misma_direcci_n">Utilizar la misma dirección</string>
+    <string name="actualiz_y_guarda_tus_datos_y_direcciones">Actualizá y guarda tus datos y direcciones</string>
+    <string name="elegi_la_forma_de_pago_que_prefieras">Elegi la forma de pago que prefieras</string>
+    <string name="existingOrder">existingOrder</string>
+    <string name="ver">Ver</string>
+    <string name="retomar">Retomar</string>
+    <string name="numOrder">numOrder</string>
+    <string name="abandonado">Abandonado</string>
+    <string name="en_curso">En curso</string>
+    <string name="completado">Completado</string>
+    <string name="cancelado">Cancelado</string>
+    <string name="are_abbandoned">AreAbbandoned</string>
 
 </resources>

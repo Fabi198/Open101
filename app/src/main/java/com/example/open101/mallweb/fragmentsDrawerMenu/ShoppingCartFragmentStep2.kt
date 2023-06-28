@@ -4,11 +4,9 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.Animation.AnimationListener
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -20,6 +18,7 @@ import com.example.open101.R
 import com.example.open101.databinding.FragmentShoppingCartStep2Binding
 import com.example.open101.mallweb.db.DbMallweb
 import com.example.open101.mallweb.entities.dbEntities.Client
+import com.example.open101.mallweb.html.*
 import java.util.*
 
 
@@ -30,35 +29,42 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
     private var flagSpinnerIVA = false
     private lateinit var dbMallweb: DbMallweb
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentShoppingCartStep2Binding.bind(view)
 
         setAddressFromPostalCode()
-        setShippingVisibility(arguments?.getInt("postalCode"), arguments?.getBoolean("withShipping"))
         setClientData()
         setBillCheckers()
-        setIVASpinner()
-        setPaymentCardPlanVisibility()
+        bothSameAddress()
     }
 
-    private fun setPaymentCardPlanVisibility() {
-        binding.btnSeePaymentPlan.setOnClickListener { paymentCardPlanVisible() }
-        binding.btnCloseCV.setOnClickListener { paymentCardPlanGone() }
-        binding.btnCloseCV2.setOnClickListener { paymentCardPlanGone() }
+    private fun bothSameAddress() {
+        binding.cbBothSameAddress.setOnClickListener {
+            if (binding.cbBothSameAddress.isChecked) {
+                binding.streetShippingAddress.text = binding.streetBillAddress.text
+                binding.heightShippingAddress.text = binding.heightBillAddress.text
+                binding.floorShippingAddress.text = binding.floorBillAddress.text
+                binding.doorShippingAddress.text = binding.doorBillAddress.text
+                binding.postalCodeShippingAddress.text = binding.postalCodeBillAddress.text
+                setKnownProvinceSpinner(binding.spinnerProvinceShippingAddress, binding.spinnerProvinceBillAddress.selectedItem.toString())
+                setKnownLocalitySpinner(binding.spinnerLocalityShippingAddress, binding.spinnerLocalityBillAddress.selectedItem.toString())
+            } else if (!binding.cbBothSameAddress.isChecked) {
+                binding.streetShippingAddress.setText("")
+                binding.heightShippingAddress.setText("")
+                binding.floorShippingAddress.setText("")
+                binding.doorShippingAddress.setText("")
+                binding.postalCodeShippingAddress.setText("")
+                setKnownProvinceSpinner(binding.spinnerProvinceShippingAddress, "")
+                setKnownLocalitySpinner(binding.spinnerLocalityShippingAddress, "")
+            }
+        }
     }
-    private fun paymentCardPlanVisible() {
-        val anim: Animation = AnimationUtils.loadAnimation(requireContext(), R.anim.roll_down_payment_plans)
-        with(binding.cvPaymentCardPlan) { startAnimation(anim); visibility = View.VISIBLE; anim.setAnimationListener(object: AnimationListener{
-                override fun onAnimationStart(animation: Animation?) {}
-                override fun onAnimationEnd(animation: Animation?) {}
-                override fun onAnimationRepeat(animation: Animation?) {} }) } }
-    private fun paymentCardPlanGone() {
-        val anim: Animation = AnimationUtils.loadAnimation(requireContext(), R.anim.roll_up_payment_plans)
-        with(binding.cvPaymentCardPlan) { startAnimation(anim); anim.setAnimationListener(object: AnimationListener{
-                override fun onAnimationStart(animation: Animation?) {}
-                override fun onAnimationEnd(animation: Animation?) { visibility = View.GONE }
-                override fun onAnimationRepeat(animation: Animation?) {} }) } }
+
+
+
+
     private fun notFoundBillLocality() {
         if (binding.cbLocalityBillNotFound.isChecked) {
             setSpinnerAllProvinces(binding.spinnerProvinceBillAddress)
@@ -85,13 +91,12 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
         binding.postalCodeBillAddress.setOnKeyListener { _, keyCode, event -> if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) { hideKeyboard(); setSpinnerProvince(binding.postalCodeBillAddress.text.toString(), binding.spinnerProvinceBillAddress); return@setOnKeyListener true }; false }
         binding.postalCodeShippingAddress.setOnKeyListener { _, keyCode, event -> if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) { hideKeyboard(); setSpinnerProvince(binding.postalCodeShippingAddress.text.toString(), binding.spinnerProvinceShippingAddress); return@setOnKeyListener true }; false }
     }
-    private fun setShippingVisibility(postalCodeFromBundle: Int?, withShipping: Boolean?) { if (postalCodeFromBundle != null && withShipping != null) { if ((postalCodeFromBundle > 0) && withShipping) { binding.cvShippingAddress.visibility = View.VISIBLE; binding.cvCashAtLocalPayment.visibility = View.GONE } else { binding.cvShippingAddress.visibility = View.GONE; binding.cvCashAtLocalPayment.visibility = View.VISIBLE } } }
-    private fun setIVASpinner() {
+    private fun setIVASpinner(alreadyKnownOptions: Int? = null) {
         val adapterIVA = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, setIVAConditions())
         adapterIVA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         with(binding.spinnerIVACondition) {
             adapter = adapterIVA
-            setSelection(0)
+            if (alreadyKnownOptions != null) {setSelection(alreadyKnownOptions)} else {setSelection(0)}
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) { Toast.makeText(requireContext(), "NothingSelected", Toast.LENGTH_SHORT).show() }
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) { if (!flagSpinnerIVA) { flagSpinnerIVA = true } else { binding.spinnerIVACondition.selectedItem.toString() } }
@@ -113,7 +118,7 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
     private fun setSpinnerAllProvinces(spinner: Spinner) {
         dbMallweb = DbMallweb(requireContext())
         val list = ArrayList<String>()
-        dbMallweb.getProvinces().forEach { list.add(it.name) }
+        dbMallweb.queryForAllProvinces().forEach { list.add(it.name) }
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, list)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
@@ -125,7 +130,7 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
     }
     private fun getArrayForAdapterProvinceSpinner(postalCode: String): ArrayList<String> {
         dbMallweb = DbMallweb(requireContext())
-        val list: ArrayList<String> = dbMallweb.getProvinceForSpinner(postalCode)
+        val list: ArrayList<String> = dbMallweb.queryForProvinceForSpinner(postalCode)
         if (list.size == 0) { Toast.makeText(requireContext(), "No existe el codigo postal", Toast.LENGTH_SHORT).show() }
         return list
     }
@@ -144,7 +149,7 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
     }
     private fun getArrayForAdapterLocalitySpinner(postalCode: String, province_name: String): ArrayList<String> {
         dbMallweb = DbMallweb(requireContext())
-        return dbMallweb.getCitysForSpinner(postalCode, province_name)
+        return dbMallweb.queryForCitysForSpinner(postalCode, province_name)
     }
     private fun setAdapterForLocalitySpinner(postalCode: String, province_name: String): ArrayAdapter<String> {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, getArrayForAdapterLocalitySpinner(postalCode, province_name))
@@ -163,22 +168,39 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
         dbMallweb = DbMallweb(requireContext())
         val prefs: SharedPreferences = requireActivity().getSharedPreferences("MY PREF", AppCompatActivity.MODE_PRIVATE)
         with(prefs.getString("email", null)?.let { dbMallweb.queryForClient(it) }) {
-            this?.let { fillClientData(it) }
-            if (dbMallweb.queryForShippingAddress(id).idClient > 0) { fillShippingAddress(id) } else { binding.postalCodeShippingAddress.setText(arguments?.getInt("postalCode").toString()); binding.cbLocalityShippingNotFound.setOnClickListener { notFoundShippingLocality() } }
-            if (dbMallweb.queryForBillAddress(id).idClient > 0) { fillBillAddress(id) } else { binding.cbLocalityBillNotFound.setOnClickListener { notFoundBillLocality() } }
+            this?.let {
+                fillClientData(it)
+                if (dbMallweb.queryForShippingAddress(id).idClient > 0) { fillShippingAddress(id) } else { binding.postalCodeShippingAddress.setText(arguments?.getInt("postalCode").toString()); binding.cbLocalityShippingNotFound.setOnClickListener { notFoundShippingLocality() } }
+                if (dbMallweb.queryForBillAddress(id).idClient > 0) { fillBillAddress(id) } else { binding.cbLocalityBillNotFound.setOnClickListener { notFoundBillLocality() } }
 
-            binding.btnActProfile.setOnClickListener {
-                if (binding.cbWantABillYES.isChecked) { if (editClientBillAYes(id)) { showAlertSuccess() } else { showAlertError() } }
-                if (binding.cbWantABillNO.isChecked) { if (editClientBillANo(id)) { showAlertSuccess() } else { showAlertError() } }
-                if (binding.cvBillAddress.visibility == View.VISIBLE) { if (areBillAddressFieldEmpty()) { if (dbMallweb.queryForBillAddress(id).idClient > 0) { if (editBillAddress(id)) { showAlertSuccess() } else { showAlertError() } } else { if (createBillAddress(id) > 0) { showAlertSuccess() } else { showAlertError() } } } else { Toast.makeText(requireContext(), "Debe completar todos los campos", Toast.LENGTH_SHORT).show() } }
-                if (binding.cvShippingAddress.visibility == View.VISIBLE) { if (areShippingAddressFieldEmpty()) { if (dbMallweb.queryForShippingAddress(id).idClient > 0) { if (editShippingAddress(id)) { showAlertSuccess() } else { showAlertError() } } else { if (createShippingAddress(id) > 0) { showAlertSuccess() } else { showAlertError() } } } else { Toast.makeText(requireContext(), "Debe completar todos los campos", Toast.LENGTH_SHORT).show() } }
+                var flag1 = true
+                var flag2 = true
+                var flag3 = true
+                var flag4 = true
+
+                binding.btnActProfile.setOnClickListener {_ ->
+                    if (binding.cbWantABillYES.isChecked) { flag1 = editClientBillAYes(id) }
+                    if (binding.cbWantABillNO.isChecked) { flag2 = editClientBillANo(id) }
+                    if (binding.cvBillAddress.visibility == View.VISIBLE) { if (areBillAddressFieldEmpty()) { if (dbMallweb.queryForBillAddress(id).idClient > 0) { if (binding.spinnerLocalityBillAddress.visibility == View.VISIBLE) { flag3 = editBillAddress(id) } else if (binding.localityBillAddress.visibility == View.VISIBLE) { flag3 = editBillAddressWithUnknownLocality(id) } } else { if (binding.spinnerLocalityBillAddress.visibility == View.VISIBLE) { flag3 = createBillAddress(id) > 0 } else if (binding.localityBillAddress.visibility == View.VISIBLE) { flag3 = createBillAddressWithUnknownLocality(id) > 0 } } } else { flag3 = false } }
+                    if (binding.cvShippingAddress.visibility == View.VISIBLE) { if (areShippingAddressFieldEmpty()) { if (dbMallweb.queryForShippingAddress(id).idClient > 0) { if (binding.spinnerLocalityShippingAddress.visibility == View.VISIBLE) { flag4 = editShippingAddress(id) } else if (binding.localityShippingAddress.visibility == View.VISIBLE) { flag4 = editShippingAddressWithUnknownLocality(id) } } else { if (binding.spinnerLocalityShippingAddress.visibility == View.VISIBLE) { flag4 = createShippingAddress(id) > 0 } else if (binding.localityShippingAddress.visibility == View.VISIBLE) { flag4 = createShippingAddressWithUnknownLocality(id) > 0 } } } else { flag4 = false } }
+                    if (flag1 && flag2 && flag3 && flag4) {
+                        showAlertSuccess(arguments?.getInt("ContainerID"))
+                    } else {
+                        showAlertError()
+                    }
+                    // Abrir fragmento step 3
+                }
             }
         }
     }
-    private fun createShippingAddress(id: Int): Long { return dbMallweb.createShippingAddress(id, binding.streetShippingAddress.text.toString(), binding.heightShippingAddress.text.toString(), binding.floorShippingAddress.text.toString(), binding.doorShippingAddress.text.toString(), binding.postalCodeShippingAddress.text.toString(), binding.spinnerProvinceShippingAddress.selectedItem.toString(), binding.localityShippingAddress.text.toString()) }
-    private fun editShippingAddress(id: Int): Boolean { return dbMallweb.editShippingAddress(id, binding.streetShippingAddress.text.toString(), binding.heightShippingAddress.text.toString(), binding.floorShippingAddress.text.toString(), binding.doorShippingAddress.text.toString(), binding.postalCodeShippingAddress.text.toString(), binding.spinnerProvinceShippingAddress.selectedItem.toString(), binding.localityShippingAddress.text.toString()) }
-    private fun createBillAddress(id: Int): Long { return dbMallweb.createBillAddress(id, binding.streetBillAddress.text.toString(), binding.heightBillAddress.text.toString(), binding.floorBillAddress.text.toString(), binding.doorBillAddress.text.toString(), binding.postalCodeBillAddress.text.toString(), binding.spinnerProvinceBillAddress.selectedItem.toString(), binding.localityBillAddress.text.toString()) }
-    private fun editBillAddress(id: Int): Boolean { return dbMallweb.editBillAddress(id, binding.streetBillAddress.text.toString(), binding.heightBillAddress.text.toString(), binding.floorBillAddress.text.toString(), binding.doorBillAddress.text.toString(), binding.postalCodeBillAddress.text.toString(), binding.spinnerProvinceBillAddress.selectedItem.toString(), binding.localityBillAddress.text.toString()) }
+    private fun createShippingAddressWithUnknownLocality(id: Int): Long { return dbMallweb.createShippingAddress(id, binding.streetShippingAddress.text.toString(), binding.heightShippingAddress.text.toString(), binding.floorShippingAddress.text.toString(), binding.doorShippingAddress.text.toString(), binding.postalCodeShippingAddress.text.toString(), binding.spinnerProvinceShippingAddress.selectedItem.toString(), binding.spinnerLocalityShippingAddress.selectedItem.toString()) }
+    private fun editShippingAddressWithUnknownLocality(id: Int): Boolean { return dbMallweb.editShippingAddress(id, binding.streetShippingAddress.text.toString(), binding.heightShippingAddress.text.toString(), binding.floorShippingAddress.text.toString(), binding.doorShippingAddress.text.toString(), binding.postalCodeShippingAddress.text.toString(), binding.spinnerProvinceShippingAddress.selectedItem.toString(), binding.spinnerLocalityShippingAddress.selectedItem.toString()) }
+    private fun createBillAddressWithUnknownLocality(id: Int): Long { return dbMallweb.createBillAddress(id, binding.streetBillAddress.text.toString(), binding.heightBillAddress.text.toString(), binding.floorBillAddress.text.toString(), binding.doorBillAddress.text.toString(), binding.postalCodeBillAddress.text.toString(), binding.spinnerProvinceBillAddress.selectedItem.toString(), binding.localityBillAddress.text.toString()) }
+    private fun editBillAddressWithUnknownLocality(id: Int): Boolean { return dbMallweb.editBillAddress(id, binding.streetBillAddress.text.toString(), binding.heightBillAddress.text.toString(), binding.floorBillAddress.text.toString(), binding.doorBillAddress.text.toString(), binding.postalCodeBillAddress.text.toString(), binding.spinnerProvinceBillAddress.selectedItem.toString(), binding.localityBillAddress.text.toString()) }
+    private fun createShippingAddress(id: Int): Long { return dbMallweb.createShippingAddress(id, binding.streetShippingAddress.text.toString(), binding.heightShippingAddress.text.toString(), binding.floorShippingAddress.text.toString(), binding.doorShippingAddress.text.toString(), binding.postalCodeShippingAddress.text.toString(), binding.spinnerProvinceShippingAddress.selectedItem.toString(), binding.spinnerLocalityShippingAddress.selectedItem.toString()) }
+    private fun editShippingAddress(id: Int): Boolean { return dbMallweb.editShippingAddress(id, binding.streetShippingAddress.text.toString(), binding.heightShippingAddress.text.toString(), binding.floorShippingAddress.text.toString(), binding.doorShippingAddress.text.toString(), binding.postalCodeShippingAddress.text.toString(), binding.spinnerProvinceShippingAddress.selectedItem.toString(), binding.spinnerLocalityShippingAddress.selectedItem.toString()) }
+    private fun createBillAddress(id: Int): Long { return dbMallweb.createBillAddress(id, binding.streetBillAddress.text.toString(), binding.heightBillAddress.text.toString(), binding.floorBillAddress.text.toString(), binding.doorBillAddress.text.toString(), binding.postalCodeBillAddress.text.toString(), binding.spinnerProvinceBillAddress.selectedItem.toString(), binding.spinnerLocalityBillAddress.selectedItem.toString()) }
+    private fun editBillAddress(id: Int): Boolean { return dbMallweb.editBillAddress(id, binding.streetBillAddress.text.toString(), binding.heightBillAddress.text.toString(), binding.floorBillAddress.text.toString(), binding.doorBillAddress.text.toString(), binding.postalCodeBillAddress.text.toString(), binding.spinnerProvinceBillAddress.selectedItem.toString(), binding.spinnerLocalityBillAddress.selectedItem.toString()) }
     private fun editClientBillANo(id: Int): Boolean { return dbMallweb.editClient(id, binding.nameClient.text.toString(), binding.lastnameClient.text.toString(), binding.dateBirthClient.text.toString(), binding.codAreaNumber.text.toString(), binding.numberCellphoneMallwebClient.text.toString(), binding.dniClientMallweb.text.toString(), binding.cuitClientMallweb.text.toString(), "no") }
     private fun editClientBillAYes(id: Int): Boolean { return dbMallweb.editClient(id, binding.nameClient.text.toString(), binding.lastnameClient.text.toString(), binding.dateBirthClient.text.toString(), binding.codAreaNumber.text.toString(), binding.numberCellphoneMallwebClient.text.toString(), binding.dniClientMallweb.text.toString(), binding.cuitClientMallweb.text.toString(), "si", binding.spinnerIVACondition.selectedItem.toString()) }
     private fun fillBillAddress(idClient: Int) { with(dbMallweb.queryForBillAddress(idClient)) { binding.streetBillAddress.setText(street); binding.heightBillAddress.setText(number); binding.floorBillAddress.setText(floor); binding.doorBillAddress.setText(door); binding.postalCodeBillAddress.setText(postalCode); setKnownProvinceSpinner(binding.spinnerProvinceBillAddress, province); setKnownLocalitySpinner(binding.spinnerLocalityBillAddress, locality); binding.cbLocalityBillNotFound.setOnClickListener { notFoundBillLocality() } } }
@@ -197,9 +219,10 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
             binding.cbWantABillYES.isChecked = true
             binding.llwantBillA.visibility = View.VISIBLE
             if (binding.cuitClientMallweb.text.toString().isNotEmpty()) { binding.cuit2ClientMallweb.text = binding.cuitClientMallweb.text }
-            if (iClient != null) { setIVAConditions().forEachIndexed { index, i -> if (iClient == i) { binding.spinnerIVACondition.setSelection(index) } } }
+            if (iClient != null) { setIVAConditions().forEachIndexed { index, i -> if (iClient == i) { setIVASpinner(index) } } }
         } else if (s.lowercase() == "no") {
             binding.cbWantABillNO.isChecked = true
+            setIVASpinner()
             binding.llwantBillA.visibility = View.GONE
         }
 
@@ -214,22 +237,83 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
                 binding.dateBirthClient.setText(fecha) }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
         dpd.show()
     }
-    private fun showAlertSuccess() {
+    private fun showAlertSuccess(idFragment: Int?) {
         val builder = AlertDialog.Builder(requireContext())
+        val existingOrder = arguments?.getInt(getString(R.string.existingOrder))
+        Log.i("postal", existingOrder.toString())
         builder.setMessage("Sus datos han sido actualizados")
-        builder.setPositiveButton("Aceptar", null)
+        builder.setPositiveButton("Ir al Checkout"){ _, _ ->
+            if (idFragment != null) {
+                if (binding.cvShippingAddress.visibility == View.VISIBLE) {
+                    if (existingOrder != null) {
+                        if (existingOrder > 0) {
+                            showFragment(ShoppingCartFragmentStep3(), idFragment, idClient = id, existingOrder = existingOrder)
+                        } else if (existingOrder == 0) {
+                            showFragment(ShoppingCartFragmentStep3(), idFragment, idClient = id)
+                        } else {
+                            showFragment(ShoppingCartFragmentStep3(), idFragment, idClient = id)
+                        }
+                    }
+                } else if (binding.cvShippingAddress.visibility == View.GONE) {
+                    if (existingOrder != null) {
+                        if (existingOrder > 0) {
+                            showFragment(ShoppingCartFragmentStep3(), idFragment, idClient = id, postalCode = Integer.parseInt(binding.postalCodeShippingAddress.text.toString()), withShipping = true, existingOrder = existingOrder)
+                        } else if (existingOrder == 0) {
+                            showFragment(ShoppingCartFragmentStep3(), idFragment, idClient = id, postalCode = Integer.parseInt(binding.postalCodeShippingAddress.text.toString()), withShipping = true)
+                        } else {
+                            showFragment(ShoppingCartFragmentStep3(), idFragment, idClient = id, postalCode = Integer.parseInt(binding.postalCodeShippingAddress.text.toString()), withShipping = true)
+                        }
+                    }
+                }
+            }
+        }
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
     private fun showAlertError() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Error")
-        builder.setMessage("Sus datos no han sido actualizados")
+        builder.setMessage("Sus datos no han sido actualizados\nRevise si ha completado todos los campos necesarios")
         builder.setPositiveButton("Aceptar", null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
     private fun setIVAConditions(): Array<String> { return arrayOf("Seleccione", "Inscripto", "Excento", "Consumidor finál", "Monotributo", "No categorizado") }
     private fun hideKeyboard() { val imm = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager; imm.hideSoftInputFromWindow(binding.svSCFStep2.windowToken, 0) }
-
+    private fun showFragment(
+        fragment: Fragment,
+        id: Int? = null,
+        name: String? = null,
+        idCArray: ArrayList<Int>? = null,
+        idBrand: Int? = null,
+        idClient: Int? = null,
+        idProduct: Int? = null,
+        withShipping: Boolean? = null,
+        postalCode: Int? = null,
+        existingOrder: Int? = null
+    ) {
+        if (id != null) {
+            val bundle = Bundle()
+            bundle.putInt("ContainerID", id)
+            if (name != null) { bundle.putString("NameCategory", name) }
+            if (idCArray != null) { bundle.putIntegerArrayList("IDCategoryArray", idCArray) }
+            if (idBrand != null) { bundle.putInt("IdBrand", idBrand) }
+            if (idClient != null) { bundle.putInt("IdClient", idClient)}
+            if (idProduct != null) { bundle.putInt("IDProduct", idProduct)}
+            if (existingOrder != null) { bundle.putInt("existingOrder", existingOrder) }
+            if (withShipping == true && postalCode != null) { bundle.putInt("postalCode", postalCode); bundle.putBoolean("withShipping", withShipping)} else if (withShipping == false){ bundle.putBoolean("withShipping", withShipping) }
+            fragment.arguments = bundle
+            requireActivity()
+                .supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(
+                    R.anim.right_in,
+                    R.anim.left_out,
+                    R.anim.right_in,
+                    R.anim.left_out)
+                .replace(id, fragment, fragment.tag)
+                .addToBackStack(fragment.tag)
+                .commit()
+        }
+    }
 }

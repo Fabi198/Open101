@@ -7,15 +7,15 @@ import com.example.open101.R
 import com.example.open101.mallweb.entities.dbEntities.*
 
 
-open class DbMallwebHelper(var context: Context, DB_NAME: String = "MallwebDB3", DB_VERSION: Int = 1): SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
+open class DbMallwebHelper(var context: Context, DB_NAME: String = "MallwebDB5", DB_VERSION: Int = 1): SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
     private val createTableClients = "CREATE TABLE IF NOT EXISTS clients (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL, name TEXT NOT NULL, lastname TEXT NOT NULL, birthday TEXT, codarea TEXT, numCelular TEXT, dni TEXT NOT NULL, cuit TEXT NOT NULL, wantABill TEXT NOT NULL, ivaCondition TEXT)"
     private val createTableAddress = "CREATE TABLE IF NOT EXISTS address (idClient INTEGER PRIMARY KEY REFERENCES clients(id), street TEXT NOT NULL, number TEXT NOT NULL, floor TEXT NOT NULL, door TEXT NOT NULL, postalCode TEXT NOT NULL, province TEXT NOT NULL, locality TEXT NOT NULL)"
     private val createTableBillAddress = "CREATE TABLE IF NOT EXISTS billAddress (idClient INTEGER PRIMARY KEY REFERENCES clients(id), street TEXT NOT NULL, number TEXT NOT NULL, floor TEXT NOT NULL, door TEXT NOT NULL, postalCode TEXT NOT NULL, province TEXT NOT NULL, locality TEXT NOT NULL)"
-    private val createTableOrders = "CREATE TABLE IF NOT EXISTS orders (idClient INTEGER REFERENCES clients(id), numberOrder INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT NOT NULL, total DOUBLE NOT NULL, state TEXT NOT NULL, shipping TEXT NOT NULL, actions TEXT NOT NULL)"
+    private val createTableOrders = "CREATE TABLE IF NOT EXISTS orders (idClient INTEGER REFERENCES clients(id), numberOrder INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT NOT NULL, total DOUBLE NOT NULL, state TEXT NOT NULL, shipping TEXT NOT NULL)"
     private val createTableBill = "CREATE TABLE IF NOT EXISTS bill (numBill INTEGER PRIMARY KEY AUTOINCREMENT, idClient INTEGER REFERENCES clients(id), date TEXT NOT NULL, numPayment INTEGER REFERENCES payMethod(numPayment))"
     private val createTablePayMethod = "CREATE TABLE IF NOT EXISTS payMethod (numPayment INTEGER PRIMARY KEY AUTOINCREMENT, namePayment TEXT NOT NULL, details TEXT)"
-    private val createTableDetails = "CREATE TABLE IF NOT EXISTS details (numDetails INTEGER NOT NULL, numBill INTEGER REFERENCES bill(numBill), idProduct INTEGER REFERENCES products(idProduct), cant INTEGER NOT NULL, price DOUBLE NOT NULL, PRIMARY KEY (numDetails, numBill))"
+    private val createTableDetails = "CREATE TABLE IF NOT EXISTS details (numDetails INTEGER PRIMARY KEY AUTOINCREMENT, numOrder INTEGER REFERENCES orders(numberOrder), idProduct INTEGER REFERENCES products(idProduct), nameProduct TEXT REFERENCES products(name), cant INTEGER NOT NULL, price DOUBLE NOT NULL)"
     private val createTableProducts = "CREATE TABLE IF NOT EXISTS products (idProduct INTEGER PRIMARY KEY, codFab TEXT NOT NULL, name TEXT NOT NULL, idCategory INTEGER REFERENCES category(idCategory), idBrand REFERENCES brands(idBrand), stock INTEGER NOT NULL, price DOUBLE NOT NULL, image INTEGER NOT NULL)"
     private val createTableCategory = "CREATE TABLE IF NOT EXISTS category (idCategory INTEGER PRIMARY KEY, name TEXT NOT NULL)"
     private val createTableBrands = "CREATE TABLE IF NOT EXISTS brands (idBrand INTEGER PRIMARY KEY, name TEXT NOT NULL, image INTEGER NOT NULL)"

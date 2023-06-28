@@ -8,15 +8,146 @@ import com.example.open101.mallweb.entities.dbEntities.*
 import java.sql.SQLException
 
 class DbMallweb(context: Context): DbMallwebHelper(context) {
-
-
-
     private fun setDatabase(): SQLiteDatabase {
         val db = DbMallwebHelper(context)
         return db.writableDatabase
     }
+    fun queryForDetails(numOrder: Int): ArrayList<Detail> {
+        val listDetails = ArrayList<Detail>()
+        setDatabase()
+        val cursor: Cursor = setDatabase().rawQuery("SELECT * FROM details WHERE numOrder = '$numOrder'", null)
+        if (cursor.moveToFirst()) {
+            do {
+                val detail = Detail()
+                detail.numOrder = cursor.getInt(1)
+                detail.idProduct = cursor.getInt(2)
+                detail.nameProduct = cursor.getString(3)
+                detail.cant = cursor.getInt(4)
+                detail.price = cursor.getDouble(5)
+                listDetails.add(detail)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        setDatabase().close()
+        return listDetails
+    }
+    fun putDetailsBackToCart(numOrder: Int, idClient: Int): Boolean {
+        setDatabase()
+        val cursor: Cursor = setDatabase().rawQuery("SELECT numOrder, idProduct, cant FROM details WHERE numOrder = '$numOrder'", null)
+        if (cursor.moveToFirst()) {
+            do {
+                val detail = Detail()
+                detail.numOrder = cursor.getInt(0)
+                detail.idProduct = cursor.getInt(1)
+                detail.cant = cursor.getInt(2)
+                addProductToShoppingCart(idClient, detail.idProduct, detail.cant)
+            } while (cursor.moveToNext())
+        }
+        setDatabase().close()
+        cursor.close()
+        return true
+    }
+    fun editStateOrder(numOrder: Int, state: String): Boolean {
+        setDatabase()
+        return try {
+            setDatabase().execSQL("UPDATE orders SET state = '$state' WHERE numberOrder = '$numOrder'")
+            true
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            false
+        } finally {
+            setDatabase().close()
+        }
+    }
+    fun queryForOrders(idClient: Int, state: String): ArrayList<Order> {
+        val listOrders = ArrayList<Order>()
+        setDatabase()
+        val cursor: Cursor = setDatabase().rawQuery("SELECT * FROM orders WHERE idClient = '$idClient' AND state = '$state'", null)
+        if (cursor.moveToFirst()) {
+            do {
+                val order = Order()
+                order.idClient = cursor.getInt(0)
+                order.numOrder = cursor.getInt(1)
+                order.date = cursor.getString(2)
+                order.total = cursor.getDouble(3)
+                order.state = cursor.getString(4)
+                order.shipping = cursor.getString(5)
+                listOrders.add(order)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        setDatabase().close()
+        return listOrders
+    }
+    fun queryForLastOrder(idClient: Int): Order {
+        val order = Order()
+        setDatabase()
+        val cursor: Cursor = setDatabase().rawQuery("SELECT * FROM orders WHERE idClient = '$idClient' ORDER BY numberOrder DESC", null)
+        if (cursor.moveToFirst()) {
+            order.idClient = cursor.getInt(0)
+            order.numOrder = cursor.getInt(1)
+            order.date = cursor.getString(2)
+            order.total = cursor.getDouble(3)
+            order.state = cursor.getString(4)
+            order.shipping = cursor.getString(5)
+        }
+        cursor.close()
+        setDatabase().close()
+        return order
+    }
+    fun queryForOrder(numOrder: Int): Order {
+        val order = Order()
+        setDatabase()
+        val cursor: Cursor = setDatabase().rawQuery("SELECT * FROM orders WHERE numberOrder = '$numOrder'", null)
+        if (cursor.moveToFirst()) {
+            order.idClient = cursor.getInt(0)
+            order.numOrder = cursor.getInt(1)
+            order.date = cursor.getString(2)
+            order.total = cursor.getDouble(3)
+            order.state = cursor.getString(4)
+            order.shipping = cursor.getString(5)
+        }
+        cursor.close()
+        setDatabase().close()
+        return order
+    }
+    fun createOrder(idClient: Int, date: String, total: Double, state: String, shipping: String, listProducts: ArrayList<ShopCartItem>): Long {
+        var id: Long = 0
+        setDatabase()
+        try {
+            val v = ContentValues()
+            v.put("idClient", idClient)
+            v.put("date", date)
+            v.put("total", total)
+            v.put("state", state)
+            v.put("shipping", shipping)
+            id = setDatabase().insert("orders", null, v)
 
-    fun getProvinceForSpinner(cp: String): ArrayList<String> {
+            run breaking@ {
+                listProducts.forEach {
+                    try {
+                        val vS = ContentValues()
+                        vS.put("numOrder", queryForLastOrder(idClient).numOrder)
+                        vS.put("idProduct", it.idProduct)
+                        vS.put("nameProduct", queryForProduct(it.idProduct).name)
+                        vS.put("cant", it.quantity)
+                        vS.put("price", queryForProduct(it.idProduct).price * it.quantity)
+                        setDatabase().insert("details", null, vS)
+                    } catch (e: SQLException) {
+                        e.printStackTrace()
+                        id = 0
+                        return@breaking
+                    }
+                }
+            }
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } finally {
+            setDatabase().close()
+        }
+        return id
+    }
+    fun queryForProvinceForSpinner(cp: String): ArrayList<String> {
         val listProvinces = ArrayList<String>()
         val listPreProvince = ArrayList<Int>()
         setDatabase()
@@ -30,10 +161,9 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         setDatabase().close()
         return listProvinces
     }
-
-    fun getCitysForSpinner(postalCode: String, province_name: String): ArrayList<String> {
+    fun queryForCitysForSpinner(postalCode: String, province_name: String): ArrayList<String> {
         setDatabase()
-        val idProvince = getProvinceByName(province_name)
+        val idProvince = queryForProvinceByName(province_name)
         val list = ArrayList<String>()
         val cursor: Cursor = setDatabase().rawQuery("SELECT city_name FROM city WHERE cp = '${Integer.parseInt(postalCode)}' AND id_province = '${idProvince.id}'", null)
         if (cursor.moveToFirst()) {
@@ -45,8 +175,7 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         setDatabase().close()
         return list
     }
-
-    private fun getProvinceByName(province_name: String): Province {
+    private fun queryForProvinceByName(province_name: String): Province {
         setDatabase()
         val province = Province()
         val cursor: Cursor = setDatabase().rawQuery("SELECT * FROM province WHERE province_name = '$province_name'", null)
@@ -58,8 +187,7 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         cursor.close()
         return province
     }
-
-    fun getProvinces(): ArrayList<Province> {
+    fun queryForAllProvinces(): ArrayList<Province> {
         val listProvince = ArrayList<Province>()
         setDatabase()
         val cursor: Cursor = setDatabase().rawQuery("SELECT * FROM province", null)
@@ -75,22 +203,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         setDatabase().close()
         return listProvince
     }
-
-    fun getCity(cp: String): City {
-        val city = City()
-        setDatabase()
-        val cursor: Cursor = setDatabase().rawQuery("SELECT * FROM city WHERE cp = '$cp'", null)
-        if (cursor.moveToFirst()) {
-            city.id = cursor.getInt(0)
-            city.name = cursor.getString(1)
-            city.postalCode = cursor.getInt(2)
-            city.idProvince = cursor.getInt(3)
-        }
-        cursor.close()
-        setDatabase().close()
-        return city
-    }
-
     fun createShippingAddress(idClient: Int, s: String, n: String, f: String, d: String, pC: String, p: String, l: String): Long {
         var id: Long = 0
         setDatabase()
@@ -113,7 +225,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         }
         return id
     }
-
     fun createBillAddress(idClient: Int, s: String, n: String, f: String, d: String, pC: String, p: String, l: String): Long {
         var id: Long = 0
         setDatabase()
@@ -136,7 +247,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         }
         return id
     }
-
     fun editShippingAddress(idClient: Int, s: String, n: String, f: String, d: String, pC: String, p: String, l: String): Boolean {
         setDatabase()
         return try {
@@ -149,7 +259,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
             setDatabase().close()
         }
     }
-
     fun editBillAddress(idClient: Int, s: String, n: String, f: String, d: String, pC: String, p: String, l: String): Boolean {
         setDatabase()
         return try {
@@ -162,7 +271,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
             setDatabase().close()
         }
     }
-
     fun queryForShippingAddress(idClient: Int): Address {
         val address = Address()
         setDatabase()
@@ -181,7 +289,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         cursor.close()
         return address
     }
-
     fun queryForBillAddress(idClient: Int): Address {
         val address = Address()
         setDatabase()
@@ -200,11 +307,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         cursor.close()
         return address
     }
-
-    fun createOrder() {
-
-    }
-
     fun queryBasic(s: String): ArrayList<Product> {
         val listProduct = ArrayList<Product>()
         setDatabase()
@@ -227,7 +329,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         setDatabase().close()
         return listProduct
     }
-
     fun queryForClient(email: String): Client {
         setDatabase()
         val client = Client()
@@ -249,24 +350,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         setDatabase().close()
         return client
     }
-
-    fun editWantABillClient(w: String, id: Int, ic: String ?= null): Boolean {
-        setDatabase()
-        return try {
-            if (w.lowercase() == "si" && ic != null) {
-                setDatabase().execSQL("UPDATE clients SET wantABill = '$w', ivaCondition = '$ic' WHERE id = '$id'")
-            } else if (w.lowercase() == "no") {
-                setDatabase().execSQL("UPDATE clients SET wantABill = '$w' WHERE id = '$id'")
-            }
-            true
-        } catch (e: SQLException) {
-            e.printStackTrace()
-            false
-        } finally {
-            setDatabase().close()
-        }
-    }
-
     fun editClient(id: Int, n: String, l: String, b: String, c: String, nu: String, dni: String, cuit: String, w: String, i: String ?= null): Boolean {
         setDatabase()
         return try {
@@ -283,7 +366,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
             setDatabase().close()
         }
     }
-
     fun deleteProductFromShopCart(idClient: Int, idProduct: Int): Boolean {
         setDatabase()
         return try {
@@ -296,8 +378,7 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
             setDatabase().close()
         }
     }
-
-    fun actQuantityShopCartOnProduct(quantity: Int, idProduct: Int, idClient: Int): Boolean {
+    fun refreshQuantityOfProductOnShopCart(quantity: Int, idProduct: Int, idClient: Int): Boolean {
         setDatabase()
         return try {
             setDatabase().execSQL("UPDATE shopcart SET quantity = '$quantity' WHERE idProduct = '$idProduct' AND idClient = '$idClient'")
@@ -309,7 +390,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
             setDatabase().close()
         }
     }
-
     fun queryForProductsOnCart(idClient: Int): ArrayList<ShopCartItem> {
         val list = ArrayList<ShopCartItem>()
         setDatabase()
@@ -327,8 +407,7 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         cursor.close()
         return list
     }
-
-    private fun alreadyExistsProduct(idClient: Int, idProduct: Int): Boolean {
+    private fun alreadyExistsProductOnCart(idClient: Int, idProduct: Int): Boolean {
         var result = false
         setDatabase()
         val cursor: Cursor = setDatabase().rawQuery("SELECT * FROM shopcart WHERE idClient = '$idClient' AND idProduct = '$idProduct'", null)
@@ -339,11 +418,10 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         cursor.close()
         return result
     }
-
-    fun addToShoppingCart(idClient: Int, idProduct: Int, quantity: Int): Boolean {
+    fun addProductToShoppingCart(idClient: Int, idProduct: Int, quantity: Int): Boolean {
         var result = false
         setDatabase()
-        if (!alreadyExistsProduct(idClient, idProduct)) {
+        if (!alreadyExistsProductOnCart(idClient, idProduct)) {
             try {
                 val v = ContentValues()
                 v.put("idClient", idClient)
@@ -367,11 +445,9 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         setDatabase().close()
         return result
     }
-
-    fun deleteShopCart() {
-        setDatabase().execSQL("DELETE FROM shopcart")
+    fun deleteAllProductsOnShopCart(idClient: Int) {
+        setDatabase().execSQL("DELETE FROM shopcart WHERE idClient = '$idClient'")
     }
-
     fun createBasicClient(email: String, name: String, lastName: String, dni: String, cuit: String): Long {
         var id: Long = 0
         val wantABill = "No"
@@ -394,7 +470,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
 
         return id
     }
-
     fun queryForCategoryCant(i: Int): ArrayList<Int> {
         val idBrandArray = ArrayList<Int>()
         setDatabase()
@@ -420,7 +495,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         }
         return idBrandArray
     }
-
     fun queryForProduct(i: Int): Product {
         val product = Product()
         setDatabase()
@@ -439,7 +513,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         cursorProduct.close()
         return product
     }
-
     fun queryForBrandCant(i: Int): ArrayList<Int> {
         val idBrandArray = ArrayList<Int>()
         setDatabase()
@@ -465,7 +538,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         }
         return idBrandArray
     }
-
     fun queryForBrand(i: Int): Brand {
         setDatabase()
         val brand = Brand()
@@ -481,7 +553,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         setDatabase().close()
         return brand
     }
-
     fun queryForSubCategory(i: Int): Category {
         setDatabase()
         val category = Category()
@@ -496,7 +567,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         setDatabase().close()
         return category
     }
-
     fun queryForSubCategoryProducts(i: Int): ArrayList<Product> {
             setDatabase()
             val listProduct = ArrayList<Product>()
@@ -519,7 +589,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
             setDatabase().close()
             return listProduct
     }
-
     fun queryForProductsByBrandAndCategory(iB: Int, iC: Int): ArrayList<Product> {
         setDatabase()
         val listProduct = ArrayList<Product>()

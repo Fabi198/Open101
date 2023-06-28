@@ -36,13 +36,13 @@ class CartItemAdapter(private val listItems: ArrayList<ShopCartItem>, private va
             binding.selectorQuantity.setText(i.quantity)
             var price = dbMallweb.queryForProduct(i.idProduct).price * Integer.parseInt(binding.selectorQuantity.text)
             val dollar = "$"
-            binding.tvPriceItemShoppingCart.text = "U${dollar}S $price"
+            binding.tvPriceItemShoppingCart.text = "U${dollar}S ${String.format("%.2f", price)}"
             binding.tvTitleItemShoppingCart.setOnClickListener { openProductFragment(i.idProduct) }
             binding.selectorQuantity.imgAgregar.setOnClickListener {
                 binding.selectorQuantity.plus()
-                if (dbMallweb.actQuantityShopCartOnProduct(binding.selectorQuantity.getText(), i.idProduct, i.idClient)) {
+                if (dbMallweb.refreshQuantityOfProductOnShopCart(binding.selectorQuantity.getText(), i.idProduct, i.idClient)) {
                     price = dbMallweb.queryForProduct(i.idProduct).price * binding.selectorQuantity.getText()
-                    binding.tvPriceItemShoppingCart.text = "U${dollar}S $price"
+                    binding.tvPriceItemShoppingCart.text = "U${dollar}S ${String.format("%.2f", price)}"
                     onChangedPrice(i.idClient)
                 } else {
                     binding.selectorQuantity.minus()
@@ -53,7 +53,7 @@ class CartItemAdapter(private val listItems: ArrayList<ShopCartItem>, private va
                 val builder = AlertDialog.Builder(context)
                 builder.setMessage("¿Seguro desea eliminar este articulo del carrito?")
                 builder.setPositiveButton("Aceptar") { _, _ ->
-                    if (dbMallweb.actQuantityShopCartOnProduct(binding.selectorQuantity.getText(), i.idProduct, i.idClient)) {
+                    if (dbMallweb.refreshQuantityOfProductOnShopCart(binding.selectorQuantity.getText(), i.idProduct, i.idClient)) {
                         dbMallweb.deleteProductFromShopCart(i.idClient, i.idProduct)
                         val anim: Animation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
                         itemView.startAnimation(anim)
@@ -68,7 +68,7 @@ class CartItemAdapter(private val listItems: ArrayList<ShopCartItem>, private va
                 builder.setNegativeButton("Cancelar") { _, _ ->
                     binding.selectorQuantity.plus()
                     price = dbMallweb.queryForProduct(i.idProduct).price * binding.selectorQuantity.getText()
-                    binding.tvPriceItemShoppingCart.text = "U${dollar}S $price"
+                    binding.tvPriceItemShoppingCart.text = "U${dollar}S ${String.format("%.2f", price)}"
                     onChangedPrice(i.idClient)
                 }
                 val dialog: AlertDialog = builder.create()
@@ -80,7 +80,7 @@ class CartItemAdapter(private val listItems: ArrayList<ShopCartItem>, private va
                     val builder = AlertDialog.Builder(context)
                     builder.setMessage("¿Seguro desea eliminar este articulo del carrito?")
                     builder.setPositiveButton("Aceptar") { _, _ ->
-                        if (dbMallweb.actQuantityShopCartOnProduct(binding.selectorQuantity.getText(), i.idProduct, i.idClient)) {
+                        if (dbMallweb.refreshQuantityOfProductOnShopCart(binding.selectorQuantity.getText(), i.idProduct, i.idClient)) {
                             dbMallweb.deleteProductFromShopCart(i.idClient, i.idProduct)
                             val anim: Animation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
                             itemView.startAnimation(anim)
@@ -95,15 +95,15 @@ class CartItemAdapter(private val listItems: ArrayList<ShopCartItem>, private va
                     builder.setNegativeButton("Cancelar") { _, _ ->
                         binding.selectorQuantity.plus()
                         price = dbMallweb.queryForProduct(i.idProduct).price * binding.selectorQuantity.getText()
-                        binding.tvPriceItemShoppingCart.text = "U${dollar}S $price"
+                        binding.tvPriceItemShoppingCart.text = "U${dollar}S ${String.format("%.2f", price)}"
                         onChangedPrice(i.idClient)
                     }
                     val dialog: AlertDialog = builder.create()
                     dialog.show()
                 } else {
-                    if (dbMallweb.actQuantityShopCartOnProduct(binding.selectorQuantity.getText(), i.idProduct, i.idClient)) {
+                    if (dbMallweb.refreshQuantityOfProductOnShopCart(binding.selectorQuantity.getText(), i.idProduct, i.idClient)) {
                         price = dbMallweb.queryForProduct(i.idProduct).price * binding.selectorQuantity.getText()
-                        binding.tvPriceItemShoppingCart.text = "U${dollar}S $price"
+                        binding.tvPriceItemShoppingCart.text = "U${dollar}S ${String.format("%.2f", price)}"
                         onChangedPrice(i.idClient)
                     } else {
                         binding.selectorQuantity.plus()
