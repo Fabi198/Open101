@@ -12,6 +12,97 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         val db = DbMallwebHelper(context)
         return db.writableDatabase
     }
+
+    // Favorites methods
+
+    fun queryForFavorite(idClient: Int, idProduct: Int): Boolean {
+        setDatabase()
+        var result = false
+        val cursor: Cursor = setDatabase().rawQuery("SELECT idFavorites FROM favorites WHERE idClient = '${idClient}' AND idProduct = '${idProduct}'", null)
+        if (cursor.moveToFirst()) {
+            if (cursor.getInt(0) > 0) {
+                result = true
+            }
+        }
+        setDatabase().close()
+        cursor.close()
+        return result
+    }
+
+    fun queryForFavorites(idClient: Int): ArrayList<Product> {
+        val listProduct = ArrayList<Product>()
+        setDatabase()
+        val cursor: Cursor = setDatabase().rawQuery("SELECT idProduct FROM favorites WHERE idClient = '$idClient'", null)
+        if (cursor.moveToFirst()) {
+            do {
+                val cursorProduct: Cursor = setDatabase().rawQuery("SELECT * FROM products WHERE idProduct = '${cursor.getInt(0)}'", null)
+                if (cursorProduct.moveToFirst()) {
+                    val product = Product()
+                    product.id = cursorProduct.getInt(0)
+                    product.codFab = cursorProduct.getString(1)
+                    product.name = cursorProduct.getString(2)
+                    product.idCategory = cursorProduct.getInt(3)
+                    product.idBrand = cursorProduct.getInt(4)
+                    product.stock = cursorProduct.getInt(5)
+                    product.price = cursorProduct.getDouble(6)
+                    product.image = cursorProduct.getInt(7)
+                    listProduct.add(product)
+                }
+                cursorProduct.close()
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        setDatabase().close()
+        return listProduct
+    }
+
+    fun deleteFavorites(idClient: Int, idProduct: Int): Boolean {
+        setDatabase()
+        return try {
+            setDatabase().execSQL("DELETE FROM favorites WHERE idClient = '$idClient' AND idProduct = '$idProduct'")
+            true
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            false
+        } finally {
+            setDatabase().close()
+        }
+    }
+
+    fun createFavorite(idClient: Int, idProduct: Int): Long {
+        var id: Long = 0
+        setDatabase()
+
+        try {
+            val v = ContentValues()
+            v.put("idClient", idClient)
+            v.put("idProduct", idProduct)
+            id = setDatabase().insert("favorites", null, v)
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } finally {
+            setDatabase().close()
+        }
+
+        return id
+    }
+
+    // Payment methods
+    fun queryForPayment(numPayment: Int): Payment {
+        val payment = Payment()
+        setDatabase()
+        val cursor: Cursor = setDatabase().rawQuery("SELECT * FROM payMethod WHERE numPayment = '$numPayment'", null)
+        if (cursor.moveToFirst()) {
+            payment.numPayment = cursor.getInt(0)
+            payment.name = cursor.getString(1)
+            payment.detail = cursor.getString(2)
+        }
+        cursor.close()
+        setDatabase().close()
+        return payment
+    }
+
+    // Details methods
     fun queryForDetails(numOrder: Int): ArrayList<Detail> {
         val listDetails = ArrayList<Detail>()
         setDatabase()
@@ -47,6 +138,32 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         cursor.close()
         return true
     }
+
+    // Order methods
+    fun editTotalOrder(numOrder: Int, total: Double): Boolean {
+        setDatabase()
+        return try {
+            setDatabase().execSQL("UPDATE orders SET total = '$total' WHERE numberOrder = '$numOrder'")
+            true
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            false
+        } finally {
+            setDatabase().close()
+        }
+    }
+    fun editPayMethodOrder(numOrder: Int, numPayment: Int): Boolean {
+        setDatabase()
+        return try {
+            setDatabase().execSQL("UPDATE orders SET numPayment = '$numPayment' WHERE numberOrder = '$numOrder'")
+            true
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            false
+        } finally {
+            setDatabase().close()
+        }
+    }
     fun editStateOrder(numOrder: Int, state: String): Boolean {
         setDatabase()
         return try {
@@ -72,6 +189,7 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
                 order.total = cursor.getDouble(3)
                 order.state = cursor.getString(4)
                 order.shipping = cursor.getString(5)
+                order.payMethod = cursor.getInt(6)
                 listOrders.add(order)
             } while (cursor.moveToNext())
         }
@@ -90,6 +208,7 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
             order.total = cursor.getDouble(3)
             order.state = cursor.getString(4)
             order.shipping = cursor.getString(5)
+            order.payMethod = cursor.getInt(6)
         }
         cursor.close()
         setDatabase().close()
@@ -106,6 +225,7 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
             order.total = cursor.getDouble(3)
             order.state = cursor.getString(4)
             order.shipping = cursor.getString(5)
+            order.payMethod = cursor.getInt(6)
         }
         cursor.close()
         setDatabase().close()
@@ -147,6 +267,8 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         }
         return id
     }
+
+    // Province/City methods
     fun queryForProvinceForSpinner(cp: String): ArrayList<String> {
         val listProvinces = ArrayList<String>()
         val listPreProvince = ArrayList<Int>()
@@ -203,6 +325,8 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         setDatabase().close()
         return listProvince
     }
+
+    // Address methods
     fun createShippingAddress(idClient: Int, s: String, n: String, f: String, d: String, pC: String, p: String, l: String): Long {
         var id: Long = 0
         setDatabase()
@@ -307,7 +431,9 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         cursor.close()
         return address
     }
-    fun queryBasic(s: String): ArrayList<Product> {
+
+    // Products methods
+    fun queryBasicForGlobalSearch(s: String): ArrayList<Product> {
         val listProduct = ArrayList<Product>()
         setDatabase()
         val cursor: Cursor = setDatabase().rawQuery("SELECT * FROM products WHERE name LIKE '%$s%'", null)
@@ -328,43 +454,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         cursor.close()
         setDatabase().close()
         return listProduct
-    }
-    fun queryForClient(email: String): Client {
-        setDatabase()
-        val client = Client()
-        val cursor: Cursor = setDatabase().rawQuery("SELECT * FROM clients WHERE email = '$email'", null)
-        if (cursor.moveToFirst()) {
-            client.id = cursor.getInt(0)
-            client.email = cursor.getString(1) ?: ""
-            client.name = cursor.getString(2) ?: ""
-            client.lastName = cursor.getString(3) ?: ""
-            client.birthday = cursor.getString(4) ?: ""
-            client.codArea = cursor.getString(5) ?: ""
-            client.numCelular = cursor.getString(6) ?: ""
-            client.dni = cursor.getString(7) ?: ""
-            client.cuit = cursor.getString(8) ?: ""
-            client.wantABill = cursor.getString(9) ?: ""
-            client.ivaCondition = cursor.getString(10) ?: ""
-        }
-        cursor.close()
-        setDatabase().close()
-        return client
-    }
-    fun editClient(id: Int, n: String, l: String, b: String, c: String, nu: String, dni: String, cuit: String, w: String, i: String ?= null): Boolean {
-        setDatabase()
-        return try {
-            if (i != null) {
-                setDatabase().execSQL("UPDATE clients SET name = '$n', lastname = '$l', birthday = '$b', codarea = '$c', numCelular = '$nu', dni = '$dni', cuit = '$cuit', wantABill = '$w', ivaCondition = '$i' WHERE id = '$id'")
-            } else {
-                setDatabase().execSQL("UPDATE clients SET name = '$n', lastname = '$l', birthday = '$b', codarea = '$c', numCelular = '$nu', dni = '$dni', cuit = '$cuit', wantABill = '$w' WHERE id = '$id'")
-            }
-            true
-        } catch (e: SQLException) {
-            e.printStackTrace()
-            false
-        } finally {
-            setDatabase().close()
-        }
     }
     fun deleteProductFromShopCart(idClient: Int, idProduct: Int): Boolean {
         setDatabase()
@@ -448,28 +537,26 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
     fun deleteAllProductsOnShopCart(idClient: Int) {
         setDatabase().execSQL("DELETE FROM shopcart WHERE idClient = '$idClient'")
     }
-    fun createBasicClient(email: String, name: String, lastName: String, dni: String, cuit: String): Long {
-        var id: Long = 0
-        val wantABill = "No"
-
-        try {
-            setDatabase()
-            val v = ContentValues()
-            v.put("email", email)
-            v.put("name", name)
-            v.put("lastname", lastName)
-            v.put("dni", dni)
-            v.put("cuit", cuit)
-            v.put("wantABill", wantABill)
-
-            id = setDatabase().insert("clients", null, v)
-            setDatabase().close()
-        } catch (e: SQLException) {
-            e.printStackTrace()
+    fun queryForProduct(i: Int): Product {
+        val product = Product()
+        setDatabase()
+        val cursorProduct: Cursor = setDatabase().rawQuery("SELECT * FROM products WHERE idProduct = '$i'", null)
+        if (cursorProduct.moveToFirst()) {
+            product.id = cursorProduct.getInt(0)
+            product.codFab = cursorProduct.getString(1)
+            product.name = cursorProduct.getString(2)
+            product.idCategory = cursorProduct.getInt(3)
+            product.idBrand = cursorProduct.getInt(4)
+            product.stock = cursorProduct.getInt(5)
+            product.price = cursorProduct.getDouble(6)
+            product.image = cursorProduct.getInt(7)
         }
-
-        return id
+        setDatabase().close()
+        cursorProduct.close()
+        return product
     }
+
+    // Category/Brand methods
     fun queryForCategoryCant(i: Int): ArrayList<Int> {
         val idBrandArray = ArrayList<Int>()
         setDatabase()
@@ -494,24 +581,6 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
             }
         }
         return idBrandArray
-    }
-    fun queryForProduct(i: Int): Product {
-        val product = Product()
-        setDatabase()
-        val cursorProduct: Cursor = setDatabase().rawQuery("SELECT * FROM products WHERE idProduct = '$i'", null)
-        if (cursorProduct.moveToFirst()) {
-            product.id = cursorProduct.getInt(0)
-            product.codFab = cursorProduct.getString(1)
-            product.name = cursorProduct.getString(2)
-            product.idCategory = cursorProduct.getInt(3)
-            product.idBrand = cursorProduct.getInt(4)
-            product.stock = cursorProduct.getInt(5)
-            product.price = cursorProduct.getDouble(6)
-            product.image = cursorProduct.getInt(7)
-        }
-        setDatabase().close()
-        cursorProduct.close()
-        return product
     }
     fun queryForBrandCant(i: Int): ArrayList<Int> {
         val idBrandArray = ArrayList<Int>()
@@ -547,6 +616,7 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
                 brand.id = cursorBrand.getInt(0)
                 brand.name = cursorBrand.getString(1)
                 brand.image = cursorBrand.getInt(2)
+                brand.imageLight = cursorBrand.getInt(3)
             } while (cursorBrand.moveToNext())
         }
         cursorBrand.close()
@@ -568,26 +638,26 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         return category
     }
     fun queryForSubCategoryProducts(i: Int): ArrayList<Product> {
-            setDatabase()
-            val listProduct = ArrayList<Product>()
-            val cursorProduct: Cursor = setDatabase().rawQuery("SELECT * FROM products WHERE idCategory = $i ORDER BY RANDOM() LIMIT 0,10", null)
-            if (cursorProduct.moveToFirst()) {
-                do {
-                    val product = Product()
-                    product.id = cursorProduct.getInt(0)
-                    product.codFab = cursorProduct.getString(1)
-                    product.name = cursorProduct.getString(2)
-                    product.idCategory = cursorProduct.getInt(3)
-                    product.idBrand = cursorProduct.getInt(4)
-                    product.stock = cursorProduct.getInt(5)
-                    product.price = cursorProduct.getDouble(6)
-                    product.image = cursorProduct.getInt(7)
-                    listProduct.add(product)
-                } while (cursorProduct.moveToNext())
-            }
-            cursorProduct.close()
-            setDatabase().close()
-            return listProduct
+        setDatabase()
+        val listProduct = ArrayList<Product>()
+        val cursorProduct: Cursor = setDatabase().rawQuery("SELECT * FROM products WHERE idCategory = $i ORDER BY RANDOM() LIMIT 0,10", null)
+        if (cursorProduct.moveToFirst()) {
+            do {
+                val product = Product()
+                product.id = cursorProduct.getInt(0)
+                product.codFab = cursorProduct.getString(1)
+                product.name = cursorProduct.getString(2)
+                product.idCategory = cursorProduct.getInt(3)
+                product.idBrand = cursorProduct.getInt(4)
+                product.stock = cursorProduct.getInt(5)
+                product.price = cursorProduct.getDouble(6)
+                product.image = cursorProduct.getInt(7)
+                listProduct.add(product)
+            } while (cursorProduct.moveToNext())
+        }
+        cursorProduct.close()
+        setDatabase().close()
+        return listProduct
     }
     fun queryForProductsByBrandAndCategory(iB: Int, iC: Int): ArrayList<Product> {
         setDatabase()
@@ -610,5 +680,66 @@ class DbMallweb(context: Context): DbMallwebHelper(context) {
         cursorProduct.close()
         setDatabase().close()
         return listProduct
+    }
+
+    // Client methods
+    fun queryForClient(email: String): Client {
+        setDatabase()
+        val client = Client()
+        val cursor: Cursor = setDatabase().rawQuery("SELECT * FROM clients WHERE email = '$email'", null)
+        if (cursor.moveToFirst()) {
+            client.id = cursor.getInt(0)
+            client.email = cursor.getString(1) ?: ""
+            client.name = cursor.getString(2) ?: ""
+            client.lastName = cursor.getString(3) ?: ""
+            client.birthday = cursor.getString(4) ?: ""
+            client.codArea = cursor.getString(5) ?: ""
+            client.numCelular = cursor.getString(6) ?: ""
+            client.dni = cursor.getString(7) ?: ""
+            client.cuit = cursor.getString(8) ?: ""
+            client.wantABill = cursor.getString(9) ?: ""
+            client.ivaCondition = cursor.getString(10) ?: ""
+        }
+        cursor.close()
+        setDatabase().close()
+        return client
+    }
+    fun editClient(id: Int, n: String, l: String, b: String, c: String, nu: String, dni: String, cuit: String, w: String, i: String ?= null): Boolean {
+        setDatabase()
+        return try {
+            if (i != null) {
+                setDatabase().execSQL("UPDATE clients SET name = '$n', lastname = '$l', birthday = '$b', codarea = '$c', numCelular = '$nu', dni = '$dni', cuit = '$cuit', wantABill = '$w', ivaCondition = '$i' WHERE id = '$id'")
+            } else {
+                setDatabase().execSQL("UPDATE clients SET name = '$n', lastname = '$l', birthday = '$b', codarea = '$c', numCelular = '$nu', dni = '$dni', cuit = '$cuit', wantABill = '$w' WHERE id = '$id'")
+            }
+            true
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            false
+        } finally {
+            setDatabase().close()
+        }
+    }
+    fun createBasicClient(email: String, name: String, lastName: String, dni: String, cuit: String): Long {
+        var id: Long = 0
+        val wantABill = "No"
+
+        try {
+            setDatabase()
+            val v = ContentValues()
+            v.put("email", email)
+            v.put("name", name)
+            v.put("lastname", lastName)
+            v.put("dni", dni)
+            v.put("cuit", cuit)
+            v.put("wantABill", wantABill)
+
+            id = setDatabase().insert("clients", null, v)
+            setDatabase().close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        }
+
+        return id
     }
 }

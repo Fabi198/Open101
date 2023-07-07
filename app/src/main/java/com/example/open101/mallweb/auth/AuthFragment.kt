@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,8 @@ import androidx.fragment.app.Fragment
 import com.example.open101.R
 import com.example.open101.activitys.MallWeb
 import com.example.open101.databinding.FragmentAuthBinding
+import com.example.open101.mallweb.db.DbMallweb
+import com.example.open101.mallweb.objects.Session.getUserID
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -28,11 +31,13 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private lateinit var clientGoogle: GoogleSignInClient
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAuthBinding.bind(view)
         val id2 = arguments?.getInt("ContainerID")
+        val idProduct = arguments?.getInt("IDProduct")
+        val quantity = arguments?.getInt("quantity")
+        val tag = arguments?.getString("tagForAuth")
 
 
         val analytics = FirebaseAnalytics.getInstance(requireContext())
@@ -40,10 +45,10 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         bundle.putString("message", "Integracion de firebase completa")
         analytics.logEvent("InitScreen", bundle)
 
-        setup(id2)
+        setup(id2, idProduct, quantity, tag)
     }
 
-    private fun setup(id2: Int?) {
+    private fun setup(id2: Int?, idProduct: Int?, quantity: Int?, tag: String?) {
         binding.btnReg.setOnClickListener {
             if (id2 != null) {
                 requireActivity()
@@ -53,10 +58,11 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                         R.anim.right_in,
                         R.anim.left_out,
                         R.anim.right_in,
-                        R.anim.left_out)
-                    .replace(id2, RegisterFragment(), "Register Fragment")
+                        R.anim.left_out
+                    )
+                    .replace(id2, RegisterFragment(), "RegisterFragment")
                     .apply { arguments?.putInt("ContainerID", id) }
-                    .addToBackStack("Register Fragment")
+                    .addToBackStack("RegisterFragment")
                     .commit()
             }
         }
@@ -64,12 +70,61 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         binding.btnBasic.setOnClickListener {
             if (binding.etEmail.text.isNotEmpty() && binding.etPass.text.isNotEmpty()) {
                 val providerName = provider.BASIC
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(binding.etEmail.text.toString(), binding.etPass.text.toString())
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(
+                    binding.etEmail.text.toString(),
+                    binding.etPass.text.toString()
+                )
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             saveData(it.result?.user?.email ?: "", providerName)
-                            startActivity(Intent(requireContext(), MallWeb::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                            requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                            val idClient = getUserID(requireContext(), requireActivity())
+                            var task = ""
+                            val dbMallweb = DbMallweb(requireContext())
+                            Log.i("postalTag", tag!!)
+                            Log.i("postalIdClient", idClient.toString())
+                            when (tag) {
+                                "AccountFragment" -> {
+                                    task = "Open Account Fragment"
+                                }
+                                "ProductDetailFragment" -> {
+                                    if (idProduct != null) {
+                                        Log.i("postalQuantity", quantity.toString())
+                                        task = if (quantity != null && quantity > 0) {
+                                            dbMallweb.addProductToShoppingCart(
+                                                idClient,
+                                                idProduct,
+                                                quantity
+                                            )
+                                            "Open Shopping Cart Fragment Step 1"
+                                        } else {
+                                            dbMallweb.createFavorite(idClient, idProduct)
+                                            "Open Product Detail Fragment"
+                                        }
+                                    }
+                                }
+                                "ShoppingCartFragmentStep1" -> {
+                                    task = "Open Shopping Cart Fragment Step 1"
+                                }
+                                else -> {
+                                    if (idProduct != null) {
+                                        dbMallweb.createFavorite(idClient, idProduct)
+                                    }
+                                }
+                            }
+                            val intent = Intent(
+                                requireContext(),
+                                MallWeb::class.java
+                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            intent.putExtra("tag", tag)
+                            intent.putExtra("idClient", idClient)
+                            intent.putExtra("idProduct", idProduct)
+                            intent.putExtra("quantity", quantity)
+                            intent.putExtra("task", task)
+                            startActivity(intent)
+                            requireActivity().overridePendingTransition(
+                                R.anim.fade_in,
+                                R.anim.fade_out
+                            )
                         } else {
                             showAlert()
                         }
@@ -79,7 +134,8 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         }
 
         binding.btnGoogle.setOnClickListener {
-            val options = GoogleSignInOptions.Builder().requestIdToken(getString(R.string.default_web_client_id))
+            val options = GoogleSignInOptions.Builder()
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
             clientGoogle = GoogleSignIn.getClient(requireActivity(), options)
@@ -107,7 +163,8 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                         R.anim.right_in,
                         R.anim.left_out,
                         R.anim.right_in,
-                        R.anim.left_out)
+                        R.anim.left_out
+                    )
                     .replace(id2, RecoverPassFragment(), "Recover Pass Fragment")
                     .apply { arguments?.putInt("ContainerID", id) }
                     .addToBackStack("Recover Pass Fragment")
@@ -130,7 +187,11 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                     if (it.isSuccessful) {
                         saveData(account.email ?: "", providerName)
                     } else {
-                        Toast.makeText(requireContext(), task.exception?.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            task.exception?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
         }
@@ -172,7 +233,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
      */
 
 
-
     private fun showAlert() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Error")
@@ -182,6 +242,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         dialog.show()
     }
 
+    /*
     private fun showAlert2() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Error")
@@ -191,8 +252,11 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         dialog.show()
     }
 
+     */
+
     private fun saveData(email: String, providerName: String) {
-        val prefs: SharedPreferences = requireActivity().getSharedPreferences("MY PREF", AppCompatActivity.MODE_PRIVATE)
+        val prefs: SharedPreferences =
+            requireActivity().getSharedPreferences("MY PREF", AppCompatActivity.MODE_PRIVATE)
         val prefsEd = prefs.edit()
         prefsEd.putString("email", email)
         prefsEd.putString("provider", providerName)

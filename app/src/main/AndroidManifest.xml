@@ -103,7 +103,7 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".alarms.AlarmReceiver" />
-        <receiver android:name=".mallweb.db.OrderAlarmReceiver" />
+        <receiver android:name=".mallweb.alarms.OrderAlarmReceiver" />
     </application>
 
 </manifest>

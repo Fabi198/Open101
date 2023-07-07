@@ -1,12 +1,25 @@
 package com.example.open101.mallweb.html
 
 import android.content.Context
+import android.util.Log
+import com.example.open101.mallweb.db.DbMallweb
 import com.example.open101.mallweb.entities.dbEntities.Order
 import com.example.open101.mallweb.html.ProductsTable.generarTablaProductosForAbbandonedOrders
 
 object BodySeeOrder {
 
     fun body(order: Order, context: Context): String {
+        Log.i("postal6", order.payMethod.toString())
+
+        val dbMallweb = DbMallweb(context)
+        var shipping = ""
+
+        if (order.shipping == "si") {
+            shipping = "Envío a domicilio"
+        } else if (order.shipping == "no") {
+            shipping = "Retiro en local"
+        }
+
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
@@ -30,9 +43,9 @@ object BodySeeOrder {
                 "    \n" +
                 "    <p>Estado del pedido: ${order.state}</p>\n" +
                 "    <p>ID de pedido: #${order.numOrder}</p>\n" +
-                "    <p>Fecha: #${order.date}</p>\n" +
-                "    <p>Forma de pago: Efectivo</p>\n" +
-                "    <p>Forma de envío: Retiro por Local</p>\n" +
+                "    <p>Fecha: ${order.date}</p>\n" +
+                "    <p>Forma de pago: ${dbMallweb.queryForPayment(order.payMethod).name}</p>\n" +
+                "    <p>Forma de envío: $shipping</p>\n" +
                 "    <p>Productos:</p>\n" +
                 "    ${generarTablaProductosForAbbandonedOrders(context, order.numOrder)}" +
                 "  </div>\n" +

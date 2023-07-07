@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import com.example.open101.R
 import com.example.open101.databinding.FragmentAllCategoriesBinding
+import com.example.open101.mallweb.fragments.ShowFragment.showFragmentFromFragment
 import com.example.open101.mallweb.fragmentsSubAllCategories.*
 
 
@@ -17,34 +18,15 @@ class AllCategoriesFragment: Fragment(R.layout.fragment_all_categories) {
         binding = FragmentAllCategoriesBinding.bind(view)
         val id = arguments?.getInt("ContainerID")
 
-        binding.tvAlmacenamiento.setOnClickListener { showFragment(id, StorageMenu()) }
-        binding.tvConectividad.setOnClickListener { showFragment(id, ConnectivityFragment()) }
-        binding.tvComponentesParaPC.setOnClickListener { showFragment(id, ComponentsFragment()) }
-        binding.tvPerifericos.setOnClickListener { showFragment(id, PeripheralsMenu()) }
-        binding.tvAudioYVideo.setOnClickListener { showFragment(id, AudioAndVideoFragment()) }
-        binding.tvImpresion.setOnClickListener { showFragment(id, PrintFragment()) }
-        binding.tvNotebooks.setOnClickListener { showFragment(id, NotebooksFragment()) }
-        binding.tvMonitores.setOnClickListener { showFragment(id, MonitorFragment()) }
-        binding.tvZonaGamer.setOnClickListener { showFragment(id, GamerZoneFragment()) }
-    }
-
-    private fun showFragment(id: Int?, fragment: Fragment) {
-        if (id != null) {
-            val bundle = Bundle()
-            bundle.putInt("ContainerID", id)
-            fragment.arguments = bundle
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.right_in,
-                    R.anim.left_out,
-                    R.anim.right_in,
-                    R.anim.left_out)
-                .replace(id, fragment, fragment.tag)
-                .addToBackStack(fragment.tag)
-                .commit()
-        }
+        binding.tvAlmacenamiento.setOnClickListener { showFragmentFromFragment(requireActivity(), StorageMenu(), "StorageMenu", id) }
+        binding.tvConectividad.setOnClickListener { showFragmentFromFragment(requireActivity(), ConnectivityFragment(), "ConnectivityFragment", id) }
+        binding.tvComponentesParaPC.setOnClickListener { showFragmentFromFragment(requireActivity(), ComponentsFragment(), "ComponentsFragment", id) }
+        binding.tvPerifericos.setOnClickListener { showFragmentFromFragment(requireActivity(), PeripheralsMenu(), "PeripheralsMenu", id) }
+        binding.tvAudioYVideo.setOnClickListener { showFragmentFromFragment(requireActivity(), AudioAndVideoFragment(), "AudioAndVideoFragment", id) }
+        binding.tvImpresion.setOnClickListener { showFragmentFromFragment(requireActivity(), PrintFragment(), "PrintFragment", id) }
+        binding.tvNotebooks.setOnClickListener { showFragmentFromFragment(requireActivity(), NotebooksFragment(), "NotebooksFragment", id) }
+        binding.tvMonitores.setOnClickListener { showFragmentFromFragment(requireActivity(), MonitorFragment(), "MonitorFragment", id) }
+        binding.tvZonaGamer.setOnClickListener { showFragmentFromFragment(requireActivity(), GamerZoneFragment(), "GamerZoneFragment", id) }
     }
 
 }

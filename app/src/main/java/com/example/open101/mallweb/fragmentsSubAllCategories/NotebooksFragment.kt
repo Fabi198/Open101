@@ -5,7 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import com.example.open101.R
 import com.example.open101.databinding.FragmentNotebooksBinding
-import com.example.open101.mallweb.fragments.CategoryFragment
+import com.example.open101.mallweb.fragments.SubCategoryFragment
+import com.example.open101.mallweb.fragments.ShowFragment.showFragmentFromFragment
 
 
 class NotebooksFragment : Fragment(R.layout.fragment_notebooks) {
@@ -17,34 +18,12 @@ class NotebooksFragment : Fragment(R.layout.fragment_notebooks) {
         binding = FragmentNotebooksBinding.bind(view)
         val id = arguments?.getInt("ContainerID")
 
-        binding.btnNotebooks.setOnClickListener { showFragment(id, 30, "NOTEBOOKS") }
-        binding.btnRepuestos.setOnClickListener { showFragment(id, 31, "REPUESTOS") }
-        binding.btnBaterias.setOnClickListener { showFragment(id, 29, "BATERIAS") }
-        binding.btnBaseNotebooks.setOnClickListener { showFragment(id, 28, "BASE PARA NOTEBOOK") }
+        binding.btnNotebooks.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 30, nameCategory = "NOTEBOOKS") }
+        binding.btnRepuestos.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 31, nameCategory = "REPUESTOS") }
+        binding.btnBaterias.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 29, nameCategory = "BATERIAS") }
+        binding.btnBaseNotebooks.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 28, nameCategory = "BASE PARA NOTEBOOK") }
 
 
-    }
-
-    private fun showFragment(id: Int?, i: Int, name: String) {
-        if (id != null) {
-            val fragment = CategoryFragment()
-            val bundle = Bundle()
-            bundle.putInt("ContainerID", id)
-            bundle.putInt("IDCategory", i)
-            bundle.putString("NameCategory", name)
-            fragment.arguments = bundle
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.right_in,
-                    R.anim.left_out,
-                    R.anim.right_in,
-                    R.anim.left_out)
-                .replace(id, fragment, fragment.tag)
-                .addToBackStack(fragment.tag)
-                .commit()
-        }
     }
 
 }

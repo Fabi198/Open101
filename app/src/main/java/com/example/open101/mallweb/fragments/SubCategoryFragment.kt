@@ -1,93 +1,79 @@
 package com.example.open101.mallweb.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.open101.R
-import com.example.open101.databinding.FragmentBrandsBinding
-import com.example.open101.mallweb.adapters.BrandAdapter
-import com.example.open101.mallweb.adapters.CategoryAdapter
+import com.example.open101.databinding.FragmentSubCategoryBinding
+import com.example.open101.mallweb.adapters.ProductAdapter
+import com.example.open101.mallweb.adapters.SubCategoryAdapterShowAllProductsOfEachBrand
+import com.example.open101.mallweb.db.DbMallweb
+import com.example.open101.mallweb.fragments.ShowFragment.showFragmentFromFragment
+import com.example.open101.mallweb.objects.Session.getUserID
+import com.example.open101.mallweb.objects.Session.sessionFromFragment
 
 
-class SubCategoryFragment : Fragment(R.layout.fragment_brands) {
+class SubCategoryFragment : Fragment(R.layout.fragment_sub_category) {
 
-    private lateinit var binding: FragmentBrandsBinding
+    private lateinit var binding: FragmentSubCategoryBinding
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentBrandsBinding.bind(view)
+        binding = FragmentSubCategoryBinding.bind(view)
         val id = arguments?.getInt("ContainerID")
+        val idCategory = arguments?.getInt("IDCategory")
+        val stringSearch = arguments?.getString("Search")
         val name = arguments?.getString("NameCategory")
-        val idCArray = arguments?.getIntegerArrayList("IDCategoryArray")
-        val idBrand = arguments?.getInt("IdBrand")
-        Log.i("id", idBrand.toString())
 
 
-        if (name != null && idCArray != null) {
-            binding.tvTitleCategory.text = name
-            binding.rvCategory.layoutManager = LinearLayoutManager(requireContext())
-            binding.rvCategory.adapter = CategoryAdapter(idCArray, requireContext(), {
-                showFragment(id, it)
-            }, {
-                showProductFragment(id, it)
-            })
-        }
-
-        if (name != null && idCArray != null && (idBrand != null && idBrand > 0)) {
-            binding.tvTitleCategory.text = name
-            binding.rvCategory.layoutManager = LinearLayoutManager(requireContext())
-            binding.rvCategory.adapter = BrandAdapter(idCArray, idBrand, requireContext()) {
-                showProductFragment(id, it)
+        if (idCategory != null && id != null) {
+            val dbMallweb = DbMallweb(requireContext())
+            val idBrandArray = dbMallweb.queryForBrandCant(idCategory)
+            val adapter = if (sessionFromFragment(requireActivity())) {
+                SubCategoryAdapterShowAllProductsOfEachBrand(idBrandArray, idCategory, requireContext(), getUserID(requireContext(), requireActivity()),
+                    {
+                        showFragmentFromFragment(requireActivity(), ProductDetailFragment(), "ProductDetailFragment", id, idProduct = it)
+                    },
+                    {
+                        val brand = dbMallweb.queryForBrand(it)
+                        showFragmentFromFragment(requireActivity(), CategoryFragment(), "CategoryFragment", id, brand.name, dbMallweb.queryForCategoryCant(brand.id), brand.id)
+                    }
+                )
+            } else {
+                SubCategoryAdapterShowAllProductsOfEachBrand(idBrandArray, idCategory, requireContext(),
+                    onClickItem = {
+                        showFragmentFromFragment(requireActivity(), ProductDetailFragment(), "ProductDetailFragment", id, idProduct = it)
+                    },
+                    onBrandClickItem = {
+                        val brand = dbMallweb.queryForBrand(it)
+                        showFragmentFromFragment(requireActivity(), CategoryFragment(), "CategoryFragment", id, brand.name, dbMallweb.queryForCategoryCant(brand.id), brand.id)
+                    }
+                )
             }
+            binding.rvBrands.layoutManager = LinearLayoutManager(requireContext())
+            binding.rvBrands.adapter = adapter
         }
 
-
-
-
-    }
-
-    private fun showFragment(id: Int?, i: Int) {
-        if (id != null) {
-            val fragment = CategoryFragment()
-            val bundle = Bundle()
-            bundle.putInt("ContainerID", id)
-            bundle.putInt("IDCategory", i)
-            fragment.arguments = bundle
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.right_in,
-                    R.anim.left_out,
-                    R.anim.right_in,
-                    R.anim.left_out)
-                .replace(id, fragment, fragment.tag)
-                .addToBackStack(fragment.tag)
-                .commit()
+        if (stringSearch != null && id != null) {
+            val dbMallweb = DbMallweb(requireContext())
+            val adapter: ProductAdapter = if (sessionFromFragment(requireActivity())) {
+                ProductAdapter(dbMallweb.queryBasicForGlobalSearch(stringSearch.lowercase()), getUserID(requireContext(), requireActivity()), requireContext(), {
+                    showFragmentFromFragment(requireActivity(), ProductDetailFragment(), "ProductDetailFragment", id, idProduct = it)
+                }, {})
+            } else {
+                ProductAdapter(dbMallweb.queryBasicForGlobalSearch(stringSearch.lowercase()), onClickItem = {
+                    showFragmentFromFragment(requireActivity(), ProductDetailFragment(), "ProductDetailFragment", id, idProduct = it)
+                }, onUnFavoriteClick = {})
+            }
+            binding.tvTitleBrand.text = "'$name'"
+            binding.rvBrands.layoutManager = GridLayoutManager(requireContext(), 2)
+            binding.rvBrands.adapter = adapter
         }
-    }
 
-    private fun showProductFragment(id: Int?, i: Int) {
-        if (id != null) {
-            val fragment = ProductDetailFragment()
-            val bundle = Bundle()
-            bundle.putInt("ContainerID", id)
-            bundle.putInt("IDProduct", i)
-            fragment.arguments = bundle
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.right_in,
-                    R.anim.left_out,
-                    R.anim.right_in,
-                    R.anim.left_out)
-                .replace(id, fragment, fragment.tag)
-                .addToBackStack(fragment.tag)
-                .commit()
-        }
     }
 
 }

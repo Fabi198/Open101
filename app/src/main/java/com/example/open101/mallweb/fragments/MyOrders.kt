@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.open101.R
 import com.example.open101.databinding.FragmentMyOrdersBinding
 import com.example.open101.mallweb.adapters.OrdersAdapter
+import com.example.open101.mallweb.alarms.AlarmAbbandonedOrder.setSecondAlarm
 import com.example.open101.mallweb.db.DbMallweb
+import com.example.open101.mallweb.fragments.ShowFragment.showFragmentFromFragment
 import com.example.open101.mallweb.fragmentsDrawerMenu.ShoppingCartFragmentStep1
 
 
@@ -30,52 +32,29 @@ class MyOrders : Fragment(R.layout.fragment_my_orders) {
             val client = dbMallweb.queryForClient(email)
             binding.rvOrders.layoutManager = LinearLayoutManager(requireContext())
             if (abbandoned) {
-                binding.rvOrders.adapter = OrdersAdapter(dbMallweb.queryForOrders(client.id, getString(R.string.abandonado)), requireContext()) {
-                    dbMallweb.putDetailsBackToCart(it, client.id)
-                    dbMallweb.editStateOrder(it, getString(R.string.en_curso))
-                    showFragment(ShoppingCartFragmentStep1(), containerIDParent, existingOrder = it, idClient = client.id)
+                if (dbMallweb.queryForOrders(client.id, getString(R.string.abandonado)).size > 0) {
+                    binding.rvOrders.adapter = OrdersAdapter(dbMallweb.queryForOrders(client.id, getString(R.string.abandonado)), requireContext()) {
+                        dbMallweb.deleteAllProductsOnShopCart(client.id)
+                        dbMallweb.putDetailsBackToCart(it, client.id)
+                        dbMallweb.editStateOrder(it, getString(R.string.en_curso))
+                        setSecondAlarm(it, requireContext())
+                        showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep1(), "ShoppingCartFragmentStep1", containerIDParent, existingOrder = it, idClient = client.id)
+                    }
+                } else {
+                    binding.clOrders.visibility = View.GONE
+                    binding.tvNoOrders.text = getString(R.string.no_hay_pedidos_abandonados)
+                    binding.tvNoOrders.visibility = View.VISIBLE
                 }
             } else {
-                binding.rvOrders.adapter = OrdersAdapter(dbMallweb.queryForOrders(client.id, getString(R.string.completado)), requireContext()) {}
+                if (dbMallweb.queryForOrders(client.id, getString(R.string.completado)).size > 0) {
+                    binding.rvOrders.adapter = OrdersAdapter(dbMallweb.queryForOrders(client.id, getString(R.string.completado)), requireContext()) {}
+                } else {
+                    binding.clOrders.visibility = View.GONE
+                    binding.tvNoOrders.text = getString(R.string.no_hay_pedidos)
+                    binding.tvNoOrders.visibility = View.VISIBLE
+                }
             }
 
-        }
-    }
-
-    private fun showFragment(
-        fragment: Fragment,
-        id: Int? = null,
-        name: String? = null,
-        idCArray: ArrayList<Int>? = null,
-        idBrand: Int? = null,
-        idClient: Int? = null,
-        idProduct: Int? = null,
-        withShipping: Boolean? = null,
-        postalCode: Int? = null,
-        existingOrder: Int? = null
-    ) {
-        if (id != null) {
-            val bundle = Bundle()
-            bundle.putInt("ContainerID", id)
-            if (name != null) { bundle.putString("NameCategory", name) }
-            if (idCArray != null) { bundle.putIntegerArrayList("IDCategoryArray", idCArray) }
-            if (idBrand != null) { bundle.putInt("IdBrand", idBrand) }
-            if (idClient != null) { bundle.putInt("IdClient", idClient)}
-            if (idProduct != null) { bundle.putInt("IDProduct", idProduct)}
-            if (existingOrder != null) { bundle.putInt(getString(R.string.existingOrder), existingOrder) }
-            if (withShipping == true && postalCode != null) { bundle.putInt("postalCode", postalCode); bundle.putBoolean("withShipping", withShipping)} else if (withShipping == false){ bundle.putBoolean("withShipping", withShipping) }
-            fragment.arguments = bundle
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.right_in,
-                    R.anim.left_out,
-                    R.anim.right_in,
-                    R.anim.left_out)
-                .replace(id, fragment, fragment.tag)
-                .addToBackStack(fragment.tag)
-                .commit()
         }
     }
 

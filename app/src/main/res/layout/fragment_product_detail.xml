@@ -66,7 +66,7 @@
 
 
                 <ImageButton
-                    android:layout_width="80dp"
+                    android:layout_width="120dp"
                     android:background="@null"
                     android:id="@+id/ivBrand"
                     app:layout_constraintTop_toTopOf="parent"
@@ -261,12 +261,13 @@
                 app:drawableLeftCompat="@drawable/mallweb_iconos_truck" />
 
             <TextView
+                android:id="@+id/btnCalculateShipping"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="48dp"
                 android:text="@string/calcular_env_o"
-                android:id="@+id/btnCalculateShipping"
                 android:textColor="@color/teal_700"
-                android:layout_height="wrap_content"/>
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -5,7 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import com.example.open101.R
 import com.example.open101.databinding.FragmentGamerZoneBinding
-import com.example.open101.mallweb.fragments.CategoryFragment
+import com.example.open101.mallweb.fragments.SubCategoryFragment
+import com.example.open101.mallweb.fragments.ShowFragment.showFragmentFromFragment
 
 
 class GamerZoneFragment : Fragment(R.layout.fragment_gamer_zone) {
@@ -17,36 +18,14 @@ class GamerZoneFragment : Fragment(R.layout.fragment_gamer_zone) {
         binding = FragmentGamerZoneBinding.bind(view)
         val id = arguments?.getInt("ContainerID")
 
-        binding.btnAuricularGamer.setOnClickListener { showFragment(id, 41, "AURICULAR GAMER") }
-        binding.btnComponentesStreaming.setOnClickListener { showFragment(id, 42, "COMPONENTES PARA STREAMING") }
-        binding.btnGabinetesGamer.setOnClickListener { showFragment(id, 43, "GABINETES GAMER") }
-        binding.btnMouseGamer.setOnClickListener { showFragment(id, 44, "MOUSE GAMER") }
-        binding.btnPadMouseGamer.setOnClickListener { showFragment(id, 45, "PAD MOUSE GAMER") }
-        binding.btnSillaGamer.setOnClickListener { showFragment(id, 46, "SILLA GAMER") }
-        binding.btnVolantesGamer.setOnClickListener { showFragment(id, 47, "VOLANTES Y JOYSTICK GAMER") }
+        binding.btnAuricularGamer.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 41, nameCategory = "AURICULAR GAMER") }
+        binding.btnComponentesStreaming.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 42, nameCategory = "COMPONENTES PARA STREAMING") }
+        binding.btnGabinetesGamer.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 43, nameCategory = "GABINETES GAMER") }
+        binding.btnMouseGamer.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 44, nameCategory = "MOUSE GAMER") }
+        binding.btnPadMouseGamer.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 45, nameCategory = "PAD MOUSE GAMER") }
+        binding.btnSillaGamer.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 46, nameCategory = "SILLA GAMER") }
+        binding.btnVolantesGamer.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 47, nameCategory = "VOLANTES Y JOYSTICK GAMER") }
 
-    }
-
-    private fun showFragment(id: Int?, i: Int, name: String) {
-        if (id != null) {
-            val fragment = CategoryFragment()
-            val bundle = Bundle()
-            bundle.putInt("ContainerID", id)
-            bundle.putInt("IDCategory", i)
-            bundle.putString("NameCategory", name)
-            fragment.arguments = bundle
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.right_in,
-                    R.anim.left_out,
-                    R.anim.right_in,
-                    R.anim.left_out)
-                .replace(id, fragment, fragment.tag)
-                .addToBackStack(fragment.tag)
-                .commit()
-        }
     }
 
 }

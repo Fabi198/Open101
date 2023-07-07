@@ -6,5 +6,6 @@ data class Order (
     var date: String = "",
     var total: Double = 0.0,
     var state: String = "",
-    var shipping: String = ""
+    var shipping: String = "",
+    var payMethod: Int = 0
         )

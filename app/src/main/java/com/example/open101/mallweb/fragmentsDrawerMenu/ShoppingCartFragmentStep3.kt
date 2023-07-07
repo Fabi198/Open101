@@ -19,6 +19,7 @@ import com.example.open101.mallweb.entities.dbEntities.Order
 import com.example.open101.mallweb.html.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.*
 import java.io.Serializable
 import java.util.*
 
@@ -65,12 +66,14 @@ class ShoppingCartFragmentStep3: Fragment(R.layout.fragment_shopping_cart_step3)
         binding.cvTransferPaymentTotalDisplayed.text = "U${dollar}S ${String.format("%.2f", order.total - ((order.total/100)*5))}"
         binding.cvCashAtLocalPaymentTotalDisplayed.text = "U${dollar}S ${String.format("%.2f", order.total - ((order.total/100)*5))}"
 
-        binding.cvCashAtLocalPayment.setOnClickListener { showAlertConfirmShop(client.id, order, hashMapOf("to" to client.email, "message" to hashMapOf("subject" to "Gracias por tu pedido [${order.numOrder}]", "html" to BodyCashAtLocal.body(client, address, order, requireContext())))) }
-
-        binding.cvMercadoPagoPayment.setOnClickListener { if (binding.cvCashAtLocalPayment.visibility == View.GONE) { showAlertConfirmShop(client.id, order, hashMapOf("to" to client.email, "message" to hashMapOf("subject" to "Gracias por tu pedido [${order.numOrder}]", "html" to BodyMercadoPagoPaymentShipping.body(client, address, dbMallweb.queryForShippingAddress(client.id), order, requireContext())))) } else if (binding.cvCashAtLocalPayment.visibility == View.VISIBLE) { showAlertConfirmShop(client.id, order, hashMapOf("to" to client.email, "message" to hashMapOf("subject" to "Gracias por tu pedido [${order.numOrder}]", "html" to BodyMercadoPagoPayment.body(client, address, order, requireContext())))) } }
-
-        binding.cvTransferPayment.setOnClickListener { if (binding.cvCashAtLocalPayment.visibility == View.GONE) { showAlertConfirmShop(client.id, order, hashMapOf("to" to client.email, "message" to hashMapOf("subject" to "Gracias por tu pedido [${order.numOrder}]", "html" to BodyTransferPaymentShipping.body(client, address, dbMallweb.queryForShippingAddress(client.id), order, requireContext())))) } else if (binding.cvCashAtLocalPayment.visibility == View.VISIBLE) { showAlertConfirmShop(client.id, order, hashMapOf("to" to client.email, "message" to hashMapOf("subject" to "Gracias por tu pedido [${order.numOrder}]", "html" to BodyTransferPayment.body(client, address, order, requireContext())))) } }
+        binding.cvCashAtLocalPayment.setOnClickListener { showAlertConfirmShop(client.id, order, 1,hashMapOf("to" to client.email, "message" to hashMapOf("subject" to "Gracias por tu pedido [${order.numOrder}]", "html" to BodyCashAtLocal.body(client, address, order, requireContext())))) }
+        binding.cvTransferPayment.setOnClickListener { if (binding.cvCashAtLocalPayment.visibility == View.GONE) { showAlertConfirmShop(client.id, order, 2, hashMapOf("to" to client.email, "message" to hashMapOf("subject" to "Gracias por tu pedido [${order.numOrder}]", "html" to BodyTransferPaymentShipping.body(client, address, dbMallweb.queryForShippingAddress(client.id), order, requireContext())))) } else if (binding.cvCashAtLocalPayment.visibility == View.VISIBLE) { showAlertConfirmShop(client.id, order, 2, hashMapOf("to" to client.email, "message" to hashMapOf("subject" to "Gracias por tu pedido [${order.numOrder}]", "html" to BodyTransferPayment.body(client, address, order, requireContext())))) } }
+        binding.cvMercadoPagoPayment.setOnClickListener { if (binding.cvCashAtLocalPayment.visibility == View.GONE) { showAlertConfirmShop(client.id, order, 3, hashMapOf("to" to client.email, "message" to hashMapOf("subject" to "Gracias por tu pedido [${order.numOrder}]", "html" to BodyMercadoPagoPaymentShipping.body(client, address, dbMallweb.queryForShippingAddress(client.id), order, requireContext())))) } else if (binding.cvCashAtLocalPayment.visibility == View.VISIBLE) { showAlertConfirmShop(client.id, order, 3, hashMapOf("to" to client.email, "message" to hashMapOf("subject" to "Gracias por tu pedido [${order.numOrder}]", "html" to BodyMercadoPagoPayment.body(client, address, order, requireContext())))) } }
     }
+
+
+
+
 
     private fun setPaymentCardPlanVisibility() {
         binding.btnSeePaymentPlan.setOnClickListener { paymentCardPlanVisible() }
@@ -97,20 +100,22 @@ class ShoppingCartFragmentStep3: Fragment(R.layout.fragment_shopping_cart_step3)
 
     private fun setShippingVisibility(postalCodeFromBundle: Int?, withShipping: Boolean?) { if (postalCodeFromBundle != null && withShipping != null) { if ((postalCodeFromBundle > 0) && withShipping) { binding.cvCashAtLocalPayment.visibility = View.GONE } else { binding.cvCashAtLocalPayment.visibility = View.VISIBLE } } }
 
-    private fun showAlertConfirmShop(idClient: Int, order: Order, hashMapOf: HashMap<String, Serializable>) {
+    private fun showAlertConfirmShop(idClient: Int, order: Order, numPayment: Int, hashMapOf: HashMap<String, Serializable>) {
         val dbFireBase = Firebase.firestore
         val builder = AlertDialog.Builder(requireContext())
         builder.setMessage("¿Desea confirmar la compra?")
-        builder.setPositiveButton("Comprar"){ _, _ -> dbFireBase.collection("mail").add(hashMapOf); onSuccessBuy(idClient, order) }
+        builder.setPositiveButton("Comprar"){ _, _ -> dbFireBase.collection("mail").add(hashMapOf); onSuccessBuy(idClient, order, numPayment) }
         builder.setNegativeButton("Cancelar", null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
 
-    private fun onSuccessBuy(idClient: Int, order: Order) {
+    private fun onSuccessBuy(idClient: Int, order: Order, numPayment: Int) {
         dbMallweb = DbMallweb(requireContext())
         dbMallweb.deleteAllProductsOnShopCart(idClient)
+        if (numPayment == 1 || numPayment == 2) { dbMallweb.editTotalOrder(order.numOrder, order.total - ((order.total/100)*5)) }
         dbMallweb.editStateOrder(order.numOrder, getString(R.string.completado))
+        dbMallweb.editPayMethodOrder(order.numOrder, numPayment)
         refresh()
     }
 

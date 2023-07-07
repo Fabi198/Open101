@@ -4,6 +4,7 @@ package com.example.open101.activitys
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.animation.Animation
@@ -24,6 +25,7 @@ import com.example.open101.mallweb.adapters.RoundBottomsAdapter
 import com.example.open101.mallweb.auth.AuthFragment
 import com.example.open101.mallweb.db.DbMallweb
 import com.example.open101.mallweb.fragments.CategoryFragment
+import com.example.open101.mallweb.fragments.ProductDetailFragment
 import com.example.open101.mallweb.fragments.SubCategoryFragment
 import com.example.open101.mallweb.fragmentsDrawerMenu.*
 import com.example.open101.mallweb.fragmentsSubAllCategories.*
@@ -46,9 +48,18 @@ class MallWeb : AppCompatActivity() {
         binding = ActivityMallWebBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        /*
+
+        USAR ESTE METODO CUANDO TENGA TODOS LOS LOGOS LIGHT DE LAS MARCAS
+
+        val dbMallweb = DbMallwebHelper(this)
+        dbMallweb.writableDatabase.execSQL("DROP TABLE brands")
+        dbMallweb.writableDatabase.execSQL("CREATE TABLE IF NOT EXISTS brands (idBrand INTEGER PRIMARY KEY, name TEXT NOT NULL, image INTEGER NOT NULL, imageLight INTEGER NOT NULL)")
+        ArrayBrands.arrayBrands.forEach { dbMallweb.writableDatabase.execSQL("INSERT INTO brands VALUES('${it.id}', '${it.name}', '${it.image}', '${it.imageLight}')") }
+         */
 
 
-
+        bundleFromAuth()
         setupDrawerNavigationBar()
         setupRoundBottoms()
         setupBannersRV()
@@ -57,12 +68,31 @@ class MallWeb : AppCompatActivity() {
         setSearchText()
     }
 
+    private fun bundleFromAuth() {
+        val extras = intent.extras
+        if (extras?.getString("task") != null) {
+            Log.i("postalTask", extras.getString("task")!!)
+            when (extras.getString("task")) {
+                "Open Account Fragment" -> { showFragment(
+                    AccountFragment(),
+                    "AccountFragment"
+                ) }
+                "Open Product Detail Fragment" -> { showFragment(ProductDetailFragment(), "ProductDetailFragment", idClient = extras.getInt("idClient"), idProduct = extras.getInt("idProduct")) }
+                "Open Shopping Cart Fragment Step 1" -> { showFragmentStep1() }
+            }
+        }
+    }
 
 
     private fun setSearchText() {
         binding.etSearch.setOnEditorActionListener(OnEditorActionListener { _, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.action == KeyEvent.ACTION_DOWN || keyEvent.action == KeyEvent.KEYCODE_ENTER) {
-                showFragment(CategoryFragment(), name = binding.etSearch.text.toString(), searchString = binding.etSearch.text.toString().lowercase())
+                showFragment(
+                    SubCategoryFragment(),
+                    "SubCategoryFragment",
+                    name = binding.etSearch.text.toString(),
+                    searchString = binding.etSearch.text.toString().lowercase()
+                )
                 binding.etSearch.setText("")
                 hideKeyboard()
                 return@OnEditorActionListener true
@@ -71,7 +101,12 @@ class MallWeb : AppCompatActivity() {
         })
         binding.btnSearch.setOnClickListener {
             if (binding.etSearch.text.isNotEmpty()) {
-                showFragment(CategoryFragment(), name = binding.etSearch.text.toString(), searchString = binding.etSearch.text.toString().lowercase())
+                showFragment(
+                    SubCategoryFragment(),
+                    "SubCategoryFragment",
+                    name = binding.etSearch.text.toString(),
+                    searchString = binding.etSearch.text.toString().lowercase()
+                )
                 hideKeyboard()
                 binding.etSearch.setText("")
             }
@@ -151,19 +186,55 @@ class MallWeb : AppCompatActivity() {
         )
         binding.dlMallweb.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
-        drawerToggle.drawerArrowDrawable.color = resources.getColor(R.color.red)
+        drawerToggle.drawerArrowDrawable.color = resources.getColor(R.color.white)
         binding.nvLateralMallweb.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_home -> { refresh() }
-                R.id.item_categories -> { showFragment(AllCategoriesFragment()) }
-                R.id.item_shop_container -> { if (session()) { showFragmentStep1() } else { showFragment(AuthFragment()) } }
-                R.id.item_your_orders -> { if (session()) { showFragment(AccountFragment()) } else { showFragment(AuthFragment()) } }
-                R.id.item_personal_data -> { if (session()) { showFragment(AccountFragment()) } else { showFragment(AuthFragment()) } }
-                R.id.item_who_are_we -> { showFragment(WhoAreWeFragment()) }
-                R.id.item_faq -> { showFragment(FAQFragment()) }
-                R.id.item_deliver_method -> { showFragment(DeliverMethodsFragment()) }
-                R.id.item_payment_method -> { showFragment(BankDataFragment()) }
-                R.id.item_contact -> { showFragment(ContactUsFragment()) }
+                R.id.item_categories -> { showFragment(
+                    AllCategoriesFragment(),
+                    "AllCategoriesFragment"
+                ) }
+                R.id.item_shop_container -> { if (session()) { showFragmentStep1() } else { showFragment(
+                    AuthFragment(),
+                    "AuthFragment",
+                    tagForAuth = "ShoppingCartFragmentStep1"
+                ) } }
+                R.id.item_your_orders -> { if (session()) { showFragment(
+                    AccountFragment(),
+                    "AccountFragment"
+                ) } else { showFragment(
+                    AuthFragment(),
+                    "AuthFragment",
+                    tagForAuth = "AccountFragment"
+                ) } }
+                R.id.item_personal_data -> { if (session()) { showFragment(
+                    AccountFragment(),
+                    "AccountFragment"
+                ) } else { showFragment(
+                    AuthFragment(),
+                    "AuthFragment",
+                    tagForAuth = "AccountFragment"
+                ) } }
+                R.id.item_who_are_we -> { showFragment(
+                    WhoAreWeFragment(),
+                    "WhoAreWeFragment"
+                ) }
+                R.id.item_faq -> { showFragment(
+                    FAQFragment(),
+                    "FAQFragment"
+                ) }
+                R.id.item_deliver_method -> { showFragment(
+                    DeliverMethodsFragment(),
+                    "DeliverMethodsFragment"
+                ) }
+                R.id.item_payment_method -> { showFragment(
+                    BankDataFragment(),
+                    "BankDataFragment"
+                ) }
+                R.id.item_contact -> { showFragment(
+                    ContactUsFragment(),
+                    "ContactUsFragment"
+                ) }
                 R.id.item_close_mallweb_session -> { signOut() }
             }
             binding.dlMallweb.closeDrawers()
@@ -189,14 +260,38 @@ class MallWeb : AppCompatActivity() {
         binding.rvRoundBottoms.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         binding.rvRoundBottoms.adapter = RoundBottomsAdapter {
             when(it) {
-                "Computación" -> {showFragment(NotebooksFragment())}
-                "Comp. PC" -> {showFragment(ComponentsFragment())}
-                "Storage" -> {showFragment(StorageMenu())}
-                "Periféricos" -> {showFragment(PeripheralsMenu())}
-                "Conectividad" -> {showFragment(ConnectivityFragment())}
-                "Impresión" -> {showFragment(PrintFragment())}
-                "Audio y Video" -> {showFragment(AudioAndVideoFragment())}
-                "Zona Gamer" -> {showFragment(GamerZoneFragment())}
+                "Computación" -> {showFragment(
+                    NotebooksFragment(),
+                    "NotebooksFragment"
+                )}
+                "Comp. PC" -> {showFragment(
+                    ComponentsFragment(),
+                    "ComponentsFragment"
+                )}
+                "Storage" -> {showFragment(
+                    StorageMenu(),
+                    "StorageMenu"
+                )}
+                "Periféricos" -> {showFragment(
+                    PeripheralsMenu(),
+                    "PeripheralsMenu"
+                )}
+                "Conectividad" -> {showFragment(
+                    ConnectivityFragment(),
+                    "ConnectivityFragment"
+                )}
+                "Impresión" -> {showFragment(
+                    PrintFragment(),
+                    "PrintFragment"
+                )}
+                "Audio y Video" -> {showFragment(
+                    AudioAndVideoFragment(),
+                    "AudioAndVideoFragment"
+                )}
+                "Zona Gamer" -> {showFragment(
+                    GamerZoneFragment(),
+                    "GamerZoneFragment"
+                )}
             }
         }
     }
@@ -206,21 +301,93 @@ class MallWeb : AppCompatActivity() {
         binding.rvBanners.layoutManager = LinearLayoutManager(this)
         binding.rvBanners.adapter = NewBannersAdapter {
             when(it) {
-                "Mi Cuenta" -> {if (session()) { showFragment(AccountFragment()) } else { showFragment(AuthFragment())} }
-                "Marcas Destacadas" -> {showFragment(CategoryFragment())}
-                "Comunidad" -> {showFragment(ContactUsFragment())}
-                "Zona Gamer" -> {showFragment(GamerZoneFragment())}
-                "Promociones" -> {showFragment(PromosFragment())}
-                "Corsair" -> {showFragment(SubCategoryFragment(), "CORSAIR", dbMallWeb.queryForCategoryCant(9), 9)}
-                "Logitech" -> {showFragment(SubCategoryFragment(), "LOGITECH", dbMallWeb.queryForCategoryCant(27), 27)}
-                "Seagate" -> {showFragment(SubCategoryFragment(), "SEAGATE", dbMallWeb.queryForCategoryCant(37), 37)}
-                "Computación" -> {showFragment(SubCategoryFragment(), "NOTEBOOKS", setArrayCategory(arrayOf(30,31,29,28)))}
-                "Comp. PC" -> {showFragment(SubCategoryFragment(), "COMPONENTES PARA PC", setArrayCategory(arrayOf(9,10,11,12,13,14,15,16,17)))}
-                "Almacenamiento" -> { showFragment(SubCategoryFragment(), "ALMACENAMIENTO", setArrayCategory(arrayOf(1, 2, 3, 4)))}
-                "Periféricos" -> {showFragment(SubCategoryFragment(), "PERIFÉRICOS", setArrayCategory(arrayOf(32,33,36,38,35,36,39,37,34)))}
-                "Conectividad" -> {showFragment(SubCategoryFragment(), "CONECTIVIDAD", setArrayCategory(arrayOf(19,18,21,20)))}
-                "Impresión" -> {showFragment(SubCategoryFragment(), "IMPRESIÓN", setArrayCategory(arrayOf(22,23,24,25)))}
-                "Audio y Video" -> {showFragment(SubCategoryFragment(), "AUDIO Y VIDEO", setArrayCategory(arrayOf(5,6,7,8)))}
+                "Mi Cuenta" -> {if (session()) { showFragment(
+                    AccountFragment(),
+                    "Account Fragment"
+                ) } else { showFragment(
+                    AuthFragment(),
+                    "Auth Fragment",
+                    tagForAuth = "AccountFragment"
+                )} }
+                "Marcas Destacadas" -> {showFragment(
+                    FeaturedFragment(),
+                    "FeaturedFragment"
+                )}
+                "Comunidad" -> {showFragment(
+                    ContactUsFragment(),
+                    "ContactUsFragment"
+                )}
+                "Zona Gamer" -> {showFragment(
+                    GamerZoneFragment(),
+                    "GamerZoneFragment"
+                )}
+                "Promociones" -> {showFragment(
+                    PromosFragment(),
+                    "PromosFragment"
+                )}
+                "Corsair" -> {showFragment(
+                    CategoryFragment(),
+                    "CategoryFragment",
+                    "CORSAIR",
+                    dbMallWeb.queryForCategoryCant(9),
+                    9
+                )}
+                "Logitech" -> {showFragment(
+                    CategoryFragment(),
+                    "CategoryFragment",
+                    "LOGITECH",
+                    dbMallWeb.queryForCategoryCant(27),
+                    27
+                )}
+                "Seagate" -> {showFragment(
+                    CategoryFragment(),
+                    "CategoryFragment",
+                    "SEAGATE",
+                    dbMallWeb.queryForCategoryCant(37),
+                    37
+                )}
+                "Computación" -> {showFragment(
+                    CategoryFragment(),
+                    "CategoryFragment",
+                    "NOTEBOOKS",
+                    setArrayCategory(arrayOf(30,31,29,28))
+                )}
+                "Comp. PC" -> {showFragment(
+                    CategoryFragment(),
+                    "CategoryFragment",
+                    "COMPONENTES PARA PC",
+                    setArrayCategory(arrayOf(9,10,11,12,13,14,15,16,17))
+                )}
+                "Almacenamiento" -> { showFragment(
+                    CategoryFragment(),
+                    "CategoryFragment",
+                    "ALMACENAMIENTO",
+                    setArrayCategory(arrayOf(1, 2, 3, 4))
+                )}
+                "Periféricos" -> {showFragment(
+                    CategoryFragment(),
+                    "CategoryFragment",
+                    "PERIFÉRICOS",
+                    setArrayCategory(arrayOf(32,33,36,38,35,36,39,37,34))
+                )}
+                "Conectividad" -> {showFragment(
+                    CategoryFragment(),
+                    "CategoryFragment",
+                    "CONECTIVIDAD",
+                    setArrayCategory(arrayOf(19,18,21,20))
+                )}
+                "Impresión" -> {showFragment(
+                    CategoryFragment(),
+                    "CategoryFragment",
+                    "IMPRESIÓN",
+                    setArrayCategory(arrayOf(22,23,24,25))
+                )}
+                "Audio y Video" -> {showFragment(
+                    CategoryFragment(),
+                    "CategoryFragment",
+                    "AUDIO Y VIDEO",
+                    setArrayCategory(arrayOf(5,6,7,8))
+                )}
             }
         }
     }
@@ -237,7 +404,7 @@ class MallWeb : AppCompatActivity() {
             if (session()) {
                 showFragmentStep1()
             } else {
-                showFragment(AuthFragment())
+                showFragment(AuthFragment(), "AuthFragment", tagForAuth = "ShoppingCartFragmentStep1")
             }
         }
     }
@@ -247,29 +414,50 @@ class MallWeb : AppCompatActivity() {
         val email = prefs.getString("email", null)
         if (email != null) {
             val dbMallweb = DbMallweb(this)
-            showFragment(ShoppingCartFragmentStep1(), idClient = dbMallweb.queryForClient(email).id)
+            showFragment(
+                ShoppingCartFragmentStep1(),
+                "ShoppingCartFragmentStep1",
+                idClient = dbMallweb.queryForClient(email).id
+            )
         }
     }
 
     private fun setMyAccountButtonToolbar() {
         animFrag = AnimationUtils.loadAnimation(this, R.anim.left_in)
         binding.btnMyAccount.setOnClickListener {
-            showFragment(AccountFragment())
+            showFragment(
+                AccountFragment(),
+                "AccountFragment"
+            )
         }
     }
 
-    fun showFragment(fragment: Fragment, name: String ?= null, idCArray: ArrayList<Int> ?= null, idBrand: Int ?= null, searchString: String ?= null, idClient: Int ?= null) {
+    private fun showFragment(
+        fragment: Fragment,
+        tag: String,
+        name: String? = null,
+        idCArray: ArrayList<Int>? = null,
+        idBrand: Int? = null,
+        searchString: String? = null,
+        idClient: Int? = null,
+        idProduct: Int? = null,
+        tagForAuth: String? = null
+    ) {
+        animFrag = AnimationUtils.loadAnimation(this, R.anim.left_in)
         val bundle = Bundle()
         bundle.putInt("ContainerID", binding.mallwebHomeContainer.id)
         if (name != null) { bundle.putString("NameCategory", name) }
         if (idCArray != null) { bundle.putIntegerArrayList("IDCategoryArray", idCArray) }
         if (idBrand != null) { bundle.putInt("IdBrand", idBrand) }
         if (searchString != null) { bundle.putString("Search", searchString) }
-        if (idClient != null) {bundle.putInt("IdClient", idClient)}
+        if (idClient != null) { bundle.putInt("IdClient", idClient) }
+        if (idProduct != null) { bundle.putInt("IDProduct", idProduct) }
+        if (tagForAuth != null) { bundle.putString("tagForAuth", tagForAuth) }
         fragment.arguments = bundle
+        Log.i("postal", fragment.tag.toString())
         supportFragmentManager.beginTransaction()
-            .replace(binding.mallwebHomeContainer.id, fragment, fragment.tag)
-            .addToBackStack(fragment.tag)
+            .replace(binding.mallwebHomeContainer.id, fragment, tag)
+            .addToBackStack(tag)
             .commit()
         allGone()
         binding.mallwebHomeContainer.visibility = View.VISIBLE

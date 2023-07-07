@@ -444,5 +444,9 @@
     <string name="completado">Completado</string>
     <string name="cancelado">Cancelado</string>
     <string name="are_abbandoned">AreAbbandoned</string>
+    <string name="no_hay_pedidos_abandonados">No hay pedidos abandonados</string>
+    <string name="no_hay_pedidos">No hay pedidos</string>
+    <string name="mis_favoritos">Mis Favoritos</string>
+    <string name="no_tenes_productos_en_favoritos">No tenes productos en favoritos</string>
 
 </resources>

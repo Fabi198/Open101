@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.example.open101.R
 import com.example.open101.databinding.FragmentAccountBinding
 import com.example.open101.mallweb.db.DbMallweb
+import com.example.open101.mallweb.fragments.MyFavorites
 import com.example.open101.mallweb.fragments.MyOrders
 import com.example.open101.mallweb.fragments.MyPersonalData
 import java.util.*
@@ -17,6 +18,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
     private var flagData = true
     private var flagOrders = true
     private var flagOrdersCancelled = true
+    private var flagMyFavorites = true
     private lateinit var dbMallweb: DbMallweb
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,19 +29,32 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
         binding.cvMyData.setOnClickListener {
             if (flagData) {
-                if (!flagOrders) {setGoneMyOrders()}
-                if (!flagOrdersCancelled) {setGoneMyCancelledOrders()}
+                if (!flagOrders) { setGoneMyOrders() }
+                if (!flagOrdersCancelled) { setGoneMyCancelledOrders() }
+                if (!flagMyFavorites) { setGoneMyFavorites() }
                 setVisibleMyData()
             } else {
                 setGoneMyData()
             }
         }
 
+        binding.cvMyFavorites.setOnClickListener {
+            if (flagMyFavorites) {
+                if (!flagOrders) { setGoneMyOrders() }
+                if (!flagOrdersCancelled) { setGoneMyCancelledOrders() }
+                if (!flagData) { setGoneMyData() }
+                setVisibleMyFavorites()
+            } else {
+                setGoneMyFavorites()
+            }
+        }
+
 
         binding.cvMyOrders.setOnClickListener {
             if (flagOrders) {
-                if (!flagData) {setGoneMyData()}
-                if (!flagOrdersCancelled) {setGoneMyCancelledOrders()}
+                if (!flagData) { setGoneMyData() }
+                if (!flagOrdersCancelled) { setGoneMyCancelledOrders() }
+                if (!flagMyFavorites) { setGoneMyFavorites() }
                 setVisibleMyOrders()
             } else {
                 setGoneMyOrders()
@@ -49,8 +64,9 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
         binding.cvMyCancelledOrders.setOnClickListener {
             if (flagOrdersCancelled) {
-                if (!flagData) {setGoneMyData()}
-                if (!flagOrders) {setGoneMyOrders()}
+                if (!flagData) { setGoneMyData() }
+                if (!flagOrders) { setGoneMyOrders() }
+                if (!flagMyFavorites) { setGoneMyFavorites() }
                 setVisibleMyCancelledOrders()
             } else {
                 setGoneMyCancelledOrders()
@@ -59,9 +75,21 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
     }
 
+    private fun setVisibleMyFavorites() {
+        binding.cvMyFavorites.setCardBackgroundColor(resources.getColor(R.color.red))
+        showMiniFragment(MyFavorites(), "MyFavorites")
+        flagMyFavorites = false
+    }
+
+    private fun setGoneMyFavorites() {
+        binding.cvMyFavorites.setCardBackgroundColor(resources.getColor(R.color.black))
+        removeMiniFragment()
+        flagMyFavorites = true
+    }
+
     private fun setVisibleMyData() {
         binding.cvMyData.setCardBackgroundColor(resources.getColor(R.color.red))
-        showMiniFragment(MyPersonalData())
+        showMiniFragment(MyPersonalData(), "MyPersonalData")
         flagData = false
     }
 
@@ -73,7 +101,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
     private fun setVisibleMyOrders() {
         dbMallweb = DbMallweb(requireContext())
-        showMiniFragment(MyOrders(), false)
+        showMiniFragment(MyOrders(), "MyOrders", false)
         binding.cvMyOrders.setCardBackgroundColor(resources.getColor(R.color.red))
         flagOrders = false
     }
@@ -86,7 +114,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
     private fun setVisibleMyCancelledOrders() {
         dbMallweb = DbMallweb(requireContext())
-        showMiniFragment(MyOrders(), true)
+        showMiniFragment(MyOrders(), "MyOrders", true)
         binding.cvMyCancelledOrders.setCardBackgroundColor(resources.getColor(R.color.red))
         flagOrdersCancelled = false
     }
@@ -110,6 +138,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
     private fun showMiniFragment(
         fragment: Fragment,
+        tag: String,
         abbandoned: Boolean? = null
     ) {
         val bundle = Bundle()
@@ -119,8 +148,8 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         fragment.arguments = bundle
         val fragmentManager = childFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(binding.containerSubFragmentPersonalData.id, fragment)
-        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.replace(binding.containerSubFragmentPersonalData.id, fragment, tag)
+        fragmentTransaction.addToBackStack(tag)
         fragmentTransaction.commit()
     }
 

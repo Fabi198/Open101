@@ -6,9 +6,12 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.open101.R
 import com.example.open101.databinding.FragmentPrintBinding
-import com.example.open101.mallweb.adapters.CategoryAdapter
-import com.example.open101.mallweb.fragments.CategoryFragment
+import com.example.open101.mallweb.adapters.CategoryAdapterShow10ProductsForEachSubCategory
+import com.example.open101.mallweb.fragments.SubCategoryFragment
 import com.example.open101.mallweb.fragments.ProductDetailFragment
+import com.example.open101.mallweb.fragments.ShowFragment.showFragmentFromFragment
+import com.example.open101.mallweb.objects.Session.getUserID
+import com.example.open101.mallweb.objects.Session.sessionFromFragment
 import java.util.ArrayList
 
 
@@ -21,57 +24,31 @@ class PrintFragment : Fragment(R.layout.fragment_print) {
         binding = FragmentPrintBinding.bind(view)
         val id = arguments?.getInt("ContainerID")
 
-        val idCArray = setArrayCategory(arrayOf(22, 23, 24, 25))
-
-        binding.rvPrinters.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvPrinters.adapter = CategoryAdapter(idCArray, requireContext(), {
-            showFragment(id, it)
-        }, {
-            showProductFragment(id, it)
-        })
-
-    }
-
-    private fun showFragment(id: Int?, i: Int) {
         if (id != null) {
-            val fragment = CategoryFragment()
-            val bundle = Bundle()
-            bundle.putInt("ContainerID", id)
-            bundle.putInt("IDCategory", i)
-            fragment.arguments = bundle
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.right_in,
-                    R.anim.left_out,
-                    R.anim.right_in,
-                    R.anim.left_out)
-                .replace(id, fragment, fragment.tag)
-                .addToBackStack(fragment.tag)
-                .commit()
-        }
-    }
+            val idCArray = setArrayCategory(arrayOf(22, 23, 24, 25))
+            val adapter: CategoryAdapterShow10ProductsForEachSubCategory = if (sessionFromFragment(requireActivity())) {
+                CategoryAdapterShow10ProductsForEachSubCategory(idCArray, requireContext(), getUserID(requireContext(), requireActivity()), {
+                    showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = it)
+                }, {
+                    showFragmentFromFragment(requireActivity(), ProductDetailFragment(), "ProductDetailFragment", id, idProduct = it)
+                }, {
+                    showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = it)
+                })
+            } else {
+                CategoryAdapterShow10ProductsForEachSubCategory(idCArray, requireContext(), onClickItem = {
+                    showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = it)
+                }, onProductClicked = {
+                    showFragmentFromFragment(requireActivity(), ProductDetailFragment(), "ProductDetailFragment", id, idProduct = it)
+                }, onTitleBrandClick = {
+                    showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = it)
+                })
+            }
 
-    private fun showProductFragment(id: Int?, i: Int) {
-        if (id != null) {
-            val fragment = ProductDetailFragment()
-            val bundle = Bundle()
-            bundle.putInt("ContainerID", id)
-            bundle.putInt("IDProduct", i)
-            fragment.arguments = bundle
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.right_in,
-                    R.anim.left_out,
-                    R.anim.right_in,
-                    R.anim.left_out)
-                .replace(id, fragment, fragment.tag)
-                .addToBackStack(fragment.tag)
-                .commit()
+            binding.rvPrinters.layoutManager = LinearLayoutManager(requireContext())
+            binding.rvPrinters.adapter = adapter
         }
+
+
     }
 
     private fun setArrayCategory(i: Array<Int>): ArrayList<Int> {

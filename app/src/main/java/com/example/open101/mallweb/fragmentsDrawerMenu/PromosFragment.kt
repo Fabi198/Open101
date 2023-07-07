@@ -2,12 +2,16 @@ package com.example.open101.mallweb.fragmentsDrawerMenu
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import com.example.open101.R
 import com.example.open101.databinding.FragmentPromosBinding
 
 
+@Suppress("DEPRECATION")
 class PromosFragment : Fragment(R.layout.fragment_promos) {
 
     private lateinit var binding: FragmentPromosBinding
@@ -18,24 +22,70 @@ class PromosFragment : Fragment(R.layout.fragment_promos) {
         binding = FragmentPromosBinding.bind(view)
         // val id = arguments?.getInt("ContainerID")
 
-        /*
-        val dbMallweb = DbMallweb(requireContext())
-        binding.button.setOnClickListener {
-            if (binding.textView4.text.toString().isNotEmpty()) {
-                val province = dbMallweb.getAllProvincesNamesForSpinner(requireContext())
-                province.forEach { Log.i("testing", it) }
-                val city = dbMallweb.getCity(Integer.parseInt(binding.textView4.text.toString()), requireContext())
-                city.forEach {
-                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
+        val anim: Animation = AnimationUtils.loadAnimation(requireContext(), R.anim.left_in)
+        val anim2: Animation = AnimationUtils.loadAnimation(requireContext(), R.anim.left_in)
+        val anim3: Animation = AnimationUtils.loadAnimation(requireContext(), R.anim.left_in)
+        val anim4: Animation = AnimationUtils.loadAnimation(requireContext(), R.anim.left_in)
+
+        val handler = Handler()
+
+
+
+        handler.postDelayed({
+            binding.banner1.visibility = View.VISIBLE
+            anim.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {
+                    handler.postDelayed({
+                        anim2.setAnimationListener(object : Animation.AnimationListener {
+                            override fun onAnimationStart(animation: Animation?) {
+                                handler.postDelayed({
+                                    anim3.setAnimationListener(object : Animation.AnimationListener {
+                                        override fun onAnimationStart(animation: Animation?) {
+                                            handler.postDelayed({
+                                                binding.banner4.visibility = View.VISIBLE
+                                                binding.banner4.startAnimation(anim4)
+                                            }, 500)
+                                        }
+                                        override fun onAnimationEnd(animation: Animation?) {}
+                                        override fun onAnimationRepeat(animation: Animation?) {}
+                                    })
+                                    binding.banner3.visibility = View.VISIBLE
+                                    binding.banner3.startAnimation(anim3)
+                                }, 500)
+                            }
+                            override fun onAnimationEnd(animation: Animation?) {}
+                            override fun onAnimationRepeat(animation: Animation?) {}
+                        })
+                        binding.banner2.visibility = View.VISIBLE
+                        binding.banner2.startAnimation(anim2)
+                    }, 500)
                 }
-                //binding.textView2.text = city[0].id.toString()
-                //binding.textView3.text = city[0].name
-                //binding.textView5.text = city[0].postalCode.toString()
-                //binding.textView6.text = city[0].idProvince.toString()
-            }
-        }
+                override fun onAnimationEnd(animation: Animation?) {}
+                override fun onAnimationRepeat(animation: Animation?) {}
+            })
+            binding.banner1.startAnimation(anim)
+        }, 300)
+
+
+        /*
+        handler.postDelayed({
+            binding.banner2.visibility = View.VISIBLE
+            binding.banner2.startAnimation(anim)
+        }, 2000)
+
+        handler.postDelayed({
+            binding.banner3.visibility = View.VISIBLE
+            binding.banner3.startAnimation(anim)
+        }, 3000)
+
+        handler.postDelayed({
+            binding.banner4.visibility = View.VISIBLE
+            binding.banner4.startAnimation(anim)
+        }, 4000)
 
          */
+
+
 
 
     }

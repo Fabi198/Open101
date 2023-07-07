@@ -16,26 +16,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
+            android:background="@drawable/mallweb_banner_toolbar"
             android:id="@+id/toolbarMallwebHome">
 
 
             <ImageView
+                android:id="@+id/ivToolbarMallwebHome"
                 android:layout_width="100dp"
                 android:layout_height="64dp"
-                android:id="@+id/ivToolbarMallwebHome"
+                android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/todo"
-                android:layout_gravity="center_horizontal"/>
+                tools:ignore="ImageContrastCheck"
+                tools:layout_editor_absoluteX="155dp" />
 
             <ImageButton
+                android:id="@+id/btnShoppingCartToolbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:padding="20dp"
-                android:id="@+id/btnShoppingCartToolbar"
                 android:background="@null"
                 android:contentDescription="@string/todo"
-                android:src="@drawable/baseline_shopping_cart_24"/>
+                android:padding="20dp"
+                android:src="@drawable/baseline_shopping_cart_24_white"
+                tools:ignore="DuplicateSpeakableTextCheck,ImageContrastCheck"
+                tools:layout_editor_absoluteX="347dp" />
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -46,7 +51,7 @@
                 android:background="@null"
                 android:visibility="gone"
                 android:contentDescription="@string/todo"
-                android:src="@drawable/baseline_person_24"/>
+                android:src="@drawable/baseline_person_24_white"/>
 
 
         </androidx.appcompat.widget.Toolbar>
@@ -179,6 +184,7 @@
         app:menu="@menu/mallweb_home"
         app:headerLayout="@layout/mallweb_nav_header"
         app:theme="@style/mallweb_menu"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:ignore="VisualLintBounds" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

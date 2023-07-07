@@ -2,12 +2,7 @@ package com.example.open101.mallweb.fragmentsDrawerMenu
 
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
@@ -16,10 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.open101.R
 import com.example.open101.databinding.FragmentShoppingCartStep1Binding
 import com.example.open101.mallweb.adapters.CartItemAdapter
+import com.example.open101.mallweb.alarms.AlarmAbbandonedOrder.setFirstAlarm
 import com.example.open101.mallweb.db.DbMallweb
-import com.example.open101.mallweb.db.OrderAlarmReceiver
 import com.example.open101.mallweb.entities.dbEntities.ShopCartItem
 import com.example.open101.mallweb.fragments.ProductDetailFragment
+import com.example.open101.mallweb.fragments.ShowFragment.showFragmentFromFragment
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,14 +42,13 @@ class ShoppingCartFragmentStep1 : Fragment(R.layout.fragment_shopping_cart_step_
         val id = arguments?.getInt("ContainerID")
         val idClient = arguments?.getInt("IdClient")
         val existingOrder = arguments?.getInt(getString(R.string.existingOrder))
-        Log.i("postal", existingOrder.toString())
         dbMallweb = DbMallweb(requireContext())
         if (idClient != null) {
             listProductsItem = dbMallweb.queryForProductsOnCart(idClient)
             if (listProductsItem.size > 0) {
                 total = 0.0
                 listProductsItem.forEach { val price = dbMallweb.queryForProduct(it.idProduct).price * it.quantity; total += price }
-                adapter = CartItemAdapter(listProductsItem, requireContext(), { itemRemover(it) }, { changeSubtotal(it) }, { showFragment(ProductDetailFragment(), id, idProduct = it) })
+                adapter = CartItemAdapter(listProductsItem, requireContext(), { itemRemover(it) }, { changeSubtotal(it) }, { showFragmentFromFragment(requireActivity(), ProductDetailFragment(), "ProductDetailFragment", id, idProduct = it) })
                 binding.tvSubtotalDisplayed.text = "U${dollar}S ${String.format("%.2f", total)}"
                 binding.tvShippingCostDisplayed.text = "U${dollar}S 0"
                 binding.tvTotalDisplayed.text = "U${dollar}S ${String.format("%.2f", total)}"
@@ -62,18 +57,17 @@ class ShoppingCartFragmentStep1 : Fragment(R.layout.fragment_shopping_cart_step_
                 binding.btnTakeAway.setOnClickListener {
                     if (existingOrder != null) {
                         if (existingOrder > 0) {
-                            showFragment(ShoppingCartFragmentStep2(), id, existingOrder = existingOrder)
+                            showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep2(), "ShoppingCartFragmentStep2", id, existingOrder = existingOrder)
                         } else if (existingOrder == 0) {
                             if (createOrder(idClient, total, shipping = "no", dbMallweb.queryForProductsOnCart(idClient)) > 0) {
-                                Log.i("postalGetLastOrder", dbMallweb.queryForLastOrder(idClient).numOrder.toString())
-                                setAlarm(dbMallweb.queryForLastOrder(idClient).numOrder)
-                                showFragment(ShoppingCartFragmentStep2(), id)
+                                setFirstAlarm(dbMallweb.queryForLastOrder(idClient).numOrder, requireContext())
+                                showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep2(), "ShoppingCartFragmentStep2", id)
                             }
                         }
                     } else {
                         if (createOrder(idClient, total, shipping = "no", dbMallweb.queryForProductsOnCart(idClient)) > 0) {
-                            setAlarm(dbMallweb.queryForLastOrder(idClient).numOrder)
-                            showFragment(ShoppingCartFragmentStep2(), id)
+                            setFirstAlarm(dbMallweb.queryForLastOrder(idClient).numOrder, requireContext())
+                            showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep2(), "ShoppingCartFragmentStep2", id)
                         }
                     }
                 }
@@ -82,20 +76,6 @@ class ShoppingCartFragmentStep1 : Fragment(R.layout.fragment_shopping_cart_step_
                 allGoneCartItsEmpty()
             }
         }
-    }
-
-    @SuppressLint("UnspecifiedImmutableFlag")
-    private fun setAlarm(numOrder: Int) {
-        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(requireContext(), OrderAlarmReceiver::class.java)
-        intent.putExtra(getString(R.string.numOrder), numOrder)
-        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
-
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = System.currentTimeMillis()
-        calendar.add(Calendar.HOUR_OF_DAY, 24)
-
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
 
     private fun createOrder(idClient: Int, total: Double, shipping: String, listProducts: ArrayList<ShopCartItem>): Long {
@@ -142,15 +122,15 @@ class ShoppingCartFragmentStep1 : Fragment(R.layout.fragment_shopping_cart_step_
                     binding.btnShopWithShipping.setOnClickListener {
                         if (existingOrder != null) {
                             if (existingOrder > 0) {
-                                showFragment(ShoppingCartFragmentStep2(), id, postalCode = postalCode, withShipping = true, existingOrder = existingOrder)
+                                showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep2(), "ShoppingCartFragmentStep2", id, postalCode = postalCode, withShipping = true, existingOrder = existingOrder)
                             } else if (existingOrder == 0) {
                                 if (createOrder(idClient, total, shipping = "si", listProductsItem) > 0) {
-                                    showFragment(ShoppingCartFragmentStep2(), id, postalCode = postalCode, withShipping = true)
+                                    showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep2(), "ShoppingCartFragmentStep2", id, postalCode = postalCode, withShipping = true)
                                 }
                             }
                         } else {
                             if (createOrder(idClient, total, shipping = "si", listProductsItem) > 0) {
-                                showFragment(ShoppingCartFragmentStep2(), id, postalCode = postalCode, withShipping = true)
+                                showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep2(), "ShoppingCartFragmentStep2", id, postalCode = postalCode, withShipping = true)
                             }
                         }
                     }
@@ -172,43 +152,6 @@ class ShoppingCartFragmentStep1 : Fragment(R.layout.fragment_shopping_cart_step_
         adapter.notifyItemRemoved(position)
         if (listProductsItem.isEmpty()) {
             allGoneCartItsEmpty()
-        }
-    }
-
-    private fun showFragment(
-        fragment: Fragment,
-        id: Int? = null,
-        name: String? = null,
-        idCArray: ArrayList<Int>? = null,
-        idBrand: Int? = null,
-        idClient: Int? = null,
-        idProduct: Int? = null,
-        withShipping: Boolean? = null,
-        postalCode: Int? = null,
-        existingOrder: Int? = null
-    ) {
-        if (id != null) {
-            val bundle = Bundle()
-            bundle.putInt("ContainerID", id)
-            if (name != null) { bundle.putString("NameCategory", name) }
-            if (idCArray != null) { bundle.putIntegerArrayList("IDCategoryArray", idCArray) }
-            if (idBrand != null) { bundle.putInt("IdBrand", idBrand) }
-            if (idClient != null) { bundle.putInt("IdClient", idClient)}
-            if (idProduct != null) { bundle.putInt("IDProduct", idProduct)}
-            if (existingOrder != null) { bundle.putInt(getString(R.string.existingOrder), existingOrder) }
-            if (withShipping == true && postalCode != null) { bundle.putInt("postalCode", postalCode); bundle.putBoolean("withShipping", withShipping)} else if (withShipping == false){ bundle.putBoolean("withShipping", withShipping) }
-            fragment.arguments = bundle
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.right_in,
-                    R.anim.left_out,
-                    R.anim.right_in,
-                    R.anim.left_out)
-                .replace(id, fragment, fragment.tag)
-                .addToBackStack(fragment.tag)
-                .commit()
         }
     }
 

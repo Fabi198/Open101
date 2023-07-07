@@ -5,7 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import com.example.open101.R
 import com.example.open101.databinding.FragmentMonitorBinding
-import com.example.open101.mallweb.fragments.CategoryFragment
+import com.example.open101.mallweb.fragments.SubCategoryFragment
+import com.example.open101.mallweb.fragments.ShowFragment.showFragmentFromFragment
 
 
 class MonitorFragment : Fragment(R.layout.fragment_monitor) {
@@ -17,30 +18,8 @@ class MonitorFragment : Fragment(R.layout.fragment_monitor) {
         binding = FragmentMonitorBinding.bind(view)
         val id = arguments?.getInt("ContainerID")
 
-        binding.btnMonitorGamer.setOnClickListener { showFragment(id, 26, "MONITOR GAMER") }
-        binding.btnMonitorLCDLED.setOnClickListener { showFragment(id, 27, "MONITOR LCD/LED") }
-    }
-
-    private fun showFragment(id: Int?, i: Int, name: String) {
-        if (id != null) {
-            val fragment = CategoryFragment()
-            val bundle = Bundle()
-            bundle.putInt("ContainerID", id)
-            bundle.putInt("IDCategory", i)
-            bundle.putString("NameCategory", name)
-            fragment.arguments = bundle
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.right_in,
-                    R.anim.left_out,
-                    R.anim.right_in,
-                    R.anim.left_out)
-                .replace(id, fragment, fragment.tag)
-                .addToBackStack(fragment.tag)
-                .commit()
-        }
+        binding.btnMonitorGamer.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 26, nameCategory = "MONITOR GAMER") }
+        binding.btnMonitorLCDLED.setOnClickListener { showFragmentFromFragment(requireActivity(), SubCategoryFragment(), "SubCategoryFragment", id, idCategory = 27, nameCategory = "MONITOR LCD/LED") }
     }
 
 }
