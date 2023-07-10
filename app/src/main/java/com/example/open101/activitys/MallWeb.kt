@@ -4,7 +4,6 @@ package com.example.open101.activitys
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.animation.Animation
@@ -23,7 +22,9 @@ import com.example.open101.databinding.ActivityMallWebBinding
 import com.example.open101.mallweb.adapters.NewBannersAdapter
 import com.example.open101.mallweb.adapters.RoundBottomsAdapter
 import com.example.open101.mallweb.auth.AuthFragment
+import com.example.open101.mallweb.db.ArrayBrands.arrayBrands
 import com.example.open101.mallweb.db.DbMallweb
+import com.example.open101.mallweb.entities.dbEntities.Brand
 import com.example.open101.mallweb.fragments.CategoryFragment
 import com.example.open101.mallweb.fragments.ProductDetailFragment
 import com.example.open101.mallweb.fragments.SubCategoryFragment
@@ -48,16 +49,6 @@ class MallWeb : AppCompatActivity() {
         binding = ActivityMallWebBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*
-
-        USAR ESTE METODO CUANDO TENGA TODOS LOS LOGOS LIGHT DE LAS MARCAS
-
-        val dbMallweb = DbMallwebHelper(this)
-        dbMallweb.writableDatabase.execSQL("DROP TABLE brands")
-        dbMallweb.writableDatabase.execSQL("CREATE TABLE IF NOT EXISTS brands (idBrand INTEGER PRIMARY KEY, name TEXT NOT NULL, image INTEGER NOT NULL, imageLight INTEGER NOT NULL)")
-        ArrayBrands.arrayBrands.forEach { dbMallweb.writableDatabase.execSQL("INSERT INTO brands VALUES('${it.id}', '${it.name}', '${it.image}', '${it.imageLight}')") }
-         */
-
 
         bundleFromAuth()
         setupDrawerNavigationBar()
@@ -71,7 +62,6 @@ class MallWeb : AppCompatActivity() {
     private fun bundleFromAuth() {
         val extras = intent.extras
         if (extras?.getString("task") != null) {
-            Log.i("postalTask", extras.getString("task")!!)
             when (extras.getString("task")) {
                 "Open Account Fragment" -> { showFragment(
                     AccountFragment(),
@@ -87,26 +77,60 @@ class MallWeb : AppCompatActivity() {
     private fun setSearchText() {
         binding.etSearch.setOnEditorActionListener(OnEditorActionListener { _, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.action == KeyEvent.ACTION_DOWN || keyEvent.action == KeyEvent.KEYCODE_ENTER) {
-                showFragment(
-                    SubCategoryFragment(),
-                    "SubCategoryFragment",
-                    name = binding.etSearch.text.toString(),
-                    searchString = binding.etSearch.text.toString().lowercase()
-                )
-                binding.etSearch.setText("")
-                hideKeyboard()
+                if (binding.etSearch.text.isNotEmpty()) {
+                    var findBrand = false
+                    var brand = Brand()
+
+                    arrayBrands.forEach { brandResult -> if (binding.etSearch.text.toString().lowercase() == brandResult.name.lowercase()) { findBrand = true; brand = brandResult } }
+
+                    if (findBrand) {
+                        val dbMallWeb = DbMallweb(this)
+                        showFragment(
+                            CategoryFragment(),
+                            "CategoryFragment",
+                            brand.name,
+                            dbMallWeb.queryForCategoryCant(brand.id),
+                            brand.id
+                        )
+                    } else {
+                        showFragment(
+                            SubCategoryFragment(),
+                            "SubCategoryFragment",
+                            name = binding.etSearch.text.toString(),
+                            searchString = binding.etSearch.text.toString().lowercase()
+                        )
+                    }
+                    hideKeyboard()
+                    binding.etSearch.setText("")
+                }
                 return@OnEditorActionListener true
             }
             false
         })
         binding.btnSearch.setOnClickListener {
             if (binding.etSearch.text.isNotEmpty()) {
-                showFragment(
-                    SubCategoryFragment(),
-                    "SubCategoryFragment",
-                    name = binding.etSearch.text.toString(),
-                    searchString = binding.etSearch.text.toString().lowercase()
-                )
+                var findBrand = false
+                var brand = Brand()
+
+                arrayBrands.forEach { brandResult -> if (binding.etSearch.text.toString().lowercase() == brandResult.name.lowercase()) { findBrand = true; brand = brandResult } }
+
+                if (findBrand) {
+                    val dbMallWeb = DbMallweb(this)
+                    showFragment(
+                        CategoryFragment(),
+                        "CategoryFragment",
+                        brand.name,
+                        dbMallWeb.queryForCategoryCant(brand.id),
+                        brand.id
+                    )
+                } else {
+                    showFragment(
+                        SubCategoryFragment(),
+                        "SubCategoryFragment",
+                        name = binding.etSearch.text.toString(),
+                        searchString = binding.etSearch.text.toString().lowercase()
+                    )
+                }
                 hideKeyboard()
                 binding.etSearch.setText("")
             }
@@ -454,7 +478,6 @@ class MallWeb : AppCompatActivity() {
         if (idProduct != null) { bundle.putInt("IDProduct", idProduct) }
         if (tagForAuth != null) { bundle.putString("tagForAuth", tagForAuth) }
         fragment.arguments = bundle
-        Log.i("postal", fragment.tag.toString())
         supportFragmentManager.beginTransaction()
             .replace(binding.mallwebHomeContainer.id, fragment, tag)
             .addToBackStack(tag)

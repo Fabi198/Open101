@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -35,12 +34,16 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentShoppingCartStep2Binding.bind(view)
 
+        setShippingVisibility()
         setAddressFromPostalCode()
         setClientData()
         setBillCheckers()
         bothSameAddress()
     }
 
+    private fun setShippingVisibility() {
+        binding.cvShippingAddress.visibility = if (arguments?.getBoolean("withShipping") == true) { View.VISIBLE } else { View.GONE }
+    }
     private fun bothSameAddress() {
         binding.cbBothSameAddress.setOnClickListener {
             if (binding.cbBothSameAddress.isChecked) {
@@ -62,10 +65,6 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
             }
         }
     }
-
-
-
-
     private fun notFoundBillLocality() {
         if (binding.cbLocalityBillNotFound.isChecked) {
             setSpinnerAllProvinces(binding.spinnerProvinceBillAddress)
@@ -189,7 +188,6 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
                     } else {
                         showAlertError()
                     }
-                    // Abrir fragmento step 3
                 }
             }
         }
@@ -220,7 +218,7 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
             binding.cbWantABillYES.isChecked = true
             binding.llwantBillA.visibility = View.VISIBLE
             if (binding.cuitClientMallweb.text.toString().isNotEmpty()) { binding.cuit2ClientMallweb.text = binding.cuitClientMallweb.text }
-            if (iClient != null) { setIVAConditions().forEachIndexed { index, i -> if (iClient == i) { setIVASpinner(index) } } }
+            if (iClient != null) { setIVAConditions().forEachIndexed { index, i -> if (iClient == i) { setIVASpinner(index) } } } else { setIVASpinner() }
         } else if (s.lowercase() == "no") {
             binding.cbWantABillNO.isChecked = true
             setIVASpinner()
@@ -241,21 +239,10 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
     private fun showAlertSuccess(idFragment: Int?) {
         val builder = AlertDialog.Builder(requireContext())
         val existingOrder = arguments?.getInt(getString(R.string.existingOrder))
-        Log.i("postal", existingOrder.toString())
         builder.setMessage("Sus datos han sido actualizados")
         builder.setPositiveButton("Ir al Checkout"){ _, _ ->
             if (idFragment != null) {
                 if (binding.cvShippingAddress.visibility == View.VISIBLE) {
-                    if (existingOrder != null) {
-                        if (existingOrder > 0) {
-                            showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep3(), "ShoppingCartFragmentStep3", idFragment, idClient = id, existingOrder = existingOrder)
-                        } else if (existingOrder == 0) {
-                            showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep3(), "ShoppingCartFragmentStep3", idFragment, idClient = id)
-                        } else {
-                            showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep3(), "ShoppingCartFragmentStep3", idFragment, idClient = id)
-                        }
-                    }
-                } else if (binding.cvShippingAddress.visibility == View.GONE) {
                     if (existingOrder != null) {
                         if (existingOrder > 0) {
                             showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep3(), "ShoppingCartFragmentStep3", idFragment, idClient = id, postalCode = Integer.parseInt(binding.postalCodeShippingAddress.text.toString()), withShipping = true, existingOrder = existingOrder)
@@ -264,6 +251,20 @@ class ShoppingCartFragmentStep2 : Fragment(R.layout.fragment_shopping_cart_step2
                         } else {
                             showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep3(), "ShoppingCartFragmentStep3", idFragment, idClient = id, postalCode = Integer.parseInt(binding.postalCodeShippingAddress.text.toString()), withShipping = true)
                         }
+                    } else {
+                        showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep3(), "ShoppingCartFragmentStep3", idFragment, idClient = id, postalCode = Integer.parseInt(binding.postalCodeShippingAddress.text.toString()), withShipping = true)
+                    }
+                } else if (binding.cvShippingAddress.visibility == View.GONE) {
+                    if (existingOrder != null) {
+                        if (existingOrder > 0) {
+                            showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep3(), "ShoppingCartFragmentStep3", idFragment, idClient = id, existingOrder = existingOrder)
+                        } else if (existingOrder == 0) {
+                            showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep3(), "ShoppingCartFragmentStep3", idFragment, idClient = id)
+                        } else {
+                            showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep3(), "ShoppingCartFragmentStep3", idFragment, idClient = id)
+                        }
+                    } else {
+                        showFragmentFromFragment(requireActivity(), ShoppingCartFragmentStep3(), "ShoppingCartFragmentStep3", idFragment, idClient = id)
                     }
                 }
             }
